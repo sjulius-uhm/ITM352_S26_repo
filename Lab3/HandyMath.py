@@ -18,4 +18,3 @@ def exponent(base, exp, precision):
     result = base ** exp
     rounded_result = round(result, precision)
     return rounded_result
-
