@@ -1,4 +1,7 @@
 # Functions in Python Tutorial
+# MY PRACTICE FUNCTIONS ARE AT THE BOTTOM OF THIS FILE
+# Samantha Julius
+# January 26, 2026
 
 # What are functions in Python?
 # Functions are reusable blocks of code that perform a specific task.
