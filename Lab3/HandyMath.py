@@ -25,4 +25,10 @@ def max(num1, num2):
         return num1
     else:
         return num2
-    return 
+
+def min(num1, num2):
+    """Return the minimum of two numbers."""
+    if num1 < num2:
+        return num1
+    else:
+        return num2
