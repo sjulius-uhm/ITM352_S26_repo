@@ -18,3 +18,11 @@ def exponent(base, exp, precision):
     result = base ** exp
     rounded_result = round(result, precision)
     return rounded_result
+
+def max(num1, num2):
+    """Return the maximum of two numbers."""
+    if num1 > num2:
+        return num1
+    else:
+        return num2
+    return 
