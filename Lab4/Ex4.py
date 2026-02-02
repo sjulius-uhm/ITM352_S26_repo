@@ -4,6 +4,13 @@
 
 survey_respondents = (1012, 1035, 1021, 1053)
 print("Original survey respondents tuple:", survey_respondents)
-#survey_respondents.append(1054)  # This will raise an AttributeError
+
+# Attempt to use .append() on tuple (this will fail!)
+try:
+    survey_respondents.append(1054)
+except AttributeError as e:
+    print(f"Error occurred: {e}")
+
+# Correct way to add to a tuple (creates new tuple)
 survey_respondents = survey_respondents + (1054,)
 print("After adding 1054:", survey_respondents)
