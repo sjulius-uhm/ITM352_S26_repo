@@ -1,4 +1,5 @@
 import HandyMath
+from HandyMath import max, min
 
 # Ask the user for two numbers and calculate their midpoint.
 print("Let's calculate the midpoint between two numbers.")
@@ -29,7 +30,7 @@ print(f"{base} raised to the power of {exponent} is {result} (rounded to {precis
 print("\nFinally, let's find the maximum and minimum of two numbers.")
 num1 = float(input("Enter the first number to compare: "))
 num2 = float(input("Enter the second number to compare: "))
-max_value = HandyMath.max(num1, num2)
-min_value = HandyMath.min(num1, num2)
+max_value = max(num1, num2)
+min_value = min(num1, num2)
 print(f"The maximum number of {num1} and {num2} is {max_value}")
 print(f"The minimum number of {num1} and {num2} is {min_value}")
