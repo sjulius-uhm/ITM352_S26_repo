@@ -3,20 +3,20 @@ import pandas as pd
 import numpy as np
 import pyarrow
 
-saved_results = {}
+saved_results = {} # requirement 10: Dictionary to store results from analytics for later viewing
 
 pd.set_option('display.max_columns', None)  
 
 url = "https://drive.google.com/uc?export=download&id=1Fv_vhoN4sTrUaozFPfzr0NCyHJLIeXEA"
 
 df = pd.read_csv(url, engine='python')
-df.to_csv("sales_data.csv", index=False)
+df.to_csv("sales_data.csv", index=False) # using the entire file and not just first 10 rows
 
-# Create alternate dataset: Retail orders only
-df_alt = df[df['order_type'] == 'Retail']
-df_alt.to_csv("sales_data_alt.csv", index=False)
+# Requirement 3: Create an alternate dataset - Retail orders only
+df_alt = df[df['order_type'] == 'Retail'] # Filter to include only retail orders
+df_alt.to_csv("sales_data_alt.csv", index=False) # Save the alternate dataset to a new CSV file
 
-def choose_dataset():
+def choose_dataset(): # Function to allow user to choose which dataset to load
     print("\nSelect sales data to load:")
     print("1. Main sales data")
     print("2. Alternate sales data (Retail only)")
@@ -28,7 +28,7 @@ def choose_dataset():
     elif choice == "2":
         return "sales_data_alt.csv"
     else:
-        print("Invalid choice. Defaulting to main sales data.")
+        print("Invalid choice. Defaulting to main sales data.") # If user enters an invalid choice, default to main dataset
         return "sales_data.csv"
 
 
@@ -54,7 +54,7 @@ def load_csv(filepath):
         if 'quantity' in df.columns and 'unit_price' in df.columns:
             df['sales'] = df['quantity'] * df['unit_price']
         
-        required_columns = [
+        required_columns = [ # List of columns that are required for the analytics to work properly, based on reqirements listed in the assignment
         'sales_region',
         'order_type',
         'customer_state',
@@ -70,7 +70,7 @@ def load_csv(filepath):
         missing_columns = [col for col in required_columns if col not in df.columns]
         if missing_columns:
             print(f"Warning: Missing required columns: {missing_columns}")
-            print(" Some analytics may not work as expected without these columns.")        
+            print(" Some analytics may not work as expected without these columns.")  # "warn the user about missing fields and that some analytics may not work. "   
         else: 
             print("All required columns are present.")
 
@@ -93,133 +93,136 @@ def display_initial_rows(dataframe):
     elif user_input == 'all':
         print("Displaying all rows:")
         print(dataframe)
-        saved_results["All rows preview"] = dataframe
+        saved_results["All rows preview"] = dataframe  # Requirement 10: stored results for later viewing
     elif user_input.isdigit() and 1 <= int(user_input) <= len(dataframe):
         num_rows = int(user_input)
         result = dataframe.head(num_rows)
         print(f"Displaying first {num_rows} rows:")
         print(result)
-        saved_results[f"First {num_rows} rows preview"] = result
+        saved_results[f"First {num_rows} rows preview"] = result  # Requirement 10: stored results for later viewing
     else:
         print("Invalid input. Please try again.")
 
-def total_sales_by_region_order_type(dataframe):
+
+def total_sales_by_region_order_type(dataframe): # Followed the same pattern from class when creating analytic functions 
     pivot_table = pd.pivot_table(
         dataframe,
         values='sales',
         index='sales_region',
         columns='order_type',
         aggfunc='sum',
-        fill_value=0
+        fill_value=0  # Using fill_value = 0 for missing values, seemes easier than nan. I do this for all of them so...
     )
     print("\nTotal sales by region and order_type:")
     print(pivot_table)
-    saved_results["Total sales by region and order_type"] = pivot_table
+    saved_results["Total sales by region and order_type"] = pivot_table # Requirement 10: stored results for later viewing
 
-def average_sales_by_region_state_sale_type(dataframe):
+
+def average_sales_by_region_state_sale_type(dataframe): # same as above
     pivot_table = pd.pivot_table(
         dataframe,
         values='sales',
         index='sales_region',
         columns=['customer_state', 'order_type'],
         aggfunc='mean',
-        fill_value=0
+        fill_value=0  # same as above
     )
     print("\nAverage sales by region with average sales by state and sale type:")
     print(pivot_table)
-    saved_results["Average sales by region with average sales by state and sale type"] = pivot_table
+    saved_results["Average sales by region with average sales by state and sale type"] = pivot_table # Requirement 10: stored results for later viewing
 
-def sales_by_customer_type_order_type_state(dataframe):
+
+def sales_by_customer_type_order_type_state(dataframe):  # same as above
     pivot_table = pd.pivot_table(
         dataframe,
         values='sales',
         index=['customer_state', 'customer_type'],
         columns='order_type',
         aggfunc='sum',
-        fill_value=0
+        fill_value=0  # same as above
     )
     print("\nSales by customer type and order type by state:")
     print(pivot_table)
-    saved_results["Sales by customer type and order type by state"] = pivot_table
+    saved_results["Sales by customer type and order type by state"] = pivot_table # Requirement 10: stored results for later viewing
 
-
-def total_sales_quantity_price_region_product(dataframe):
+def total_sales_quantity_price_region_product(dataframe): # same as above
     pivot_table = pd.pivot_table(
         dataframe,
         values=['quantity', 'sales'],
         index=['sales_region', 'produce_name'],
         aggfunc='sum',
-        fill_value=0
+        fill_value=0 # same as above
     )
     print("\nTotal sales quantity and price by region and product:")
     print(pivot_table)
-    saved_results["Total sales quantity and price by region and product"] = pivot_table
+    saved_results["Total sales quantity and price by region and product"] = pivot_table # Requirement 10: stored results for later viewing
 
-
-def total_sales_quantity_price_customer_type(dataframe):
+def total_sales_quantity_price_customer_type(dataframe):  # same as above
     pivot_table = pd.pivot_table(
         dataframe,
         values=['quantity', 'sales'],
         index=['order_type', 'customer_type'],
         aggfunc='sum',
-        fill_value=0
+        fill_value=0  # same as above
     )
     print("\nTotal sales quantity and price by order type and customer type:")
     print(pivot_table)
-    saved_results["Total sales quantity and price by order type and customer type"] = pivot_table
+    saved_results["Total sales quantity and price by order type and customer type"] = pivot_table # Requirement 10: stored results for later viewing
 
-def max_min_sales_price_by_category(dataframe):
+
+def max_min_sales_price_by_category(dataframe): # same as above
     pivot_table = pd.pivot_table(
         dataframe,
         values='sales',
         index='product_category',
         aggfunc=['max', 'min'],
-        fill_value=0
+        fill_value=0 # same as above
     )
     print("\nMax and min sales price by category:")
     print(pivot_table)
-    saved_results["Max and min sales price by category"] = pivot_table
+    saved_results["Max and min sales price by category"] = pivot_table # Requirement 10: stored results for later viewing
 
-def unique_employees_by_region(dataframe):
+
+def unique_employees_by_region(dataframe): # from class, used unique
     pivot_table = pd.pivot_table(
         dataframe,
         values='employee_id',
         index='sales_region',
         aggfunc=pd.Series.nunique,
-        fill_value=0
+        fill_value=0  # Used fill_value to handle any regions that may have no employees since requirements said to put a 0 for sales, but easy to use for everything.
     )
     pivot_table.columns = ['Number of Unique Employees']
     print("\nNumber of unique employees by region:")
     print(pivot_table)
-    saved_results["Number of unique employees by region"] = pivot_table
+    saved_results["Number of unique employees by region"] = pivot_table # Requirement 10: stored results for later viewing
 
-def create_custom_pivot_table(dataframe):
+def create_custom_pivot_table(dataframe):  #creates a custom pivot table based on user input
     row_options = ['employee_name', 'sales_region', 'product_category']
     column_options = ['order_type', 'customer_type']
     value_options = ['quantity', 'sales']
     agg_options = ['sum', 'mean', 'count']
 
     print("\nSelect rows:")
-    for i, option in enumerate(row_options, start=1):
-        print(f"{i}. {option}")
-    row_input = input("Enter the number(s) of your choice(s), separated by commas: ").strip()
+    for i, option in enumerate(row_options, start=1):  # Same pattern as menu
+        print(f"{i}. {option}") 
+    row_input = input("Enter the number(s) of your choice(s), separated by commas: ").strip() 
 
-    if row_input == "":
+    if row_input == "":  # defensive programming
         print("You must choose at least one row field.")
         return
 
-    try:
+    try:  # defensiive programming
         rows = [row_options[int(i.strip()) - 1] for i in row_input.split(",")]
     except:
         print("Invalid row selection.")
         return
 
-    print("\nSelect columns (optional):")
+    print("\nSelect columns (optional):")  # same pattern as menu, made optional since not all pivot tables need columns
     for i, option in enumerate(column_options, start=1):
         print(f"{i}. {option}")
     col_input = input("Enter the number(s) of your choice(s), separated by commas (enter for no grouping): ").strip()
 
-    try:
+    try:  # defensive programming, if user presses enter, no columns will be used for grouping
         if col_input == "":
             columns = []
         else:
@@ -228,33 +231,33 @@ def create_custom_pivot_table(dataframe):
         print("Invalid column selection.")
         return
 
-    print("\nSelect values:")
+    print("\nSelect values:")  # same pattern as menu
     for i, option in enumerate(value_options, start=1):
         print(f"{i}. {option}")
     value_input = input("Enter the number(s) of your choice(s), separated by commas: ").strip()
 
-    if value_input == "":
+    if value_input == "":  # defensive programming
         print("You must choose at least one value field.")
         return
-
-    try:
+    
+    try:  # defensive programming
         values = [value_options[int(i.strip()) - 1] for i in value_input.split(",")]
     except:
         print("Invalid value selection.")
         return
 
-    print("\nSelect aggregation function:")
+    print("\nSelect aggregation function:")  # same pattern as menu
     for i, option in enumerate(agg_options, start=1):
         print(f"{i}. {option}")
     agg_input = input("Enter the number of your choice: ").strip()
 
     if not agg_input.isdigit() or not (1 <= int(agg_input) <= len(agg_options)):
-        print("Invalid aggregation choice.")
+        print("Invalid aggregation choice.")  # defensive programming
         return
 
-    aggfunc = agg_options[int(agg_input) - 1]
+    aggfunc = agg_options[int(agg_input) - 1]  # get the aggregation function based on user input
 
-    pivot_table = pd.pivot_table(
+    pivot_table = pd.pivot_table(  # create the pivot table based on user selections
         dataframe,
         index=rows,
         columns=columns if columns else None,
@@ -265,20 +268,20 @@ def create_custom_pivot_table(dataframe):
     print("\nCustom Pivot Table:")
     print(pivot_table)
 
-    custom_name = f"Custom Pivot Table {len([key for key in saved_results if 'Custom Pivot Table' in key]) + 1}"
-    saved_results[custom_name] = pivot_table
+    custom_name = f"Custom Pivot Table {len([key for key in saved_results if 'Custom Pivot Table' in key]) + 1}"  # create a unique name for the custom pivot table based on how many custom pivot tables have already been created and stored
+    saved_results[custom_name] = pivot_table  # Requirement 10: stored results for later viewing, using the unique name created above
 
 
-def show_saved_results_list():
+def show_saved_results_list():  # requirement 10, shows a list of all the stored results that the user has created so far
     print("\nStored analytics results:")
     if not saved_results:
         print("None yet.")
     else:
         for i, result_name in enumerate(saved_results.keys(), start=1):
-            print(f"{i}. {result_name}")
+            print(f"{i}. {result_name}")  #  shows a numbered list of all the stored results
 
 
-def view_saved_result(dataframe):
+def view_saved_result(dataframe):  # requirement 10, allows the user to select a stored result from the list and view it
     if not saved_results:
         print("\nNo stored results yet.")
         return
@@ -286,9 +289,9 @@ def view_saved_result(dataframe):
     result_names = list(saved_results.keys())
     for i, name in enumerate(result_names, start=1):
         print(f"{i}. {name}")
-    choice = input(f"Enter your choice (1-{len(result_names)}): ").strip()
+    choice = input(f"Enter your choice (1-{len(result_names)}): ").strip()  # can choose to view any of the stored results by entering the corresponding number from the list
     if not choice.isdigit():
-        print("Invalid input.")
+        print("Invalid input.")  # defensive programming
         return
     choice = int(choice)
     if 1 <= choice <= len(result_names):
@@ -299,7 +302,7 @@ def view_saved_result(dataframe):
         print("Invalid choice.")
 
 
-def display_all_saved_results(dataframe):
+def display_all_saved_results(dataframe):  # requirement 10, allows the user to view all stored results at once, just prints them all out in a list
     print("\n--- All Stored Results ---")
     if not saved_results:
         print("No stored results yet.")
@@ -314,7 +317,7 @@ def exit_program(dataframe):
     exit(0)
 
 
-def display_menu(dataframe):
+def display_menu(dataframe):  # Displays the menu of options for the user to choose from, based on the requirements listed in the assignment
     menu_options = (
     ("Show the first n rows of sales data", display_initial_rows),
     ("Total sales by region and order_type", total_sales_by_region_order_type),
@@ -355,12 +358,12 @@ sales_data = load_csv(filename)
 
 # Run the main processing loop
 def main():
-    filename = choose_dataset()
+    filename = choose_dataset()  # requirement 3: allows the user to choose which dataset to load at the start of the program
     print(f"\nYou selected: {filename}\n")
     sales_data = load_csv(filename)
 
     while True:
-        show_saved_results_list()
+        show_saved_results_list()  # requirement 10: shows the list of stored results at the start of each loop so the user can see what they have available to view before going into the menu
         display_menu(sales_data)
 
 # Check if this is the main module being run
