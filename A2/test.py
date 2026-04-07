@@ -1,6 +1,9 @@
+# I used ChatGPT to help organize testing documentation and create ideas for automated testing output.
+
 import io
 from contextlib import redirect_stdout
 from unittest.mock import patch
+
 
 from A2.dashboard import (
     load_csv,

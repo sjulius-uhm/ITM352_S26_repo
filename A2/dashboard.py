@@ -12,7 +12,8 @@ url = "https://drive.google.com/uc?export=download&id=1Fv_vhoN4sTrUaozFPfzr0NCyH
 df = pd.read_csv(url, engine='python')
 df.to_csv("sales_data.csv", index=False) # using the entire file and not just first 10 rows
 
-# Requirement 3: Create an alternate dataset - Retail orders only
+# I used ChatGPT to help think of an approach for creating an alternate dataset.
+# I then adapted the solution using filtering and CSV-writing techniques from class labs.
 df_alt = df[df['order_type'] == 'Retail'] # Filter to include only retail orders
 df_alt.to_csv("sales_data_alt.csv", index=False) # Save the alternate dataset to a new CSV file
 
@@ -272,6 +273,7 @@ def create_custom_pivot_table(dataframe):  #creates a custom pivot table based o
     saved_results[custom_name] = pivot_table  # Requirement 10: stored results for later viewing, using the unique name created above
 
 
+# I used ChatGPT to help extend this feature so analytics results could be stored in a dictionary and viewed later during the same program session.
 def show_saved_results_list():  # requirement 10, shows a list of all the stored results that the user has created so far
     print("\nStored analytics results:")
     if not saved_results:
