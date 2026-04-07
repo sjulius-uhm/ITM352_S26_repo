@@ -1,0 +1,506 @@
+=== Dashboard Test Results ===
+
+Loading data from sales_data.csv...
+CSV file loaded succesfully in 0.21 seconds.
+Number of rows: 5130
+Available columns: ['order_number', 'employee_id', 'employee_name', 'job_title', 'sales_region', 'order_date', 'order_type', 'customer_type', 'customer_name', 'customer_state', 'product_category', 'product_number', 'produce_name', 'quantity', 'unit_price']
+All required columns are present.
+
+--- Test 1: Preview first 5 rows ---
+
+Enter rows to display:
+- Enter a number 1 to 5130
+- To see all rows, enter 'all'
+- To skip preview, press Enter
+Displaying first 5 rows:
+   order_number  employee_id    employee_name               job_title  \
+0       1102935    900019019  Alexandra Kundt  Senior Sales Associate   
+1       1102976    900019019  Alexandra Kundt  Senior Sales Associate   
+2       1102988    900019019  Alexandra Kundt  Senior Sales Associate   
+3       1103012    900019019  Alexandra Kundt  Senior Sales Associate   
+4       1103031    900019019  Alexandra Kundt  Senior Sales Associate   
+
+     sales_region order_date order_type customer_type       customer_name  \
+0  S Central East        NaT     Retail    Individual      Skipton Fealty   
+1  S Central East        NaT     Retail    Individual     Lanni D'Ambrogi   
+2  S Central East        NaT     Retail    Individual             Far Pow   
+3  S Central East        NaT  Wholesale      Business           Swift Inc   
+4  S Central East        NaT     Retail    Individual  Carmine Priestnall   
+
+  customer_state product_category product_number  \
+0       Arkansas        Olive Oil          OO206   
+1       Missouri      Gift Basket          GB301   
+2    Mississippi        Olive Oil          OO302   
+3          Texas        Olive Oil          OO125   
+4          Texas        Olive Oil          OO128   
+
+                           produce_name  quantity  unit_price  sales  
+0      Chili Extra Virgin Olive Oil 2pk         3        45.0  135.0  
+1  Scented Olive Oil Candle Gift Basket         1        19.5   19.5  
+2          Chili Extra Virgin Olive Oil         4        26.0  104.0  
+3    Garlic Extra Virgin Olive Oil 12pk         4       234.0  936.0  
+4     Chili Extra Virgin Olive Oil 12pk         3       234.0  702.0  
+
+--- Test 2: Preview all rows ---
+
+Enter rows to display:
+- Enter a number 1 to 5130
+- To see all rows, enter 'all'
+- To skip preview, press Enter
+Displaying all rows:
+      order_number  employee_id    employee_name               job_title  \
+0          1102935    900019019  Alexandra Kundt  Senior Sales Associate   
+1          1102976    900019019  Alexandra Kundt  Senior Sales Associate   
+2          1102988    900019019  Alexandra Kundt  Senior Sales Associate   
+3          1103012    900019019  Alexandra Kundt  Senior Sales Associate   
+4          1103031    900019019  Alexandra Kundt  Senior Sales Associate   
+...            ...          ...              ...                     ...   
+5125       1107851    900015961     Wynona Smith     Sales Associate III   
+5126       1107859    900015961     Wynona Smith     Sales Associate III   
+5127       1107913    900015961     Wynona Smith     Sales Associate III   
+5128       1107972    900015961     Wynona Smith     Sales Associate III   
+5129       1107998    900015961     Wynona Smith     Sales Associate III   
+
+        sales_region order_date order_type customer_type       customer_name  \
+0     S Central East        NaT     Retail    Individual      Skipton Fealty   
+1     S Central East        NaT     Retail    Individual     Lanni D'Ambrogi   
+2     S Central East        NaT     Retail    Individual             Far Pow   
+3     S Central East        NaT  Wholesale      Business           Swift Inc   
+4     S Central East        NaT     Retail    Individual  Carmine Priestnall   
+...              ...        ...        ...           ...                 ...   
+5125       Northeast        NaT  Wholesale      Business         Kautzer Inc   
+5126       Northeast        NaT     Retail    Individual          Derry Game   
+5127       Northeast        NaT     Retail    Individual      Pren Stockport   
+5128       Northeast        NaT     Retail    Individual     Charlene Portam   
+5129       Northeast        NaT     Retail    Individual   Vernon de Almeida   
+
+     customer_state product_category product_number  \
+0          Arkansas        Olive Oil          OO206   
+1          Missouri      Gift Basket          GB301   
+2       Mississippi        Olive Oil          OO302   
+3             Texas        Olive Oil          OO125   
+4             Texas        Olive Oil          OO128   
+...             ...              ...            ...   
+5125       New York        Olive Oil          OO608   
+5126     New Jersey      Gift Basket          GB303   
+5127       New York        Olive Oil          OO128   
+5128   Pennsylvania        Olive Oil          OO128   
+5129   Pennsylvania        Olive Oil          OO609   
+
+                              produce_name  quantity  unit_price  sales  
+0         Chili Extra Virgin Olive Oil 2pk         3        45.0  135.0  
+1     Scented Olive Oil Candle Gift Basket         1        19.5   19.5  
+2             Chili Extra Virgin Olive Oil         4        26.0  104.0  
+3       Garlic Extra Virgin Olive Oil 12pk         4       234.0  936.0  
+4        Chili Extra Virgin Olive Oil 12pk         3       234.0  702.0  
+...                                    ...       ...         ...    ...  
+5125   Rosemary Extra Virgin Olive Oil 6pk         6       123.0  738.0  
+5126  Scented Olive Oil Lotion Gift Basket         4        27.0  108.0  
+5127     Chili Extra Virgin Olive Oil 12pk         2       234.0  468.0  
+5128     Chili Extra Virgin Olive Oil 12pk         2       234.0  468.0  
+5129      Lemon Extra Virgin Olive Oil 6pk         3       123.0  369.0  
+
+[5130 rows x 16 columns]
+
+--- Test 3: Skip preview ---
+
+Enter rows to display:
+- Enter a number 1 to 5130
+- To see all rows, enter 'all'
+- To skip preview, press Enter
+Skipping preview.
+
+--- Test 4: Total sales by region and order_type ---
+
+Total sales by region and order_type:
+order_type         Retail  Wholesale
+sales_region                        
+Central East    102613.51  149137.89
+N Central East  117451.69  152446.42
+N Central West   10006.42    1731.50
+Northeast        84078.95  127423.36
+Northwest        34565.62   33240.12
+S Central East  130742.32  208945.73
+S Central West   54681.80   51051.03
+Southeast        96310.12  127554.60
+Southwest       104743.52  121977.20
+
+--- Test 5: Average sales by region with state and sale type ---
+
+Average sales by region with average sales by state and sale type:
+customer_state     Alabama                  Alaska              Arizona  \
+order_type          Retail   Wholesale      Retail   Wholesale   Retail   
+sales_region                                                              
+Central East      0.000000    0.000000    0.000000    0.000000    0.000   
+N Central East    0.000000    0.000000    0.000000    0.000000    0.000   
+N Central West    0.000000    0.000000    0.000000    0.000000    0.000   
+Northeast         0.000000    0.000000    0.000000    0.000000    0.000   
+Northwest         0.000000    0.000000  152.996667  799.833333    0.000   
+S Central East    0.000000    0.000000    0.000000    0.000000    0.000   
+S Central West    0.000000    0.000000    0.000000    0.000000  201.557   
+Southeast       143.722222  762.726364    0.000000    0.000000    0.000   
+Southwest         0.000000    0.000000    0.000000    0.000000    0.000   
+
+customer_state                 Arkansas            California               \
+order_type        Wholesale      Retail Wholesale      Retail    Wholesale   
+sales_region                                                                 
+Central East       0.000000    0.000000      0.00    0.000000     0.000000   
+N Central East     0.000000    0.000000      0.00    0.000000     0.000000   
+N Central West     0.000000    0.000000      0.00    0.000000     0.000000   
+Northeast          0.000000    0.000000      0.00    0.000000     0.000000   
+Northwest          0.000000    0.000000      0.00    0.000000     0.000000   
+S Central East     0.000000  181.650968   1251.25    0.000000     0.000000   
+S Central West  1228.517647    0.000000      0.00    0.000000     0.000000   
+Southeast          0.000000    0.000000      0.00    0.000000     0.000000   
+Southwest          0.000000    0.000000      0.00  169.332291  1198.887952   
+
+customer_state    Colorado           Connecticut                 Delaware  \
+order_type          Retail Wholesale      Retail    Wholesale      Retail   
+sales_region                                                                
+Central East      0.000000     0.000       0.000     0.000000  194.895833   
+N Central East    0.000000     0.000       0.000     0.000000    0.000000   
+N Central West    0.000000     0.000       0.000     0.000000    0.000000   
+Northeast         0.000000     0.000     157.774  1431.639286    0.000000   
+Northwest         0.000000     0.000      64.480     0.000000    0.000000   
+S Central East    0.000000     0.000       0.000     0.000000    0.000000   
+S Central West  191.982258  1215.935       0.000     0.000000    0.000000   
+Southeast         0.000000     0.000       0.000     0.000000    0.000000   
+Southwest         0.000000     0.000       0.000     0.000000    0.000000   
+
+customer_state           District of Columbia               Florida  \
+order_type     Wholesale               Retail Wholesale      Retail   
+sales_region                                                          
+Central East      1092.0            150.37252   891.661    0.000000   
+N Central East       0.0              0.00000     0.000    0.000000   
+N Central West       0.0              0.00000     0.000    0.000000   
+Northeast            0.0              0.00000     0.000    0.000000   
+Northwest            0.0              0.00000     0.000    0.000000   
+S Central East       0.0              0.00000     0.000    0.000000   
+S Central West       0.0              0.00000     0.000    0.000000   
+Southeast            0.0              0.00000     0.000  164.086516   
+Southwest            0.0              0.00000     0.000    0.000000   
+
+customer_state                  Georgia                   Hawaii       Idaho  \
+order_type        Wholesale      Retail    Wholesale      Retail      Retail   
+sales_region                                                                   
+Central East       0.000000    0.000000     0.000000    0.000000    0.000000   
+N Central East     0.000000    0.000000     0.000000    0.000000    0.000000   
+N Central West     0.000000    0.000000     0.000000    0.000000    0.000000   
+Northeast          0.000000    0.000000     0.000000    0.000000    0.000000   
+Northwest          0.000000    0.000000     0.000000    0.000000  183.024483   
+S Central East     0.000000    0.000000     0.000000    0.000000    0.000000   
+S Central West     0.000000    0.000000     0.000000    0.000000    0.000000   
+Southeast       1362.920152  147.475957  1537.467368    0.000000    0.000000   
+Southwest          0.000000    0.000000     0.000000  114.512143    0.000000   
+
+customer_state    Illinois                Indiana                  Iowa  \
+order_type          Retail  Wholesale      Retail Wholesale      Retail   
+sales_region                                                              
+Central East      0.000000     0.0000    0.000000      0.00    0.000000   
+N Central East  140.943094  1382.5905  166.448785   1040.65  199.908333   
+N Central West    0.000000     0.0000    0.000000      0.00    0.000000   
+Northeast         0.000000     0.0000    0.000000      0.00    0.000000   
+Northwest         0.000000     0.0000    0.000000      0.00    0.000000   
+S Central East    0.000000     0.0000    0.000000      0.00    0.000000   
+S Central West    0.000000     0.0000    0.000000      0.00    0.000000   
+Southeast         0.000000     0.0000    0.000000      0.00    0.000000   
+Southwest         0.000000     0.0000    0.000000      0.00    0.000000   
+
+customer_state                Kansas                 Kentucky            \
+order_type     Wholesale      Retail    Wholesale      Retail Wholesale   
+sales_region                                                              
+Central East         0.0    0.000000     0.000000  170.532055  1465.398   
+N Central East    1561.5  125.074746  1168.132308    0.000000     0.000   
+N Central West       0.0    0.000000     0.000000    0.000000     0.000   
+Northeast            0.0    0.000000     0.000000    0.000000     0.000   
+Northwest            0.0    0.000000     0.000000    0.000000     0.000   
+S Central East       0.0    0.000000     0.000000    0.000000     0.000   
+S Central West       0.0    0.000000     0.000000    0.000000     0.000   
+Southeast            0.0    0.000000     0.000000    0.000000     0.000   
+Southwest            0.0    0.000000     0.000000    0.000000     0.000   
+
+customer_state Louisiana             Maryland           Massachusetts  \
+order_type        Retail Wholesale     Retail Wholesale        Retail   
+sales_region                                                            
+Central East      0.0000       0.0  200.05775  1495.245      0.000000   
+N Central East    0.0000       0.0    0.00000     0.000      0.000000   
+N Central West    0.0000       0.0    0.00000     0.000      0.000000   
+Northeast         0.0000       0.0    0.00000     0.000    186.013519   
+Northwest         0.0000       0.0    0.00000     0.000      0.000000   
+S Central East  160.0254    1404.0    0.00000     0.000      0.000000   
+S Central West    0.0000       0.0    0.00000     0.000      0.000000   
+Southeast         0.0000       0.0    0.00000     0.000      0.000000   
+Southwest         0.0000       0.0    0.00000     0.000      0.000000   
+
+customer_state              Michigan             Minnesota               \
+order_type     Wholesale      Retail Wholesale      Retail    Wholesale   
+sales_region                                                              
+Central East         0.0    0.000000       0.0    0.000000     0.000000   
+N Central East       0.0  207.943553    1213.5  166.835909  1291.772381   
+N Central West       0.0    0.000000       0.0    0.000000     0.000000   
+Northeast         1683.0    0.000000       0.0    0.000000     0.000000   
+Northwest            0.0    0.000000       0.0    0.000000     0.000000   
+S Central East       0.0    0.000000       0.0    0.000000     0.000000   
+S Central West       0.0    0.000000       0.0    0.000000     0.000000   
+Southeast            0.0    0.000000       0.0    0.000000     0.000000   
+Southwest            0.0    0.000000       0.0    0.000000     0.000000   
+
+customer_state Mississippi    Missouri                  Montana    Nebraska  \
+order_type          Retail      Retail    Wholesale      Retail      Retail   
+sales_region                                                                  
+Central East       0.00000    0.000000     0.000000    0.000000    0.000000   
+N Central East     0.00000    0.000000     0.000000    0.000000    0.000000   
+N Central West     0.00000    0.000000     0.000000  137.883333  176.362667   
+Northeast          0.00000    0.000000     0.000000    0.000000    0.000000   
+Northwest          0.00000    0.000000     0.000000    0.000000    0.000000   
+S Central East   134.92619  162.068795  1433.963333    0.000000    0.000000   
+S Central West     0.00000    0.000000     0.000000    0.000000    0.000000   
+Southeast          0.00000    0.000000     0.000000    0.000000    0.000000   
+Southwest          0.00000    0.000000     0.000000    0.000000    0.000000   
+
+customer_state                  Nevada              New Hampshire  New Jersey  \
+order_type       Wholesale      Retail    Wholesale        Retail      Retail   
+sales_region                                                                    
+Central East      0.000000    0.000000     0.000000      0.000000    0.000000   
+N Central East    0.000000    0.000000     0.000000      0.000000    0.000000   
+N Central West  577.166667    0.000000     0.000000      0.000000    0.000000   
+Northeast         0.000000    0.000000     0.000000    102.640714  191.607857   
+Northwest         0.000000    0.000000     0.000000      0.000000    0.000000   
+S Central East    0.000000    0.000000     0.000000      0.000000    0.000000   
+S Central West    0.000000    0.000000     0.000000      0.000000    0.000000   
+Southeast         0.000000    0.000000     0.000000      0.000000    0.000000   
+Southwest         0.000000  144.560556  1321.735294      0.000000    0.000000   
+
+customer_state           New Mexico              New York               \
+order_type     Wholesale     Retail Wholesale      Retail    Wholesale   
+sales_region                                                             
+Central East         0.0     0.0000       0.0    0.000000     0.000000   
+N Central East       0.0     0.0000       0.0    0.000000     0.000000   
+N Central West       0.0     0.0000       0.0    0.000000     0.000000   
+Northeast         1809.0     0.0000       0.0  158.151429  1254.168409   
+Northwest            0.0     0.0000       0.0    0.000000     0.000000   
+S Central East       0.0   165.9104     627.0    0.000000     0.000000   
+S Central West       0.0     0.0000       0.0    0.000000     0.000000   
+Southeast            0.0     0.0000       0.0    0.000000     0.000000   
+Southwest            0.0     0.0000       0.0    0.000000     0.000000   
+
+customer_state North Carolina           North Dakota        Ohio              \
+order_type             Retail Wholesale       Retail      Retail   Wholesale   
+sales_region                                                                   
+Central East       159.526778    1031.4        0.000    0.000000     0.00000   
+N Central East       0.000000       0.0        0.000  163.107786  1183.46381   
+N Central West       0.000000       0.0      136.979    0.000000     0.00000   
+Northeast            0.000000       0.0        0.000    0.000000     0.00000   
+Northwest            0.000000       0.0        0.000    0.000000     0.00000   
+S Central East       0.000000       0.0        0.000    0.000000     0.00000   
+S Central West       0.000000       0.0        0.000    0.000000     0.00000   
+Southeast            0.000000       0.0        0.000    0.000000     0.00000   
+Southwest            0.000000       0.0        0.000    0.000000     0.00000   
+
+customer_state    Oklahoma                  Oregon           Pennsylvania  \
+order_type          Retail   Wholesale      Retail Wholesale       Retail   
+sales_region                                                                
+Central East      0.000000    0.000000    0.000000      0.00     0.000000   
+N Central East    0.000000    0.000000    0.000000      0.00     0.000000   
+N Central West    0.000000    0.000000    0.000000      0.00     0.000000   
+Northeast         0.000000    0.000000    0.000000      0.00   159.936121   
+Northwest         0.000000    0.000000  252.575357   1172.75     0.000000   
+S Central East  150.049155  936.163529    0.000000      0.00     0.000000   
+S Central West    0.000000    0.000000    0.000000      0.00     0.000000   
+Southeast         0.000000    0.000000    0.000000      0.00     0.000000   
+Southwest         0.000000    0.000000    0.000000      0.00     0.000000   
+
+customer_state              South Carolina South Dakota   Tennessee  \
+order_type        Wholesale         Retail       Retail      Retail   
+sales_region                                                          
+Central East       0.000000       0.000000     0.000000  187.803088   
+N Central East     0.000000       0.000000     0.000000    0.000000   
+N Central West     0.000000       0.000000   126.958125    0.000000   
+Northeast       1576.111111       0.000000     0.000000    0.000000   
+Northwest          0.000000       0.000000     0.000000    0.000000   
+S Central East     0.000000       0.000000     0.000000    0.000000   
+S Central West     0.000000       0.000000     0.000000    0.000000   
+Southeast          0.000000     234.030513     0.000000    0.000000   
+Southwest          0.000000       0.000000     0.000000    0.000000   
+
+customer_state                    Texas                     Utah            \
+order_type        Wholesale      Retail    Wholesale      Retail Wholesale   
+sales_region                                                                 
+Central East    1321.135385    0.000000     0.000000    0.000000       0.0   
+N Central East     0.000000    0.000000     0.000000    0.000000       0.0   
+N Central West     0.000000    0.000000     0.000000    0.000000       0.0   
+Northeast          0.000000    0.000000     0.000000    0.000000       0.0   
+Northwest          0.000000    0.000000     0.000000    0.000000       0.0   
+S Central East     0.000000  174.156674  1350.577586    0.000000       0.0   
+S Central West     0.000000    0.000000     0.000000  145.416522    1379.9   
+Southeast          0.000000    0.000000     0.000000    0.000000       0.0   
+Southwest          0.000000    0.000000     0.000000    0.000000       0.0   
+
+customer_state      Vermont    Virginia               Washington            \
+order_type        Wholesale      Retail    Wholesale      Retail Wholesale   
+sales_region                                                                 
+Central East       0.000000  193.004328  1456.011905    0.000000     0.000   
+N Central East     0.000000    0.000000     0.000000    0.000000     0.000   
+N Central West     0.000000    0.000000     0.000000    0.000000     0.000   
+Northeast       1603.333333    0.000000     0.000000    0.000000     0.000   
+Northwest          0.000000    0.000000     0.000000  164.782453   933.915   
+S Central East     0.000000    0.000000     0.000000    0.000000     0.000   
+S Central West     0.000000    0.000000     0.000000    0.000000     0.000   
+Southeast          0.000000    0.000000     0.000000    0.000000     0.000   
+Southwest          0.000000    0.000000     0.000000    0.000000     0.000   
+
+customer_state West Virginia                Wisconsin              Wyoming  
+order_type            Retail    Wholesale      Retail    Wholesale  Retail  
+sales_region                                                                
+Central East      166.623333  1771.714286    0.000000     0.000000   0.000  
+N Central East      0.000000     0.000000  167.188864  1412.214375   0.000  
+N Central West      0.000000     0.000000    0.000000     0.000000  36.735  
+Northeast           0.000000     0.000000    0.000000     0.000000   0.000  
+Northwest           0.000000     0.000000    0.000000     0.000000   0.000  
+S Central East      0.000000     0.000000    0.000000     0.000000   0.000  
+S Central West      0.000000     0.000000    0.000000     0.000000   0.000  
+Southeast           0.000000     0.000000    0.000000     0.000000   0.000  
+Southwest           0.000000     0.000000    0.000000     0.000000   0.000  
+
+--- Test 6: Sales by customer type and order type by state ---
+
+Sales by customer type and order type by state:
+order_type                      Retail  Wholesale
+customer_state customer_type                     
+Alabama        Business        1088.00    8389.99
+               Individual     14434.00       0.00
+Alaska         Business         886.00    2399.50
+               Individual      3703.90       0.00
+Arizona        Business        1630.00   20884.80
+...                                ...        ...
+West Virginia  Business         587.97   12402.00
+               Individual      5410.47       0.00
+Wisconsin      Business           0.00   22595.43
+               Individual      7356.31       0.00
+Wyoming        Individual        73.47       0.00
+
+[90 rows x 2 columns]
+
+--- Test 7: Total sales quantity and price by region and product ---
+
+Total sales quantity and price by region and product:
+                                                 quantity     sales
+sales_region produce_name                                          
+Central East Assorted Olive Bar Soap - 6 pk            17    510.00
+             Assorted Olive Oil Bar Soap - 3 pk        20    290.00
+             Basil EVOO Gift Basket                    28   2100.00
+             Basil Extra Virgin Olive Oil              23    598.00
+             Basil Extra Virgin Olive Oil 12pk        120  28080.00
+...                                                   ...       ...
+Southwest    Vanilla and Olive Oil Bar Soap            22    131.78
+             Vanilla and Olive Oil Bar Soap 3pk        20    290.00
+             Vanilla and Olive Oil Body Soap           28    208.60
+             Vanilla and Olive Oil Candle              47    328.53
+             Vanilla and Olive Oil Lotion              24    239.76
+
+[576 rows x 2 columns]
+
+--- Test 8: Total sales quantity and price by customer type ---
+
+Total sales quantity and price by order type and customer type:
+                          quantity      sales
+order_type customer_type                     
+Retail     Business            375   28574.37
+           Individual        10641  706619.58
+Wholesale  Business           5507  973507.85
+
+--- Test 9: Max and min sales price by category ---
+
+Max and min sales price by category:
+                     max    min
+                   sales  sales
+product_category               
+Bath products      300.0   5.99
+Gift Basket       1150.0  19.50
+Olive Oil         3276.0  16.75
+
+--- Test 10: Number of unique employees by region ---
+
+Number of unique employees by region:
+                Number of Unique Employees
+sales_region                              
+Central East                             6
+N Central East                           6
+N Central West                           1
+Northeast                                4
+Northwest                                4
+S Central East                           6
+S Central West                           5
+Southeast                                6
+Southwest                                6
+
+--- Test 11: Custom pivot table ---
+
+Select rows:
+1. employee_name
+2. sales_region
+3. product_category
+
+Select columns (optional):
+1. order_type
+2. customer_type
+
+Select values:
+1. quantity
+2. sales
+
+Select aggregation function:
+1. sum
+2. mean
+3. count
+
+Custom Pivot Table:
+                   quantity          
+order_type           Retail Wholesale
+employee_name                        
+Alexandra Kundt         272       123
+Alisha Hendricks        209       108
+Alyssa Smoak            459       261
+Ava Orosco              158        87
+Becky Seneschal         307       118
+Brenda Albury           204       289
+Christen Barrett        321       127
+Christy Beedom          296       118
+Clement Carry           181       109
+Colby Hallberg          400       236
+Constantine Acosta      132        32
+Cynthia Cash            341       128
+Dana Fizzer             217        86
+Daniel Burgess          313       184
+Delaney Marschke        188        77
+Dolly Trowel            181        80
+Dru Clingman            341       172
+Eddie Harrower          116        60
+Edward Loveless         158        18
+Georgia Eddowes         253       146
+Hannah Rosenstock       301       129
+Henry Rodriguez         287       138
+Igor Hansen             253       189
+John Ashwin             255       144
+Kendra Barnbrook        307       194
+Kristen Phillips        173        86
+Lauren Skip             316       124
+Lisa Frere              398       197
+Logan Augur             107        61
+Lorrie Ellison          271       108
+Marla Phifer            234       110
+Michelle Tiffany        241        71
+Mitch White             245       142
+Morten Shivers          109         0
+Nick Chen               361       233
+Norm Hawkins            317       123
+Paul Massimo            388       268
+Shantel Francis         321       154
+Sharla Sobie            235        98
+Tanya Tibbets           130        52
+Tricia Beaudry           88        69
+Vincent Kobak           131        62
+Winifred Fetterman      253        36
+Wynona Smith            248       160
+
+=== End of Tests ===
