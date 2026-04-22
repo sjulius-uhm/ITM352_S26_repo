@@ -20,7 +20,6 @@ def generate_numbers(a_student_id, num_reqs):
        if int(digit) != 0:  # Avoid multiplying by zero
            product_digits *= int(digit)
    second_num = (product_digits % num_reqs) + 1
-
    # Ensure the numbers are different
    while second_num == first_num:
        second_num = (second_num % num_reqs) + 1

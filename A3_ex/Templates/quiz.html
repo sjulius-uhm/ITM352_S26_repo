@@ -4,14 +4,11 @@
     <title>Quiz</title>
 </head>
 <body>
-    <h1>Question {{ question_num }} of {{ total_questions }}</h1>
-    <p>{{ question }}</p>
-
+    <h1>Question 1: {{ question }}</h1>
     <form method="POST">
         {% for option in options %}
-            <input type="radio" name="answer" value="{{ option }}" required> {{ option }}<br>
+            <input type="radio" name="answer" value="{{ option }}"> {{ option }}<br>
         {% endfor %}
-        <br>
         <button type="submit">Submit Answer</button>
     </form>
 </body>
