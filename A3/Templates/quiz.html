@@ -9,10 +9,15 @@
 
     <form method="POST">
         {% for option in options %}
-            <input type="radio" name="answer" value="{{ option }}" required> {{ option }}<br>
+            <input type="radio" name="answer" value="{{ option }}"> {{ option }}<br>
         {% endfor %}
         <br>
-        <button type="submit">Submit Answer</button>
+
+        <button type="submit" name="action" value="submit">Submit Answer</button>
+
+        {% if can_use_fifty %}
+            <button type="submit" name="action" value="fifty">Use 50/50</button>
+        {% endif %}
     </form>
 </body>
 </html>

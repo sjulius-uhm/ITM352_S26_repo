@@ -26,6 +26,14 @@ def prepare_questions(questions, num_questions):
     return [[question, alternatives] for question, alternatives in selected]
 
 
+def use_fifty_fifty(alternatives, correct_answer):
+    """Remove two wrong answers from a 4-choice question."""
+    wrong_answers = [choice for choice in alternatives if choice != correct_answer]
+    kept_wrong_answer = random.choice(wrong_answers)
+    reduced_alternatives = [correct_answer, kept_wrong_answer]
+    return random.sample(reduced_alternatives, k=len(reduced_alternatives))
+
+
 @app.route("/")
 def home():
     """Start a new quiz."""
@@ -35,6 +43,7 @@ def home():
     session["questions"] = selected_questions
     session["question_num"] = 0
     session["score"] = 0
+    session["fifty_fifty_used"] = False
 
     return render_template("index.html")
 
@@ -48,30 +57,48 @@ def quiz():
     questions = session["questions"]
     question_num = session["question_num"]
 
+    question, alternatives = questions[question_num]
+    correct_answer = alternatives[0]
+
     if request.method == "POST":
-        user_answer = request.form.get("answer")
+        action = request.form.get("action")
 
-        question, alternatives = questions[question_num]
-        correct_answer = alternatives[0]
+        if action == "fifty":
+            if not session["fifty_fifty_used"] and len(alternatives) == 4:
+                reduced_alternatives = use_fifty_fifty(alternatives, correct_answer)
+                session["reduced_options"] = reduced_alternatives
+                session["fifty_fifty_used"] = True
 
-        if user_answer == correct_answer:
-            session["score"] += 1
+        elif action == "submit":
+            user_answer = request.form.get("answer")
 
-        session["question_num"] += 1
-        question_num = session["question_num"]
+            if user_answer == correct_answer:
+                session["score"] += 1
 
-        if question_num >= len(questions):
-            return redirect(url_for("result"))
+            session["question_num"] += 1
 
-    question, alternatives = questions[session["question_num"]]
-    ordered_alternatives = random.sample(alternatives, k=len(alternatives))
+            if session["question_num"] >= len(questions):
+                return redirect(url_for("result"))
+
+            session.pop("reduced_options", None)
+
+            question_num = session["question_num"]
+            question, alternatives = questions[question_num]
+            correct_answer = alternatives[0]
+
+    if "reduced_options" in session:
+        options = session["reduced_options"]
+    else:
+        options = random.sample(alternatives, k=len(alternatives))
 
     return render_template(
         "quiz.html",
         question_num=session["question_num"] + 1,
         total_questions=len(questions),
         question=question,
-        options=ordered_alternatives
+        options=options,
+        fifty_fifty_used=session["fifty_fifty_used"],
+        can_use_fifty=(len(alternatives) == 4 and not session["fifty_fifty_used"])
     )
 
 
