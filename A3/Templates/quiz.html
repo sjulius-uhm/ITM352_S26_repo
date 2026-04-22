@@ -1,23 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script>
+        // Check whether the current quiz is timed
+        let timedMode = "{{ timed_mode | default(false) }}" === "True";
+
+        // Load the time limit from Flask/Jinja into JavaScript
+        let timeLeft = parseInt("{{ time_limit | default(0) }}");
+
+        // Countdown timer for timed mode
+        function updateTimer() {
+            if (!timedMode) return;
+
+            document.getElementById("timer").innerHTML = timeLeft;
+
+            // When time runs out, submit the form automatically as a timeout
+            if (timeLeft <= 0) {
+                document.getElementById("timed_out").value = "true";
+                document.getElementById("action").value = "submit";
+                document.getElementById("quiz_form").submit();
+            } else {
+                timeLeft = timeLeft - 1;
+                setTimeout(updateTimer, 1000);
+            }
+        }
+
+        window.onload = updateTimer;
+    </script>
 </head>
 <body>
-    <h1>Question {{ question_num }} of {{ total_questions }}</h1>
-    <p>{{ question }}</p>
+    <div class="container">
+        <h1>Question {{ question_num }} of {{ total_questions }}</h1>
 
-    <form method="POST">
-        {% for option in options %}
-            <input type="radio" name="answer" value="{{ option }}"> {{ option }}<br>
-        {% endfor %}
-        <br>
-
-        <button type="submit" name="action" value="submit">Submit Answer</button>
-
-        {% if can_use_fifty %}
-            <button type="submit" name="action" value="fifty">Use 50/50</button>
+        <!-- Show timer only in timed mode -->
+        {% if timed_mode %}
+            <div class="warning">
+                <strong>Time left:</strong> <span id="timer">{{ time_limit }}</span> seconds
+            </div>
         {% endif %}
-    </form>
+
+        <p>{{ question }}</p>
+
+        <!-- Show validation error if user submits without selecting an answer -->
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" id="quiz_form">
+            <!-- Hidden fields help track timeout and which action was submitted -->
+            <input type="hidden" name="timed_out" id="timed_out" value="false">
+            <input type="hidden" name="action" id="action" value="submit">
+
+            <!-- Display answer choices dynamically from Flask -->
+            <div class="option-group">
+                {% for option in options %}
+                    <label>
+                        <input type="radio" name="answer" value="{{ option }}">
+                        {{ option }}
+                    </label>
+                {% endfor %}
+            </div>
+
+            <div class="button-group">
+                <button type="submit">Submit Answer</button>
+
+                <!-- 50/50 button changes the action so Flask knows to reduce choices -->
+                {% if can_use_fifty %}
+                    <button type="submit" class="secondary-button" onclick="document.getElementById('action').value='fifty'">
+                        Use 50/50
+                    </button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
 </body>
 </html>

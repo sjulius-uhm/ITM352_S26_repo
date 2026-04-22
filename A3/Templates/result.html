@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Your Quiz Result</h1>
-    <p>Your score: {{ score }} out of {{ total_questions }}</p>
-    <a href="{{ url_for('home') }}">Take Quiz Again</a>
+    <div class="container">
+        <h1>Your Quiz Result</h1>
+
+        <!-- Show timeout message if timed quiz ended because time ran out -->
+        {% if quiz_timed_out %}
+            <div class="warning">
+                <strong>The quiz ended because time ran out.</strong>
+            </div>
+        {% endif %}
+
+        <!-- Final quiz summary -->
+        <div class="result-list">
+            <p><strong>Final score:</strong> {{ score }} out of {{ total_questions }}</p>
+            <p><strong>Number correct:</strong> {{ num_correct }}</p>
+            <p><strong>Number incorrect:</strong> {{ num_incorrect }}</p>
+            <p><strong>Total time:</strong> {{ total_time }} seconds</p>
+            <p><strong>Areas for improvement:</strong> {{ improvement_message }}</p>
+        </div>
+
+        <!-- Return to home page to restart quiz -->
+        <div class="button-group">
+            <a href="{{ url_for('home') }}" class="button-link">Take Quiz Again</a>
+        </div>
+    </div>
 </body>
 </html>

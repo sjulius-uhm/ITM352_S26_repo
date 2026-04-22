@@ -1,0 +1,154 @@
+/* 
+This CSS file was created with the help of AI.
+
+AI was used to generate the initial styling layout and responsive design.
+I reviewed and adjusted the styles to match the structure of my HTML pages
+and to improve readability and maintainability.
+*/
+
+
+/* ---------- GENERAL PAGE STYLING ---------- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ---------- MAIN CONTAINER ---------- */
+/* Centers content and gives it a card-like appearance */
+.container {
+    width: 90%;
+    max-width: 700px;
+    margin: 40px auto;
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ---------- TEXT STYLING ---------- */
+h1 {
+    margin-top: 0;
+    text-align: center;
+}
+
+p {
+    line-height: 1.5;
+}
+
+
+/* ---------- BUTTON STYLING ---------- */
+/* Used for quiz actions like submit, next, start quiz */
+button,
+a.button-link {
+    display: inline-block;
+    padding: 12px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover,
+a.button-link:hover {
+    background-color: #0056b3;
+}
+
+
+/* Secondary button (used for 50/50 feature) */
+.secondary-button {
+    background-color: #6c757d;
+}
+
+.secondary-button:hover {
+    background-color: #545b62;
+}
+
+
+/* ---------- BUTTON LAYOUT ---------- */
+/* Stacks buttons vertically with spacing */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+
+/* ---------- MESSAGE STYLING ---------- */
+/* Used for feedback, errors, and timer warnings */
+
+.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.info {
+    background-color: #e2e3e5;
+    color: #383d41;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+
+/* ---------- ANSWER OPTIONS ---------- */
+/* Styles the list of radio button answers */
+.option-group {
+    margin: 20px 0;
+}
+
+.option-group label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+/* ---------- RESULT PAGE ---------- */
+/* Styles the final result summary */
+.result-list p {
+    margin: 10px 0;
+}
+
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+/* Adjust layout for smaller screens (mobile) */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    button,
+    a.button-link {
+        width: 100%;
+        font-size: 16px;
+    }
+}

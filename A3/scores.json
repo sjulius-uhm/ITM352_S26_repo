@@ -1,0 +1,44 @@
+[
+    {
+        "score": 5,
+        "total_questions": 5,
+        "timed_mode": false,
+        "total_time": 29
+    },
+    {
+        "score": 2,
+        "total_questions": 5,
+        "timed_mode": false,
+        "total_time": 42
+    },
+    {
+        "score": 2,
+        "total_questions": 5,
+        "timed_mode": true,
+        "total_time": 35
+    },
+    {
+        "score": 3,
+        "total_questions": 5,
+        "timed_mode": false,
+        "total_time": 25
+    },
+    {
+        "score": 3,
+        "total_questions": 5,
+        "timed_mode": true,
+        "total_time": 26
+    },
+    {
+        "score": 4,
+        "total_questions": 5,
+        "timed_mode": false,
+        "total_time": 21
+    },
+    {
+        "score": 4,
+        "total_questions": 5,
+        "timed_mode": true,
+        "total_time": 55
+    }
+]
