@@ -15,7 +15,7 @@ NUM_QUESTIONS_PER_QUIZ = 5
 QUESTION_TIME_LIMIT = 10   # seconds per question (timed mode)
 
 
-def load_questions(filename):  #copied Json from A1
+def load_questions(filename):  # # Loads question data originally created in Assignment 1 JSON format
     """Load questions from the JSON file with basic error handling."""
     try:
         with open(filename) as f:
@@ -85,7 +85,8 @@ def load_scores(filename):
         return []
 
 
-# but added it to make sure requirements are fulfilled. it just keeps adding every test score
+# Saves scores to a JSON file to meet data storage requirements.
+# Each quiz attempt is appended to the file.
 def save_scores(filename, scores):
     """Save updated score list to JSON file."""
     with open(filename, "w") as f:
@@ -93,7 +94,7 @@ def save_scores(filename, scores):
 
 
 @app.route("/")
-def home():  # removed -> type hint to improve readability and documentation. possibly got an error i cant remember
+def home():  # Removed -> type hint and added docstring to improve readability and documentation
     """Display home page."""
     return render_template("index.html")
 
@@ -151,7 +152,7 @@ def quiz():
     question_num = session["question_num"]
 
     question, alternatives = questions[question_num]
-    correct_answer = alternatives[0]
+    correct_answer = alternatives[0]  # First answer is treated as the correct answer (Assignment 1 structure)
 
     timed_mode = session.get("timed_mode", False)
 
@@ -226,7 +227,7 @@ def quiz():
             return redirect(url_for("feedback"))
 
     # -------- DISPLAY QUESTION --------
-    options = random.sample(alternatives, k=len(alternatives))
+    options = random.sample(alternatives, k=len(alternatives))  # Randomize answer order for each question
 
     # start timer for each question (timed mode only)
     if timed_mode:
