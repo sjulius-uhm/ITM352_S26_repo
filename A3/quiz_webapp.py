@@ -187,6 +187,9 @@ def quiz():
         # -------- ANSWER SUBMISSION --------
         elif action == "submit":
             user_answer = request.form.get("answer")
+            session["last_question"] = question  # Save question and answers for feedback page
+            session["last_correct_answer"] = correct_answer
+            session["last_user_answer"] = user_answer
             timed_out = request.form.get("timed_out", "false")
 
             # calculate elapsed time for timed mode
@@ -197,6 +200,11 @@ def quiz():
 
             # -------- TIMER LOGIC --------
             if timed_mode and (timed_out == "true" or elapsed >= QUESTION_TIME_LIMIT):
+
+                session["last_question"] = question  # Save info for feedback page
+                session["last_correct_answer"] = correct_answer
+                session["last_user_answer"] = "No answer - time ran out"
+
                 session["last_result"] = "timeout"
                 session["quiz_timed_out"] = True
                 session["missed_questions"].append(question)
@@ -269,7 +277,11 @@ def feedback():
     return render_template(
         "feedback.html",
         result=session["last_result"],
-        score=session["score"]
+        question=session.get("last_question", ""),
+        user_answer=session.get("last_user_answer", ""),
+        correct_answer=session.get("last_correct_answer", ""),
+        score=session["score"],
+        quiz_timed_out=session.get("quiz_timed_out", False)
     )
 
 
