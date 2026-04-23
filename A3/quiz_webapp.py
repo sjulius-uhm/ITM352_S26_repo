@@ -336,8 +336,8 @@ def api_scores():
 
 
 def main():
-    app.run(debug=True)
-
+    # Run server so it is accessible on your local network (for phone testing)
+    app.run(host="0.0.0.0", port=5000, debug=True)
 
 if __name__ == "__main__":
     main()
