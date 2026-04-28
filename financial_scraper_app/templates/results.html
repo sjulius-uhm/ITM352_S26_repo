@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container wide">
+        <a class="back-link" href="{{ url_for('index') }}">← Search another company</a>
+
+        <div class="card">
+            <h1>Financial Analysis for {{ ticker }}</h1>
+            <div class="category-box">Category: <strong>{{ category }}</strong></div>
+
+            <div class="download-buttons">
+                <a href="{{ url_for('download_file', filename=csv_file) }}">Download CSV</a>
+                <a href="{{ url_for('download_file', filename=excel_file) }}">Download Excel</a>
+            </div>
+        </div>
+
+        {% if chart_file %}
+        <div class="card">
+            <h2>Financial Chart</h2>
+            <img class="chart" src="{{ url_for('static', filename=chart_file) }}" alt="Financial chart for {{ ticker }}">
+        </div>
+        {% endif %}
+
+        <div class="grid">
+            <div class="card">
+                <h2>Company Data</h2>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    {% for key, value in data.items() %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>Calculated Ratios</h2>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    {% for key, value in ratios.items() %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
