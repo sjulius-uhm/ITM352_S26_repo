@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Downloads Center - FIN-ANALYTIX{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Downloads Center</h1>
+    <p class="subtitle">Browse and download saved analyses, organized by financial health rank.</p>
+</div>
+
+{% for folder_name, folder_info in files_by_rank.items() %}
+<div class="card">
+    <div class="folder-header" onclick="toggleFolder('{{ folder_name }}')">
+        <span class="folder-icon" id="icon-{{ folder_name }}">&#9654;</span>
+        <span class="folder-label rank-{{ folder_name|lower }}">{{ folder_info.label }}</span>
+        <span class="file-count">{{ folder_info.files|length }} file(s)</span>
+    </div>
+    <div class="folder-contents" id="folder-{{ folder_name }}" style="display: none;">
+        {% if folder_info.files %}
+        <table>
+            <tr>
+                <th>File</th>
+                <th>Type</th>
+                <th>Download</th>
+            </tr>
+            {% for file in folder_info.files %}
+            <tr>
+                <td>{{ file.name }}</td>
+                <td>
+                    {% if file.ext == '.csv' %}
+                    <span class="file-type csv">CSV</span>
+                    {% elif file.ext == '.xlsx' %}
+                    <span class="file-type excel">Excel</span>
+                    {% else %}
+                    <span class="file-type other">{{ file.ext }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('download_file', filename=file.path) }}" class="download-btn">Download</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p class="empty-folder">No files in this category yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+<script>
+function toggleFolder(name) {
+    var el = document.getElementById('folder-' + name);
+    var icon = document.getElementById('icon-' + name);
+    if (el.style.display === 'none') {
+        el.style.display = 'block';
+        icon.innerHTML = '&#9660;';
+    } else {
+        el.style.display = 'none';
+        icon.innerHTML = '&#9654;';
+    }
+}
+</script>
+{% endblock %}
