@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Analyze - FIN-ANALYTIX{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Company Financial Data Analysis</h1>
+    <p class="subtitle">Enter a company ticker symbol to retrieve financial data, calculate basic ratios, and export the results.</p>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <label for="ticker">Ticker Symbol</label>
+        <input type="text" id="ticker" name="ticker" placeholder="Example: AAPL, MSFT, TSLA" required>
+
+        <label for="custom_filename">Custom Export Filename (optional)</label>
+        <input type="text" id="custom_filename" name="custom_filename" placeholder="e.g., Microsoft_Q2_Analysis">
+
+        <button type="submit">Analyze Company</button>
+    </form>
+
+    <div class="tips">
+        <h2>Example tickers</h2>
+        <p>AAPL, MSFT, TSLA, NVDA, KO, MCD</p>
+    </div>
+</div>
+{% endblock %}

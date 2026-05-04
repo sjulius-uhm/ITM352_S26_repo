@@ -1,32 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Financial Data Tool</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <div class="card">
-            <h1>Company Financial Data Web Scraper and Analysis Tool</h1>
-            <p class="subtitle">Enter a company ticker symbol to retrieve financial data, calculate basic ratios, and export the results.</p>
-
-            {% if error %}
-                <div class="error">{{ error }}</div>
-            {% endif %}
-
-            <form method="POST">
-                <label for="ticker">Ticker Symbol</label>
-                <input type="text" id="ticker" name="ticker" placeholder="Example: AAPL, MSFT, TSLA" required>
-                <button type="submit">Analyze Company</button>
-            </form>
-
-            <div class="tips">
-                <h2>Example tickers</h2>
-                <p>AAPL, MSFT, TSLA, NVDA, KO, MCD</p>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}FIN-ANALYTIX{% endblock %}
+{% block content %}
+<script>window.location.href = "{{ url_for('home') }}";</script>
+{% endblock %}
