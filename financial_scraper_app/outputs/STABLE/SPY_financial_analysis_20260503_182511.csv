@@ -1,0 +1,27 @@
+Section,Metric,Value
+Company Data,Ticker,SPY
+Company Data,Company Name,State Street SPDR S&P 500 ETF Trust
+Company Data,Sector,
+Company Data,Industry,
+Company Data,Current Price,720.65
+Company Data,Market Cap,
+Company Data,Total Revenue,
+Company Data,Gross Profits,
+Company Data,Net Income,
+Company Data,Total Cash,
+Company Data,Total Debt,
+Company Data,Book Value,429.22
+Company Data,Profit Margin,
+Company Data,Return on Equity,
+Company Data,Debt to Equity,
+Company Data,Trailing PE,28.571844
+Company Data,Forward PE,
+Company Data,Recommendation,
+Calculated Ratios,Net Profit Margin,
+Calculated Ratios,Cash to Debt Ratio,
+Calculated Ratios,Market Cap to Revenue,
+Calculated Ratios,Debt to Equity,
+Calculated Ratios,Trailing PE,28.571844
+Calculated Ratios,Return on Equity,
+Category,Company Category,Neutral / Needs More Review
+Score,Financial Health Score,50

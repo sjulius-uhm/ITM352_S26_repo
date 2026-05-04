@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Comparison Results - FIN-ANALYTIX{% endblock %}
+{% block container_class %}wide{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{{ url_for('compare') }}">← New comparison</a>
+
+<div class="card">
+    <h1>Company Comparison</h1>
+
+    <div class="compare-summary">
+        {% for ticker in tickers %}
+        <div class="compare-badge">
+            <strong>{{ ticker }}</strong>
+            <span class="category-tag">{{ categories[ticker] }}</span>
+            <span class="score-badge {% if scores[ticker] >= 80 %}score-high{% elif scores[ticker] >= 50 %}score-stable{% else %}score-watch{% endif %}">
+                Score: {{ scores[ticker] }}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if chart_file %}
+<div class="card">
+    <h2>Comparison Chart</h2>
+    <img class="chart" src="{{ url_for('static', filename=chart_file) }}" alt="Comparison chart">
+</div>
+{% endif %}
+
+<div class="card">
+    <h2>Side-by-Side Data</h2>
+    <div class="table-scroll">
+        <table>
+            <tr>
+                <th>Metric</th>
+                {% for ticker in tickers %}
+                <th>{{ ticker }}</th>
+                {% endfor %}
+                <th>Average</th>
+            </tr>
+            {% for metric, row in comparison.items() %}
+            <tr>
+                <td><strong>{{ metric }}</strong></td>
+                {% for ticker in tickers %}
+                <td class="{{ row[ticker].class }}">{{ row[ticker].value }}</td>
+                {% endfor %}
+                <td class="average-col">{{ row["Average"].value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

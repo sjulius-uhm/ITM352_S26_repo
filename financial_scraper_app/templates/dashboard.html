@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - FIN-ANALYTIX{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Dashboard</h1>
+    <p class="subtitle">Overview of your financial analyses</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ total }}</div>
+        <div class="stat-label">Total Analyses</div>
+    </div>
+    <div class="stat-card stat-high">
+        <div class="stat-number">{{ rank_counts.HIGH_RANK }}</div>
+        <div class="stat-label">High Rank</div>
+    </div>
+    <div class="stat-card stat-stable">
+        <div class="stat-number">{{ rank_counts.STABLE }}</div>
+        <div class="stat-label">Stable</div>
+    </div>
+    <div class="stat-card stat-watch">
+        <div class="stat-number">{{ rank_counts.WATCHLIST }}</div>
+        <div class="stat-label">Watchlist</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Quick Analyze</h2>
+    <form method="POST" action="{{ url_for('analyze') }}" class="inline-form">
+        <input type="text" name="ticker" placeholder="Enter ticker (e.g., AAPL)" required>
+        <button type="submit">Analyze</button>
+    </form>
+</div>
+
+{% if recent %}
+<div class="card">
+    <h2>Recent Analyses</h2>
+    <table>
+        <tr>
+            <th>Ticker</th>
+            <th>Company</th>
+            <th>Category</th>
+            <th>Score</th>
+            <th>Rank</th>
+            <th>Date</th>
+            <th>Download</th>
+        </tr>
+        {% for entry in recent %}
+        <tr>
+            <td><strong>{{ entry.ticker }}</strong></td>
+            <td>{{ entry.company_name }}</td>
+            <td>{{ entry.category }}</td>
+            <td>
+                <span class="score-badge {% if entry.score >= 80 %}score-high{% elif entry.score >= 50 %}score-stable{% else %}score-watch{% endif %}">
+                    {{ entry.score }}
+                </span>
+            </td>
+            <td>{{ entry.rank_folder }}</td>
+            <td>{{ entry.timestamp }}</td>
+            <td class="download-links">
+                <a href="{{ url_for('download_file', filename=entry.csv_file) }}">CSV</a>
+                <a href="{{ url_for('download_file', filename=entry.excel_file) }}">Excel</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% else %}
+<div class="card">
+    <p class="empty-state">No analyses yet. Use the form above or go to <a href="{{ url_for('analyze') }}">Data Tables</a> to get started.</p>
+</div>
+{% endif %}
+{% endblock %}
