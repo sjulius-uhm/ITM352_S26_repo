@@ -74,22 +74,25 @@ def build_clean_financial_dict(ticker):
     cash_flow = clean_statement(cash_flow)
 
     financial_data = {
-        "ticker": ticker,
+    "ticker": ticker,
 
-        # Balance Sheet
-        "total_assets": get_value(balance_sheet, "Total Assets"),
-        "total_liabilities": get_value(balance_sheet, "Total Liabilities Net Minority Interest"),
-        "stockholders_equity": get_value(balance_sheet, "Stockholders Equity"),
+    # Balance Sheet
+    "total_assets": get_value(balance_sheet, "Total Assets"),
+    "total_liabilities": get_value(balance_sheet, "Total Liabilities Net Minority Interest"),
+    "stockholders_equity": get_value(balance_sheet, "Stockholders Equity"),
+    "current_assets": get_value(balance_sheet, "Current Assets"),
+    "current_liabilities": get_value(balance_sheet, "Current Liabilities"),
 
-        # Income Statement
-        "total_revenue": get_value(income_statement, "Total Revenue"),
-        "net_income": get_value(income_statement, "Net Income"),
-        "gross_profit": get_value(income_statement, "Gross Profit"),
+    # Income Statement
+    "total_revenue": get_value(income_statement, "Total Revenue"),
+    "net_income": get_value(income_statement, "Net Income"),
+    "gross_profit": get_value(income_statement, "Gross Profit"),
+    "operating_income": get_value(income_statement, "Operating Income"),
 
-        # Cash Flow
-        "operating_cash_flow": get_value(cash_flow, "Operating Cash Flow"),
-        "free_cash_flow": get_value(cash_flow, "Free Cash Flow")
-    }
+    # Cash Flow
+    "operating_cash_flow": get_value(cash_flow, "Operating Cash Flow"),
+    "free_cash_flow": get_value(cash_flow, "Free Cash Flow")
+}
 
     return financial_data
 
