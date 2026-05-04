@@ -1,90 +1,80 @@
 # Hey Samantha and Paul - Read This Before You Start
 
-This is the web app for our financial scraper project. The Flask routes, templates, login system, charts, and file exports are all done. What's missing is **your functions** inside `app.py`.
+This is the web app for our financial scraper project. The Flask routes, templates, login system, charts, and file exports are all done.
 
-Right now if you run the app it will crash when you try to analyze a company because your functions are placeholder stubs that say `NotImplementedError`. Once you fill them in, everything will work.
+**Paul's data retrieval code is already integrated.** His functions (`get_statement_data`, `build_clean_financial_dict`, etc.) are in `app.py` and working. There's a bridge function called `get_financial_data()` that takes Paul's output and maps it to the keys the web UI expects.
+
+What's still missing is **Samantha's three analysis functions** inside `app.py`. Right now they are placeholder stubs that raise `NotImplementedError`. Once you fill them in, everything will work.
 
 ---
 
-## Paul - Data Retrieval
+## Paul - Your Code is Already In
 
-You need to fill in **two functions** in `app.py`:
+Your functions are integrated and working:
+- `clean_ticker(ticker)`
+- `get_statement_data(ticker)`
+- `clean_statement(statement)`
+- `get_value(statement, row_name)`
+- `build_clean_financial_dict(ticker)`
+- `get_multiple_companies_data(ticker_list)`
 
-### `get_financial_data(ticker_symbol)`
-- Takes a ticker symbol string like `"AAPL"` or `"MSFT"`
-- Use `yfinance` to pull the company's financial info
-- Return a dictionary with these exact keys (the rest of the app depends on them):
+The bridge function `get_financial_data()` calls your `build_clean_financial_dict()` and maps your lowercase keys (like `total_revenue`) to the Title Case keys the web UI uses (like `Total Revenue`). It also pulls some extra fields from `yfinance`'s `company.info` (like Sector, Industry, Current Price, etc.) that your DataFrame approach doesn't cover.
 
-```
-"Ticker"           - string, the ticker symbol
-"Company Name"     - string
-"Sector"           - string
-"Industry"         - string
-"Current Price"    - float
-"Market Cap"       - float
-"Total Revenue"    - float
-"Gross Profits"    - float
-"Net Income"       - float
-"Total Cash"       - float
-"Total Debt"       - float
-"Book Value"       - float
-"Profit Margin"    - float (decimal like 0.25 not 25%)
-"Return on Equity" - float (decimal like 0.15 not 15%)
-"Debt to Equity"   - float
-"Trailing PE"      - float
-"Forward PE"       - float
-"Recommendation"   - string
-```
-
-- If the ticker doesn't exist, raise a `ValueError`
-- Call `clean_data(data)` on your dictionary before returning it
-
-### `clean_data(data)`
-- Takes the raw dictionary from `get_financial_data()`
-- Make sure numeric fields are actual floats (not strings or weird values)
-- Make sure string fields are stripped of extra whitespace
-- Replace bad values with `None` so the app doesn't crash
-- Return the cleaned dictionary
-
-### Quick start example
-```python
-def get_financial_data(ticker_symbol):
-    ticker_symbol = ticker_symbol.upper().strip()
-    company = yf.Ticker(ticker_symbol)
-    info = company.info
-
-    if not info or info.get("currentPrice") is None:
-        raise ValueError("No data found for that ticker symbol.")
-
-    data = {
-        "Ticker": ticker_symbol,
-        "Company Name": info.get("longName"),
-        # ... fill in the rest using info.get("keyName") ...
-    }
-    return clean_data(data)
-```
+**You don't need to change anything unless you want to.** If you do make changes to your functions, just make sure `build_clean_financial_dict()` still returns the same keys.
 
 ---
 
 ## Samantha - Analysis
 
-You need to fill in **three functions** in `app.py`. They all receive the dictionary that Paul's `get_financial_data()` returns.
+You need to fill in **three functions** in `app.py`. They all receive the dictionary that `get_financial_data()` returns. Search for `NotImplementedError` in the file to find them.
+
+The data dictionary you'll receive has these keys:
+
+```
+"Ticker"              - string, the ticker symbol
+"Company Name"        - string
+"Sector"              - string
+"Industry"            - string
+"Current Price"       - float
+"Market Cap"          - float
+"Total Revenue"       - float
+"Gross Profits"       - float
+"Net Income"          - float
+"Total Cash"          - float
+"Total Debt"          - float (this is total liabilities)
+"Book Value"          - float
+"Profit Margin"       - float (decimal like 0.25 not 25%)
+"Return on Equity"    - float (decimal like 0.15 not 15%)
+"Debt to Equity"      - float
+"Trailing PE"         - float
+"Forward PE"          - float
+"Recommendation"      - string
+"Total Assets"        - float  (from Paul's functions)
+"Total Liabilities"   - float  (from Paul's functions)
+"Stockholders Equity" - float  (from Paul's functions)
+"Current Assets"      - float  (from Paul's functions)
+"Current Liabilities" - float  (from Paul's functions)
+"Operating Income"    - float  (from Paul's functions)
+"Operating Cash Flow" - float  (from Paul's functions)
+"Free Cash Flow"      - float  (from Paul's functions)
+```
 
 ### `calculate_ratios(data)`
 - Takes the company data dictionary
 - Calculate and return a dictionary with these exact keys:
 
 ```
-"Net Profit Margin"    - Net Income / Total Revenue
-"Cash to Debt Ratio"   - Total Cash / Total Debt
+"Net Profit Margin"     - Net Income / Total Revenue
+"Cash to Debt Ratio"    - Total Cash / Total Debt
 "Market Cap to Revenue" - Market Cap / Total Revenue
-"Debt to Equity"       - just pass through from data
-"Trailing PE"          - just pass through from data
-"Return on Equity"     - just pass through from data
+"Debt to Equity"        - just pass through from data
+"Trailing PE"           - just pass through from data
+"Return on Equity"      - just pass through from data
 ```
 
 - Use `safe_value()` before doing math (it handles None/missing values)
 - If you can't calculate a ratio (missing data or divide by zero), set it to `None`
+- You also have access to Paul's extra fields (Total Assets, Operating Cash Flow, Free Cash Flow, etc.) if you want to add more ratios
 
 ### `categorize_company(data, ratios)`
 - Takes the data dictionary and the ratios dictionary you calculated
