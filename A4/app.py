@@ -1,7 +1,3 @@
-# Samantha Julius
-# May 3, 2026
-# Data retrieval and cleaning for A4
-
 import yfinance as yf
 import pandas as pd
 
@@ -31,24 +27,19 @@ def get_statement_data(ticker):
         return balance_sheet, income_statement, cash_flow
 
     except Exception as error:
-        print("Error getting financial data:", error)
+        print("Error getting financial data for", ticker, ":", error)
         return None, None, None
 
 
 def clean_statement(statement):
     """
     Cleans one financial statement.
-    - Replaces missing values with 0
-    - Converts values to numeric when possible
+    Replaces missing values with 0.
     """
-    if statement is None:
-        return pd.DataFrame()
-
-    if statement.empty:
+    if statement is None or statement.empty:
         return pd.DataFrame()
 
     statement = statement.fillna(0)
-
     return statement
 
 
@@ -66,13 +57,16 @@ def get_value(statement, row_name):
 
 
 def build_clean_financial_dict(ticker):
+    """
+    Builds a clean financial dictionary for one company.
+    This dictionary can be used for calculations, comparisons, and display.
+    """
     ticker = clean_ticker(ticker)
 
     balance_sheet, income_statement, cash_flow = get_statement_data(ticker)
 
-    # Check if data exists
     if balance_sheet is None or balance_sheet.empty:
-        print("Invalid ticker or no data found.")
+        print("Invalid ticker or no data found for:", ticker)
         return None
 
     balance_sheet = clean_statement(balance_sheet)
@@ -81,14 +75,48 @@ def build_clean_financial_dict(ticker):
 
     financial_data = {
         "ticker": ticker,
+
+        # Balance Sheet
         "total_assets": get_value(balance_sheet, "Total Assets"),
         "total_liabilities": get_value(balance_sheet, "Total Liabilities Net Minority Interest"),
         "stockholders_equity": get_value(balance_sheet, "Stockholders Equity"),
+
+        # Income Statement
         "total_revenue": get_value(income_statement, "Total Revenue"),
         "net_income": get_value(income_statement, "Net Income"),
+        "gross_profit": get_value(income_statement, "Gross Profit"),
+
+        # Cash Flow
+        "operating_cash_flow": get_value(cash_flow, "Operating Cash Flow"),
+        "free_cash_flow": get_value(cash_flow, "Free Cash Flow")
     }
 
     return financial_data
+
+
+def get_multiple_companies_data(ticker_list):
+    """
+    Gets cleaned financial data for multiple companies.
+    Used for company comparisons.
+    """
+    company_data_list = []
+
+    for ticker in ticker_list:
+        ticker = clean_ticker(ticker)
+
+        if ticker == "":
+            continue
+
+        print("Getting data for:", ticker)
+
+        financial_data = build_clean_financial_dict(ticker)
+
+        if financial_data is not None:
+            company_data_list.append(financial_data)
+        else:
+            print("Skipping invalid ticker:", ticker)
+
+    return company_data_list
 
 
 def print_financial_data(financial_data):
@@ -103,14 +131,24 @@ def print_financial_data(financial_data):
 
 
 def main():
-    ticker = input("Enter company ticker: ")
+    """
+    Test function for multiple companies.
+    Allows user to input several tickers separated by commas.
+    """
+    ticker_input = input("Enter company tickers separated by commas: ")
 
-    financial_data = build_clean_financial_dict(ticker)
+    ticker_list = ticker_input.split(",")
 
-    if financial_data is None:
-        print("No data available for this ticker.")
+    company_data_list = get_multiple_companies_data(ticker_list)
+
+    print("\nAll Company Data")
+    print("----------------")
+
+    if len(company_data_list) == 0:
+        print("No valid company data found.")
     else:
-        print_financial_data(financial_data)
+        for company_data in company_data_list:
+            print_financial_data(company_data)
 
 
 if __name__ == "__main__":
