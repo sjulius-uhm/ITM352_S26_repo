@@ -196,64 +196,182 @@ def format_percent(value):
         return "Not available"
 
 
-def clean_data(data):
+# ---- Paul's Data Retrieval Functions ----
+
+def clean_ticker(ticker):
     """
-    PAUL: Processes raw data by handling missing values and ensuring consistent formatting.
-
-    This function should take the raw dictionary from get_financial_data() and:
-    - Convert numeric fields to float (or None if invalid)
-    - Strip whitespace from string fields
-    - Return the cleaned dictionary
-
-    Numeric fields: "Current Price", "Market Cap", "Total Revenue", "Gross Profits",
-        "Net Income", "Total Cash", "Total Debt", "Book Value",
-        "Profit Margin", "Return on Equity", "Debt to Equity", "Trailing PE", "Forward PE"
-    String fields: "Ticker", "Company Name", "Sector", "Industry", "Recommendation"
+    Cleans the ticker input from the user.
+    Example: " aapl " becomes "AAPL"
     """
-    # TODO: Paul - fill in data cleaning logic
-    return data
+    ticker = ticker.strip()
+    ticker = ticker.upper()
+    return ticker
 
+
+def get_statement_data(ticker):
+    """
+    Gets financial statement data from Yahoo Finance using yfinance.
+    Returns balance sheet, income statement, and cash flow statement.
+    """
+    try:
+        company = yf.Ticker(ticker)
+
+        balance_sheet = company.balance_sheet
+        income_statement = company.financials
+        cash_flow = company.cashflow
+
+        return balance_sheet, income_statement, cash_flow
+
+    except Exception as error:
+        print("Error getting financial data for", ticker, ":", error)
+        return None, None, None
+
+
+def clean_statement(statement):
+    """
+    Cleans one financial statement.
+    Replaces missing values with 0.
+    """
+    if statement is None or statement.empty:
+        return pd.DataFrame()
+
+    statement = statement.fillna(0)
+    return statement
+
+
+def get_value(statement, row_name):
+    """
+    Gets one value from a financial statement by row name.
+    Uses the most recent column of data.
+    """
+    try:
+        value = statement.loc[row_name].iloc[0]
+        return value
+
+    except Exception:
+        return 0
+
+
+def build_clean_financial_dict(ticker):
+    """
+    Builds a clean financial dictionary for one company.
+    This dictionary can be used for calculations, comparisons, and display.
+    """
+    ticker = clean_ticker(ticker)
+
+    balance_sheet, income_statement, cash_flow = get_statement_data(ticker)
+
+    if balance_sheet is None or balance_sheet.empty:
+        print("Invalid ticker or no data found for:", ticker)
+        return None
+
+    balance_sheet = clean_statement(balance_sheet)
+    income_statement = clean_statement(income_statement)
+    cash_flow = clean_statement(cash_flow)
+
+    financial_data = {
+        "ticker": ticker,
+
+        # Balance Sheet
+        "total_assets": get_value(balance_sheet, "Total Assets"),
+        "total_liabilities": get_value(balance_sheet, "Total Liabilities Net Minority Interest"),
+        "stockholders_equity": get_value(balance_sheet, "Stockholders Equity"),
+        "current_assets": get_value(balance_sheet, "Current Assets"),
+        "current_liabilities": get_value(balance_sheet, "Current Liabilities"),
+
+        # Income Statement
+        "total_revenue": get_value(income_statement, "Total Revenue"),
+        "net_income": get_value(income_statement, "Net Income"),
+        "gross_profit": get_value(income_statement, "Gross Profit"),
+        "operating_income": get_value(income_statement, "Operating Income"),
+
+        # Cash Flow
+        "operating_cash_flow": get_value(cash_flow, "Operating Cash Flow"),
+        "free_cash_flow": get_value(cash_flow, "Free Cash Flow"),
+    }
+
+    return financial_data
+
+
+def get_multiple_companies_data(ticker_list):
+    """
+    Gets cleaned financial data for multiple companies.
+    Used for company comparisons.
+    """
+    company_data_list = []
+
+    for ticker in ticker_list:
+        ticker = clean_ticker(ticker)
+
+        if ticker == "":
+            continue
+
+        print("Getting data for:", ticker)
+
+        financial_data = build_clean_financial_dict(ticker)
+
+        if financial_data is not None:
+            company_data_list.append(financial_data)
+        else:
+            print("Skipping invalid ticker:", ticker)
+
+    return company_data_list
+
+
+# ---- Bridge: connects Paul's data to the web UI ----
 
 def get_financial_data(ticker_symbol):
     """
-    PAUL: Retrieves company financial data for a given ticker symbol (e.g. "AAPL", "MSFT").
+    Calls Paul's build_clean_financial_dict() and maps the result
+    to the key names that the web templates expect.
 
-    This function should:
-    1. Take a ticker symbol string as input
-    2. Use yfinance to pull company financial data
-    3. Return a dictionary with these keys:
-        - "Ticker" (str)
-        - "Company Name" (str)
-        - "Sector" (str)
-        - "Industry" (str)
-        - "Current Price" (float)
-        - "Market Cap" (float)
-        - "Total Revenue" (float)
-        - "Gross Profits" (float)
-        - "Net Income" (float)
-        - "Total Cash" (float)
-        - "Total Debt" (float)
-        - "Book Value" (float)
-        - "Profit Margin" (float, decimal like 0.25)
-        - "Return on Equity" (float, decimal like 0.15)
-        - "Debt to Equity" (float)
-        - "Trailing PE" (float)
-        - "Forward PE" (float)
-        - "Recommendation" (str)
-    4. Raise ValueError if the ticker symbol is not found
-    5. Call clean_data() on the result before returning
-
-    The rest of the app uses these exact key names, so keep them the same.
+    Also pulls some extra info from yfinance (company name, sector, etc.)
+    that Paul's functions don't grab but the UI needs.
     """
-    # TODO: Paul - fill in data retrieval logic using yfinance
-    # Example structure:
-    # ticker_symbol = ticker_symbol.upper().strip()
-    # company = yf.Ticker(ticker_symbol)
-    # info = company.info
-    # data = { "Ticker": ticker_symbol, "Company Name": info.get("longName"), ... }
-    # return clean_data(data)
-    raise NotImplementedError("Paul: implement get_financial_data()")
+    ticker_symbol = clean_ticker(ticker_symbol)
+    raw = build_clean_financial_dict(ticker_symbol)
 
+    if raw is None:
+        raise ValueError("No company data was found. Check the ticker symbol and try again.")
+
+    # Get extra info from yfinance that Paul's dict doesn't include
+    company = yf.Ticker(ticker_symbol)
+    info = company.info
+
+    data = {
+        "Ticker": ticker_symbol,
+        "Company Name": info.get("longName", ticker_symbol),
+        "Sector": info.get("sector", "N/A"),
+        "Industry": info.get("industry", "N/A"),
+        "Current Price": info.get("currentPrice") or info.get("regularMarketPrice"),
+        "Market Cap": info.get("marketCap"),
+        "Total Revenue": raw.get("total_revenue"),
+        "Gross Profits": raw.get("gross_profit"),
+        "Net Income": raw.get("net_income"),
+        "Total Cash": info.get("totalCash"),
+        "Total Debt": raw.get("total_liabilities"),
+        "Book Value": info.get("bookValue"),
+        "Profit Margin": info.get("profitMargins"),
+        "Return on Equity": info.get("returnOnEquity"),
+        "Debt to Equity": info.get("debtToEquity"),
+        "Trailing PE": info.get("trailingPE"),
+        "Forward PE": info.get("forwardPE"),
+        "Recommendation": info.get("recommendationKey"),
+        # Extra fields from Paul's data available for Samantha
+        "Total Assets": raw.get("total_assets"),
+        "Total Liabilities": raw.get("total_liabilities"),
+        "Stockholders Equity": raw.get("stockholders_equity"),
+        "Current Assets": raw.get("current_assets"),
+        "Current Liabilities": raw.get("current_liabilities"),
+        "Operating Income": raw.get("operating_income"),
+        "Operating Cash Flow": raw.get("operating_cash_flow"),
+        "Free Cash Flow": raw.get("free_cash_flow"),
+    }
+
+    return data
+
+
+# ---- Samantha's Analysis Functions ----
 
 def calculate_ratios(data):
     """
@@ -262,6 +380,9 @@ def calculate_ratios(data):
     Input: data dictionary from get_financial_data() with keys like
         "Total Revenue", "Net Income", "Total Cash", "Total Debt", "Market Cap",
         "Debt to Equity", "Trailing PE", "Return on Equity"
+        Plus Paul's extra fields: "Total Assets", "Total Liabilities",
+        "Stockholders Equity", "Current Assets", "Current Liabilities",
+        "Operating Income", "Operating Cash Flow", "Free Cash Flow"
 
     Must return a dictionary with these exact keys (use None if can't calculate):
         - "Net Profit Margin" (Net Income / Total Revenue)
