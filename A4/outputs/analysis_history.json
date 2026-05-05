@@ -1,0 +1,12 @@
+[
+  {
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260505_121612.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260505_121612.xlsx",
+    "timestamp": "20260505_121612"
+  }
+]
