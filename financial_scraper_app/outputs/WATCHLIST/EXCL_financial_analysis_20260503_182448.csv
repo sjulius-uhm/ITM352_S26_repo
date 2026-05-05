@@ -1,0 +1,27 @@
+Section,Metric,Value
+Company Data,Ticker,EXCL
+Company Data,Company Name,"Excellerant, Inc."
+Company Data,Sector,Financial Services
+Company Data,Industry,Shell Companies
+Company Data,Current Price,0.0002
+Company Data,Market Cap,1129.0
+Company Data,Total Revenue,
+Company Data,Gross Profits,
+Company Data,Net Income,-13800.0
+Company Data,Total Cash,
+Company Data,Total Debt,13935.0
+Company Data,Book Value,-0.004
+Company Data,Profit Margin,0.0
+Company Data,Return on Equity,
+Company Data,Debt to Equity,
+Company Data,Trailing PE,
+Company Data,Forward PE,
+Company Data,Recommendation,none
+Calculated Ratios,Net Profit Margin,
+Calculated Ratios,Cash to Debt Ratio,
+Calculated Ratios,Market Cap to Revenue,
+Calculated Ratios,Debt to Equity,
+Calculated Ratios,Trailing PE,
+Calculated Ratios,Return on Equity,
+Category,Company Category,Losing Company
+Score,Financial Health Score,30

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Results for {{ ticker }} - FIN-ANALYTIX{% endblock %}
+{% block container_class %}wide{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{{ url_for('analyze') }}">← Analyze another company</a>
+
+<div class="card">
+    <h1>Financial Analysis for {{ ticker }}</h1>
+    <div class="result-meta">
+        <div class="category-box category-{{ category|lower|replace(' ', '-')|replace('/', '-') }}">
+            Category: <strong>{{ category }}</strong>
+        </div>
+        <div class="score-box">
+            Score: <span class="score-badge {% if score >= 80 %}score-high{% elif score >= 50 %}score-stable{% else %}score-watch{% endif %}">{{ score }}/100</span>
+            <span class="rank-label">{{ rank_folder }}</span>
+        </div>
+    </div>
+
+    <div class="download-buttons">
+        <a href="{{ url_for('download_file', filename=csv_file) }}">Download CSV</a>
+        <a href="{{ url_for('download_file', filename=excel_file) }}">Download Excel</a>
+    </div>
+</div>
+
+{% if chart_file %}
+<div class="card">
+    <h2>Financial Chart</h2>
+    <img class="chart" src="{{ url_for('static', filename=chart_file) }}" alt="Financial chart for {{ ticker }}">
+</div>
+{% endif %}
+
+<div class="grid">
+    <div class="card">
+        <h2>Company Data</h2>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+            {% for key, info in data.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td class="{{ info.class }}">{{ info.value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Calculated Ratios</h2>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+            {% for key, info in ratios.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td class="{{ info.class }}">{{ info.value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Quiz!</h1>
+        <p>Choose which version of the quiz you want to take.</p>
+
+        <!-- Display error message if questions cannot be loaded -->
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <!-- Start the quiz in either regular mode or timed mode -->
+        <form method="POST" action="{{ url_for('start_quiz') }}">
+            <div class="button-group">
+                <button type="submit" name="mode" value="regular">Start Regular Quiz</button>
+                <button type="submit" name="mode" value="timed">Start Timed Quiz</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

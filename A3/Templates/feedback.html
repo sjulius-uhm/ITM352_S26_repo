@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Feedback</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Answer Feedback</h1>
+
+        <!-- Display feedback based on the result of the previous question -->
+        {% if result == "correct" %}
+            <div class="success"><strong>Correct!</strong></div>
+        {% elif result == "incorrect" %}
+            <div class="error"><strong>Incorrect.</strong></div>
+        {% elif result == "timeout" %}
+            <div class="warning"><strong>Time is up.</strong></div>
+        {% endif %}
+
+        <p><strong>Question:</strong> {{ question }}</p>
+        <p><strong>Your answer:</strong> {{ user_answer }}</p>
+        <p><strong>Correct answer:</strong> {{ correct_answer }}</p>
+        <p><strong>Current score:</strong> {{ score }}</p>
+
+        <!-- Continue to next question or go to result page if timed quiz ended -->
+        <form method="POST">
+            <div class="button-group">
+                {% if quiz_timed_out %}
+                    <button type="submit">See Result</button>
+                {% else %}
+                    <button type="submit">Next Question</button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</body>
+</html>

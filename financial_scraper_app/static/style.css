@@ -1,0 +1,438 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: white;
+    color: #333;
+}
+
+/* nav bar */
+.navbar {
+    background: #333;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-brand {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.nav-links a {
+    color: #ccc;
+    text-decoration: none;
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: white;
+}
+
+.nav-user {
+    margin-left: auto;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.nav-user a {
+    color: #ff6666;
+    text-decoration: none;
+    margin-left: 8px;
+    font-size: 12px;
+}
+
+/* main content */
+.container {
+    max-width: 800px;
+    margin: 15px auto;
+    padding: 0 15px;
+}
+
+.container.wide {
+    max-width: 1000px;
+}
+
+/* basic card - just a border */
+.card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #fafafa;
+}
+
+h1 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 14px;
+}
+
+/* forms */
+form {
+    margin-top: 10px;
+}
+
+.inline-form {
+    display: flex;
+    gap: 8px;
+}
+
+.inline-form input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 3px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #999;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+button,
+.download-buttons a,
+.download-btn {
+    display: inline-block;
+    background: #555;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover,
+.download-buttons a:hover,
+.download-btn:hover {
+    background: #333;
+}
+
+/* error */
+.error {
+    background: #ffcccc;
+    color: #990000;
+    padding: 8px;
+    border: 1px solid #cc0000;
+    margin: 10px 0;
+}
+
+.tips {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+/* results */
+.result-meta {
+    margin: 10px 0;
+}
+
+.category-box {
+    display: inline-block;
+    background: #e0f0ff;
+    padding: 6px 12px;
+    border: 1px solid #99ccff;
+    margin-right: 10px;
+}
+
+.score-box {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+.rank-label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #666;
+    margin-left: 6px;
+}
+
+/* score badges */
+.score-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.score-high {
+    background: #ccffcc;
+    color: #006600;
+}
+
+.score-stable {
+    background: #ffffcc;
+    color: #666600;
+}
+
+.score-watch {
+    background: #ffcccc;
+    color: #660000;
+}
+
+/* table color highlighting */
+td.positive {
+    color: green;
+}
+
+td.negative {
+    color: red;
+}
+
+td.neutral {
+    color: #333;
+}
+
+.average-col {
+    background: #f0f0f0;
+    font-weight: bold;
+}
+
+/* downloads */
+.download-buttons {
+    margin-top: 10px;
+}
+
+.download-buttons a {
+    margin-right: 8px;
+}
+
+.download-links a {
+    color: #336;
+    margin-right: 8px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #336;
+}
+
+/* grid - simple two column */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.stat-card {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+    background: #fafafa;
+}
+
+.stat-card.stat-high {
+    border-top: 3px solid green;
+}
+
+.stat-card.stat-stable {
+    border-top: 3px solid orange;
+}
+
+.stat-card.stat-watch {
+    border-top: 3px solid red;
+}
+
+.stat-number {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/* tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    text-align: left;
+    font-size: 13px;
+}
+
+th {
+    background: #e8e8e8;
+}
+
+.table-scroll {
+    overflow-x: auto;
+}
+
+/* chart */
+.chart {
+    width: 100%;
+    max-width: 650px;
+    display: block;
+    margin: 10px auto;
+}
+
+/* compare */
+.compare-summary {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.compare-badge {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: center;
+    background: #fafafa;
+}
+
+.category-tag {
+    font-size: 11px;
+    color: #666;
+}
+
+/* downloads center */
+.folder-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 4px 0;
+}
+
+.folder-icon {
+    font-size: 12px;
+    color: #666;
+}
+
+.folder-label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.rank-high_rank { color: green; }
+.rank-stable { color: #996600; }
+.rank-watchlist { color: red; }
+
+.file-count {
+    color: #888;
+    font-size: 11px;
+    margin-left: auto;
+}
+
+.folder-contents {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+}
+
+.file-type {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.file-type.csv { background: #d0e8ff; color: #003366; }
+.file-type.excel { background: #d0ffd0; color: #003300; }
+.file-type.other { background: #eee; color: #666; }
+
+.empty-folder {
+    color: #888;
+    font-style: italic;
+}
+
+.empty-state {
+    color: #888;
+    text-align: center;
+    padding: 10px;
+}
+
+.empty-state a { color: #336; }
+
+/* login page */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-box {
+    border: 1px solid #ccc;
+    padding: 25px;
+    background: #fafafa;
+    width: 350px;
+    text-align: center;
+}
+
+.login-box h1 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.login-box p {
+    color: #666;
+    font-size: 13px;
+}
+
+.login-box form {
+    text-align: left;
+}
+
+.login-box button {
+    width: 100%;
+}
+
+.login-link {
+    margin-top: 12px;
+    font-size: 12px;
+}
+
+.login-link a {
+    color: #336;
+}
+
+/* responsive */
+@media (max-width: 700px) {
+    .grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .navbar { flex-direction: column; }
+    .nav-brand { margin-right: 0; margin-bottom: 5px; }
+    .nav-user { margin-left: 0; margin-top: 5px; }
+}

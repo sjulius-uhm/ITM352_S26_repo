@@ -1,0 +1,43 @@
+import json
+
+QUESTIONS = {
+     "What is the capital of Hawaii?": [
+          "Honolulu",
+          "Hilo",
+          "Kailua",
+          "Waimea"
+     ],
+     "Which programming language is commonly used in ITM 352?": [
+          "Python",
+          "Java",
+          "C++",
+          "JavaScript",
+          "HTML"
+     ],
+     "Which ocean surrounds Hawaii?": [
+          "Pacific Ocean",
+          "Atlantic Ocean",
+          "Indian Ocean",
+          "Arctic Ocean"
+     ],
+     "What assignment is this?": [
+          "assignment 1",
+          "assignment 2",
+          "assignment 3",
+          "assignment 4",
+          "assignment 5"
+     ],
+     "Which symbol starts a comment in Python?": [
+        "#",
+        "//", 
+        "/*",
+        "--"
+    ]
+}
+
+filename = "quiz_data.json"
+
+with open(filename, "w") as jsonfile:
+    json.dump(QUESTIONS, jsonfile, indent=4)
+
+print(f"Quiz data has been written to {filename}.")
