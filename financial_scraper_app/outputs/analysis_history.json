@@ -38,5 +38,35 @@
     "csv_file": "STABLE/SPY_financial_analysis_20260503_182511.csv",
     "excel_file": "STABLE/SPY_financial_analysis_20260503_182511.xlsx",
     "timestamp": "20260503_182511"
+  },
+  {
+    "ticker": "IONQ",
+    "company_name": "IonQ, Inc.",
+    "category": "Losing Company",
+    "score": 25,
+    "rank_folder": "WATCHLIST",
+    "csv_file": "WATCHLIST/IONQ_financial_analysis_20260503_230223.csv",
+    "excel_file": "WATCHLIST/IONQ_financial_analysis_20260503_230223.xlsx",
+    "timestamp": "20260503_230223"
+  },
+  {
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 90,
+    "rank_folder": "HIGH_RANK",
+    "csv_file": "HIGH_RANK/AAPL_financial_analysis_20260504_232725.csv",
+    "excel_file": "HIGH_RANK/AAPL_financial_analysis_20260504_232725.xlsx",
+    "timestamp": "20260504_232725"
+  },
+  {
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 90,
+    "rank_folder": "HIGH_RANK",
+    "csv_file": "HIGH_RANK/AAPL_financial_analysis_20260504_233022.csv",
+    "excel_file": "HIGH_RANK/AAPL_financial_analysis_20260504_233022.xlsx",
+    "timestamp": "20260504_233022"
   }
 ]
