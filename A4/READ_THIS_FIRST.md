@@ -2,9 +2,9 @@
 
 This is the web app for our financial scraper project. The Flask routes, templates, login system, charts, and file exports are all done.
 
-**Paul's data retrieval code is already integrated.** His functions (`get_statement_data`, `build_clean_financial_dict`, etc.) are in `app.py` and working. There's a bridge function called `get_financial_data()` that takes Paul's output and maps it to the keys the web UI expects.
+**Samantha's data retrieval code is already integrated.** His functions (`get_statement_data`, `build_clean_financial_dict`, etc.) are in `app.py` and working. There's a bridge function called `get_financial_data()` that takes Paul's output and maps it to the keys the web UI expects.
 
-What's still missing is **Samantha's three analysis functions** inside `app.py`. Right now they are placeholder stubs that raise `NotImplementedError`. Once you fill them in, everything will work.
+What's still missing is **Paul's three analysis functions** inside `app.py`. Right now they are placeholder stubs that raise `NotImplementedError`. Once you fill them in, everything will work.
 
 ---
 
@@ -24,7 +24,7 @@ The bridge function `get_financial_data()` calls your `build_clean_financial_dic
 
 ---
 
-## Samantha - Analysis
+## Paul - Analysis
 
 You need to fill in **three functions** in `app.py`. They all receive the dictionary that `get_financial_data()` returns. Search for `NotImplementedError` in the file to find them.
 

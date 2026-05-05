@@ -196,7 +196,7 @@ def format_percent(value):
         return "Not available"
 
 
-# ---- Paul's Data Retrieval Functions ----
+# ---- Samantha's Data Retrieval Functions ----
 
 def clean_ticker(ticker):
     """
@@ -357,7 +357,7 @@ def get_financial_data(ticker_symbol):
         "Trailing PE": info.get("trailingPE"),
         "Forward PE": info.get("forwardPE"),
         "Recommendation": info.get("recommendationKey"),
-        # Extra fields from Paul's data available for Samantha
+        # Extra fields from Samantha's data available for Paul
         "Total Assets": raw.get("total_assets"),
         "Total Liabilities": raw.get("total_liabilities"),
         "Stockholders Equity": raw.get("stockholders_equity"),
@@ -371,12 +371,11 @@ def get_financial_data(ticker_symbol):
     return data
 
 
-# ---- Samantha's Analysis Functions ----
+# ---- Paul's Analysis Functions ----
 
 def calculate_ratios(data):
     """
-    SAMANTHA: Calculate financial ratios from the company data dictionary.
-
+    PAUL: Calculate financial ratios from the company data dictionary.
     Input: data dictionary from get_financial_data() with keys like
         "Total Revenue", "Net Income", "Total Cash", "Total Debt", "Market Cap",
         "Debt to Equity", "Trailing PE", "Return on Equity"
@@ -394,13 +393,13 @@ def calculate_ratios(data):
 
     Use safe_value() to handle missing/None values before doing math.
     """
-    # TODO: Samantha - fill in ratio calculations
-    raise NotImplementedError("Samantha: implement calculate_ratios()")
+    # TODO: Paul - fill in ratio calculations
+    raise NotImplementedError("Paul: implement calculate_ratios()")
 
 
 def categorize_company(data, ratios):
     """
-    SAMANTHA: Categorize a company based on its data and ratios.
+    PAUL: Categorize a company based on its data and ratios.
 
     Input: data dictionary and ratios dictionary (from calculate_ratios)
 
@@ -412,13 +411,13 @@ def categorize_company(data, ratios):
 
     Use safe_value() to handle missing/None values.
     """
-    # TODO: Samantha - fill in categorization logic
-    raise NotImplementedError("Samantha: implement categorize_company()")
+    # TODO: Paul - fill in categorization logic
+    raise NotImplementedError("Paul: implement categorize_company()")
 
 
 def calculate_score(data, ratios):
     """
-    SAMANTHA: Calculate a financial health score from 0-100.
+    PAUL: Calculate a financial health score from 0-100.
 
     Input: data dictionary and ratios dictionary (from calculate_ratios)
 
@@ -437,8 +436,8 @@ def calculate_score(data, ratios):
     Clamp final score to 0-100 range.
     Use safe_value() to handle missing/None values.
     """
-    # TODO: Samantha - fill in scoring logic
-    raise NotImplementedError("Samantha: implement calculate_score()")
+    # TODO: Paul - fill in scoring logic
+    raise NotImplementedError("Paul: implement calculate_score()")
 
 
 def get_rank_folder(score):

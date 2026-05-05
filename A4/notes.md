@@ -1,8 +1,8 @@
 # Project Notes - Company Financial Data Web Scraper and Analysis Tool
 
 ## Team Members
-- **Paul** - Data retrieval
-- **Samantha** - Data analysis
+- **Samantha** - Data retrieval
+- **Paul** - Data analysis
 - **Justin** - Web interface and integration
 
 ---
@@ -12,9 +12,9 @@
 ### app.py
 This is the main application file that runs everything. We built it using Flask as the web framework. It handles all the routes (pages) for the app and contains the functions for pulling financial data, doing calculations, making charts, and saving files.
 
-- **Data retrieval (Paul):** We wrote functions to pull company financial data using the yfinance library. The `get_financial_data()` function takes a ticker symbol, connects to Yahoo Finance, and returns a dictionary of financial values like revenue, net income, market cap, etc. We also wrote a `clean_data()` function to handle missing or bad values so the app doesn't crash.
+- **Data retrieval (Samantha):** We wrote functions to pull company financial data using the yfinance library. The `get_financial_data()` function takes a ticker symbol, connects to Yahoo Finance, and returns a dictionary of financial values like revenue, net income, market cap, etc. We also wrote a `clean_data()` function to handle missing or bad values so the app doesn't crash.
 
-- **Analysis (Samantha):** We created functions to calculate financial ratios like net profit margin, cash to debt ratio, and market cap to revenue. The `categorize_company()` function sorts companies into categories (Growth, Value, Losing, Neutral) based on their numbers. We also built a scoring system from 0-100 that rates financial health, which determines if a company goes into HIGH_RANK, STABLE, or WATCHLIST folders.
+- **Analysis (Paul):** We created functions to calculate financial ratios like net profit margin, cash to debt ratio, and market cap to revenue. The `categorize_company()` function sorts companies into categories (Growth, Value, Losing, Neutral) based on their numbers. We also built a scoring system from 0-100 that rates financial health, which determines if a company goes into HIGH_RANK, STABLE, or WATCHLIST folders.
 
 - **Web interface and integration (Justin):** We set up all the Flask routes to connect the backend logic to the frontend pages. This includes the dashboard, analyze page, compare page, downloads page, and the login/register system. We also added file export functionality that saves results to CSV and Excel with color formatting, and organized saved files into rank-based folders.
 
