@@ -2,9 +2,6 @@
 Company Financial Data Web Scraper and Analysis Tool
 
 AI use note:
-This starter application was generated with AI support based on the project proposal.
-The code was written to stay readable and class-friendly. Each major function has comments
-explaining what the section does for the overall application.
 
 Before submitting, review the code, test it, and make edits so you understand it fully.
 """
@@ -318,7 +315,7 @@ def get_multiple_companies_data(ticker_list):
     return company_data_list
 
 
-# ---- Bridge: connects Paul's data to the web UI ----
+# ---- Bridge: connects Samantha's data to the web UI ----
 
 def get_financial_data(ticker_symbol):
     """
@@ -371,73 +368,106 @@ def get_financial_data(ticker_symbol):
     return data
 
 
-# ---- Paul's Analysis Functions ----
+# ---- Samantha's Analysis Functions ----
 
 def calculate_ratios(data):
     """
-    PAUL: Calculate financial ratios from the company data dictionary.
-    Input: data dictionary from get_financial_data() with keys like
-        "Total Revenue", "Net Income", "Total Cash", "Total Debt", "Market Cap",
-        "Debt to Equity", "Trailing PE", "Return on Equity"
-        Plus Paul's extra fields: "Total Assets", "Total Liabilities",
-        "Stockholders Equity", "Current Assets", "Current Liabilities",
-        "Operating Income", "Operating Cash Flow", "Free Cash Flow"
-
-    Must return a dictionary with these exact keys (use None if can't calculate):
-        - "Net Profit Margin" (Net Income / Total Revenue)
-        - "Cash to Debt Ratio" (Total Cash / Total Debt)
-        - "Market Cap to Revenue" (Market Cap / Total Revenue)
-        - "Debt to Equity" (from data)
-        - "Trailing PE" (from data)
-        - "Return on Equity" (from data)
-
-    Use safe_value() to handle missing/None values before doing math.
+    SAMANTHA: Calculate financial ratios from the company data dictionary.
     """
-    # TODO: Paul - fill in ratio calculations
-    raise NotImplementedError("Paul: implement calculate_ratios()")
+    # Extract values safely
+    net_income = safe_value(data.get("Net Income"))
+    revenue = safe_value(data.get("Total Revenue"))
+    total_cash = safe_value(data.get("Total Cash"))
+    total_debt = safe_value(data.get("Total Debt"))
+    market_cap = safe_value(data.get("Market Cap"))
+
+    ratios = {}
+
+    # Net Profit Margin: (Net Income / Total Revenue)
+    if net_income is not None and revenue and revenue != 0:
+        ratios["Net Profit Margin"] = net_income / revenue
+    else:
+        ratios["Net Profit Margin"] = None
+
+    # Cash to Debt Ratio: (Total Cash / Total Debt)
+    if total_cash is not None and total_debt and total_debt != 0:
+        ratios["Cash to Debt Ratio"] = total_cash / total_debt
+    else:
+        ratios["Cash to Debt Ratio"] = None
+
+    # Market Cap to Revenue: (Market Cap / Total Revenue)
+    if market_cap is not None and revenue and revenue != 0:
+        ratios["Market Cap to Revenue"] = market_cap / revenue
+    else:
+        ratios["Market Cap to Revenue"] = None
+
+    # Directly map existing ratios from data
+    ratios["Debt to Equity"] = safe_value(data.get("Debt to Equity"))
+    ratios["Trailing PE"] = safe_value(data.get("Trailing PE"))
+    ratios["Return on Equity"] = safe_value(data.get("Return on Equity"))
+
+    return ratios
 
 
 def categorize_company(data, ratios):
     """
-    PAUL: Categorize a company based on its data and ratios.
-
-    Input: data dictionary and ratios dictionary (from calculate_ratios)
-
-    Must return one of these strings:
-        - "Losing Company" (negative net income)
-        - "Growth / Strong Profit Company" (profit margin > 15%)
-        - "Possible Value Company" (PE ratio between 0-20)
-        - "Neutral / Needs More Review" (default)
-
-    Use safe_value() to handle missing/None values.
+    SAMANTHA: Categorize a company based on its data and ratios.
     """
-    # TODO: Paul - fill in categorization logic
-    raise NotImplementedError("Paul: implement categorize_company()")
+    net_income = safe_value(data.get("Net Income"))
+    profit_margin = safe_value(ratios.get("Net Profit Margin"))
+    pe_ratio = safe_value(ratios.get("Trailing PE"))
+
+    if net_income is not None and net_income < 0:
+        return "Losing Company"
+    
+    if profit_margin is not None and profit_margin > 0.15:
+        return "Growth / Strong Profit Company"
+    
+    if pe_ratio is not None and 0 < pe_ratio <= 20:
+        return "Possible Value Company"
+
+    return "Neutral / Needs More Review"
+    # TODO: Samantha - fill in categorization logic
 
 
 def calculate_score(data, ratios):
     """
-    PAUL: Calculate a financial health score from 0-100.
-
-    Input: data dictionary and ratios dictionary (from calculate_ratios)
-
-    The score determines which folder the analysis goes into:
-        - HIGH_RANK: 80-100
-        - STABLE: 50-79
-        - WATCHLIST: 0-49
-
-    Start at 50 (neutral) and add/subtract points based on:
-        - Profitability (net income, profit margin)
-        - Return on equity
-        - Debt management (debt to equity ratio)
-        - Cash position (cash to debt ratio)
-        - Valuation (PE ratio)
-
-    Clamp final score to 0-100 range.
-    Use safe_value() to handle missing/None values.
+    SAMANTHA: Calculate a financial health score from 0-100.
     """
-    # TODO: Paul - fill in scoring logic
-    raise NotImplementedError("Paul: implement calculate_score()")
+    score = 50  # Start at Neutral
+    
+    # 1. Profitability (Up to +15 or -15)
+    margin = safe_value(ratios.get("Net Profit Margin"))
+    if margin is not None:
+        if margin > 0.20: score += 15
+        elif margin > 0.10: score += 5
+        elif margin < 0: score -= 15
+
+    # 2. Return on Equity (Up to +15)
+    roe = safe_value(ratios.get("Return on Equity"))
+    if roe is not None:
+        if roe > 0.15: score += 15
+        elif roe > 0.08: score += 5
+
+    # 3. Debt Management (Up to +10 or -20)
+    d_e = safe_value(ratios.get("Debt to Equity"))
+    if d_e is not None:
+        if d_e < 50: score += 10    # Low debt
+        elif d_e > 150: score -= 20  # High debt
+
+    # 4. Cash Position (Up to +10)
+    cash_debt = safe_value(ratios.get("Cash to Debt Ratio"))
+    if cash_debt is not None and cash_debt > 1.0:
+        score += 10 # Can pay off all debt with cash
+
+    # 5. Valuation (Up to +10 or -10)
+    pe = safe_value(ratios.get("Trailing PE"))
+    if pe is not None:
+        if 0 < pe < 15: score += 10
+        elif pe > 50: score -= 10
+
+    # Clamp final score to 0-100 range
+    return max(0, min(100, score))
 
 
 def get_rank_folder(score):
@@ -906,17 +936,22 @@ def downloads():
 @app.route("/download/<path:filename>")
 @login_required
 def download_file(filename):
-    """Lets users download the CSV or Excel file created by the app."""
-    file_path = os.path.join(OUTPUT_FOLDER, filename)
-    # Prevent path traversal attacks
-    real_output = os.path.realpath(OUTPUT_FOLDER)
-    real_file = os.path.realpath(file_path)
-    if not real_file.startswith(real_output):
-        return "Access denied", 403
+    # Build full absolute path
+    file_path = os.path.join(os.getcwd(), OUTPUT_FOLDER, filename)
+
+    # Check if file exists
     if not os.path.exists(file_path):
-        return "File not found", 404
-    return send_file(file_path, as_attachment=True)
+        return f"Error: File not found on server: {file_path}", 404
+
+    # Force browser download
+    return send_file(
+        file_path,
+        as_attachment=True,
+        download_name=os.path.basename(file_path)
+    )
+
+
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)
