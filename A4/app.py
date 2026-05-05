@@ -35,9 +35,9 @@ os.makedirs(CHART_FOLDER, exist_ok=True)
 
 # Rank folders for organizing saved analyses
 RANK_FOLDERS = {
-    "HIGH_RANK": {"label": "HIGH_RANK (Score 80-100)", "min": 80, "max": 100},
-    "STABLE": {"label": "STABLE (Score 50-79)", "min": 50, "max": 79},
-    "WATCHLIST": {"label": "WATCHLIST (Score 0-49)", "min": 0, "max": 49},
+    "High Rank": {"label": "High Rank (Score 80-100)", "min": 80, "max": 100},
+    "Stable": {"label": "Stabe (Score 50-79)", "min": 50, "max": 79},
+    "Risky": {"label": "Risky (Score 0-49)", "min": 0, "max": 49},
 }
 
 # Create rank subfolders inside outputs
@@ -475,7 +475,7 @@ def get_rank_folder(score):
     for folder_name, info in RANK_FOLDERS.items():
         if info["min"] <= score <= info["max"]:
             return folder_name
-    return "WATCHLIST"
+    return "Risky"
 
 
 def compare_companies(data_list):
@@ -764,9 +764,9 @@ def home():
     recent = history[-5:][::-1] if history else []
 
     # Count by rank
-    rank_counts = {"HIGH_RANK": 0, "STABLE": 0, "WATCHLIST": 0}
+    rank_counts = {"High_Value": 0, "Neutral": 0, "Risky": 0}
     for entry in history:
-        folder = entry.get("rank_folder", "WATCHLIST")
+        folder = entry.get("rank_folder", "Risky")
         if folder in rank_counts:
             rank_counts[folder] += 1
 
