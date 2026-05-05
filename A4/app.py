@@ -764,7 +764,7 @@ def home():
     recent = history[-5:][::-1] if history else []
 
     # Count by rank
-    rank_counts = {"High_Value": 0, "Neutral": 0, "Risky": 0}
+    rank_counts = {"High_Value": 0, "Stable": 0, "Risky": 0}
     for entry in history:
         folder = entry.get("rank_folder", "Risky")
         if folder in rank_counts:
