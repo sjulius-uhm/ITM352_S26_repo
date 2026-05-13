@@ -17,7 +17,8 @@ The application supports:
 * user authentication
 * saved analysis history and downloads
 
-The goal of the project is to provide a structured and user-friendly tool for exploring company financial performance and comparing businesses using real financial statement data.
+
+The project emphasizes practical MIS concepts by combining financial data retrieval, business analysis workflows, user account systems, data exports, and dashboard-style reporting into one integrated web application. The goal of the project is to provide a structured and user-friendly tool for exploring company financial performance and comparing businesses using real financial statement data.
 
 ---
 
@@ -138,6 +139,7 @@ The app will:
 * generate a score
 * categorize the company
 * generate charts
+* display market sentiment from recent company news
 * allow CSV/Excel downloads
 
 ### 4. Compare Companies
@@ -162,6 +164,7 @@ Saved CSV and Excel files can be downloaded from the Downloads Center.
 ### 6. Watchlist
 
 When a user analyzes a company, the ticker is added to their personal watchlist. The Watchlist page allows users to view saved companies, health scores, profit margin, and P/E ratio. The dashboard also shows a smaller watchlist widget for quick review.
+
 ---
 
 ## Software Architecture Overview
@@ -211,6 +214,9 @@ The application was tested using:
 * login/register functionality
 * downloads and exports
 * mixed valid/invalid comparisons
+* watchlist functionality
+* user-specific watchlists
+* sentiment analysis display
 
 Financial values were cross-checked with Yahoo Finance and SEC EDGAR.
 
