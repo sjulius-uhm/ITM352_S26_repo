@@ -1,0 +1,35 @@
+Section,Metric,Value
+Company Data,Ticker,T
+Company Data,Company Name,AT&T Inc.
+Company Data,Sector,Communication Services
+Company Data,Industry,Telecom Services
+Company Data,Current Price,25.23
+Company Data,Market Cap,175306588160
+Company Data,Total Revenue,125648000000.0
+Company Data,Gross Profits,74828000000.0
+Company Data,Net Income,21953000000.0
+Company Data,Total Cash,11964000256
+Company Data,Total Debt,291706000000.0
+Company Data,Book Value,15.706
+Company Data,Profit Margin,0.16938
+Company Data,Return on Equity,0.18370001
+Company Data,Debt to Equity,125.175
+Company Data,Trailing PE,8.299342
+Company Data,Forward PE,9.865373
+Company Data,Recommendation,buy
+Company Data,Total Assets,420198000000.0
+Company Data,Total Liabilities,291706000000.0
+Company Data,Stockholders Equity,110533000000.0
+Company Data,Current Assets,48732000000.0
+Company Data,Current Liabilities,53780000000.0
+Company Data,Operating Income,25000000000.0
+Company Data,Operating Cash Flow,40284000000.0
+Company Data,Free Cash Flow,19442000000.0
+Calculated Ratios,Net Profit Margin,0.17471826053737424
+Calculated Ratios,Cash to Debt Ratio,0.04101389843198289
+Calculated Ratios,Market Cap to Revenue,1.395219885394117
+Calculated Ratios,Debt to Equity,125.175
+Calculated Ratios,Trailing PE,8.299342
+Calculated Ratios,Return on Equity,0.18370001
+Category,Company Category,Growth / Strong Profit Company
+Score,Financial Health Score,80

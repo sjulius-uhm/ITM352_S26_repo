@@ -204,5 +204,148 @@
     "csv_file": "High Rank/AAPL_financial_analysis_20260512_234031.csv",
     "excel_file": "High Rank/AAPL_financial_analysis_20260512_234031.xlsx",
     "timestamp": "20260512_234031"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "MSFT",
+    "company_name": "Microsoft Corporation",
+    "category": "Growth / Strong Profit Company",
+    "score": 90,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/MSFT_financial_analysis_20260512_234130.csv",
+    "excel_file": "High Rank/MSFT_financial_analysis_20260512_234130.xlsx",
+    "timestamp": "20260512_234130"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260512_234141.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260512_234141.xlsx",
+    "timestamp": "20260512_234141"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260512_234258.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260512_234258.xlsx",
+    "timestamp": "20260512_234258"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260512_234302.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260512_234302.xlsx",
+    "timestamp": "20260512_234302"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260512_234334.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260512_234334.xlsx",
+    "timestamp": "20260512_234334"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260512_234658.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260512_234658.xlsx",
+    "timestamp": "20260512_234658"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260512_234752.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260512_234752.xlsx",
+    "timestamp": "20260512_234752"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260512_235016.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260512_235016.xlsx",
+    "timestamp": "20260512_235016"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260512_235021.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260512_235021.xlsx",
+    "timestamp": "20260512_235021"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260512_235240.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260512_235240.xlsx",
+    "timestamp": "20260512_235240"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_235450.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_235450.xlsx",
+    "timestamp": "20260512_235450"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_235523.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_235523.xlsx",
+    "timestamp": "20260512_235523"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_235534.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_235534.xlsx",
+    "timestamp": "20260512_235534"
   }
 ]
