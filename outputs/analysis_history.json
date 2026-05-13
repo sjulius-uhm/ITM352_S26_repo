@@ -105,5 +105,27 @@
     "csv_file": "High Rank/AAPL_financial_analysis_20260512_223010.csv",
     "excel_file": "High Rank/AAPL_financial_analysis_20260512_223010.xlsx",
     "timestamp": "20260512_223010"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_225626.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_225626.xlsx",
+    "timestamp": "20260512_225626"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_225723.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_225723.xlsx",
+    "timestamp": "20260512_225723"
   }
 ]

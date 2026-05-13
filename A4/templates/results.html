@@ -55,6 +55,30 @@
         </table>
     </div>
 
+
+<div class="card">
+    <h1>Analysis for {{ ticker }}</h1>
+    <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
+        <span class="score-badge {% if score >= 80 %}score-high{% elif score >= 50 %}score-stable{% else %}score-watch{% endif %}">
+            Score: {{ score }}
+        </span>
+        
+        <div style="padding: 8px 15px; border-radius: 8px; background: #f0f2f5; border: 1px solid #ddd;">
+            <small style="display: block; color: #666; text-transform: uppercase;">Sentiment</small>
+            <strong style="color: {{ 'green' if sentiment_score > 0.1 else 'red' if sentiment_score < -0.1 else '#444' }};">
+                {{ sentiment_label }} ({{ sentiment_score }})
+            </strong>
+        </div>
+    </div>
+
+    <div class="download-buttons">
+        <a class="download-btn" href="{{ url_for('add_to_watchlist_route', ticker=ticker) }}" style="background-color: #28a745;">+ Add to Watchlist</a>
+        <a href="{{ url_for('get_file', filepath=csv_file) }}">Download CSV</a>
+        <a href="{{ url_for('get_file', filepath=excel_file) }}">Download Excel</a>
+    </div>
+</div>
+{% endblock %}
+
     <div class="card">
         <h2>Calculated Ratios</h2>
         <table>

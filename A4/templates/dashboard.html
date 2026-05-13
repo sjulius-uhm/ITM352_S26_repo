@@ -72,25 +72,21 @@
     </table>
 </div>
 
-<!-- Top Movers Widget -->
+
+<!--Dashboards for big movers-->
 <div class="card">
-    <h2>Top Movers</h2>
-    <table>
-        <tr>
-            <th>Ticker</th>
-            <th>Price</th>
-            <th>Change</th>
-        </tr>
+    <h2>Top 5 Biggest Movers Today</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
         {% for mover in movers %}
-        <tr>
-            <td><strong>{{ mover.ticker }}</strong></td>
-            <td>${{ mover.price }}</td>
-            <td class="{% if mover.change >= 0 %}change-positive{% else %}change-negative{% endif %}">
-                {{ mover.change }}%
-            </td>
-        </tr>
+        <div style="padding: 15px; border: 1px solid #eee; border-radius: 8px; text-align: center; background: #fafafa;">
+            <div style="font-weight: bold; font-size: 1.1em;">{{ mover.ticker }}</div>
+            <div style="color: #666; margin: 5px 0;">${{ mover.price }}</div>
+            <div style="font-weight: bold; color: {{ 'green' if mover.change > 0 else 'red' }};">
+                {{ '+' if mover.change > 0 }}{{ mover.change }}%
+            </div>
+        </div>
         {% endfor %}
-    </table>
+    </div>
 </div>
 
 
