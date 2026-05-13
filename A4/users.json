@@ -1,4 +1,11 @@
 {
-  "sjulius": "Pickles1",
+  "sjulius": {
+    "password": "Pickles1",
+    "watchlist": [
+      "AAPL",
+      "TSLA",
+      "MCD"
+    ]
+  },
   "akahiau": "akahiau"
 }

@@ -53,8 +53,8 @@ for folder_name in RANK_FOLDERS:
 HISTORY_FILE = os.path.join(OUTPUT_FOLDER, "analysis_history.json")
 
 
-
 from textblob import TextBlob
+
 
 def get_sentiment_analysis(ticker_symbol):
     try:
@@ -86,6 +86,7 @@ def get_sentiment_analysis(ticker_symbol):
         return sentiment_label, round(avg_polarity, 2), good_news, bad_news
     except Exception:
         return "Not available", 0.0, [], []
+
 
 def load_history():
     """Load analysis history from disk."""
@@ -124,6 +125,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated
 
+
 def add_to_watchlist(username, ticker):
     """Adds a ticker to the user's specific watchlist."""
     users = load_users()
@@ -141,22 +143,7 @@ def add_to_watchlist(username, ticker):
             return True
     return False
 
-def get_top_movers():
-    """Fetches high-activity tickers for the dashboard widget."""
-    movers = []
-    # Major indices/tech for the widget
-    sample_tickers = ["AAPL", "TSLA", "NVDA", "MSFT", "AMD"]
-    for t in sample_tickers:
-        try:
-            ticker = yf.Ticker(t)
-            hist = ticker.history(period="2d")
-            if len(hist) >= 2:
-                prev_close = hist['Close'].iloc[-2]
-                curr_close = hist['Close'].iloc[-1]
-                change = ((curr_close - prev_close) / prev_close) * 100
-                movers.append({"ticker": t, "price": round(curr_close, 2), "change": round(change, 2)})
-        except: continue
-    return sorted(movers, key=lambda x: abs(x['change']), reverse=True)[:5]
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Login page."""
@@ -172,9 +159,21 @@ def login():
             error = "Please fill in both fields."
         else:
             users = load_users()
-            if username in users and users[username] == password:
-                session["username"] = username
-                return redirect(url_for("home"))
+
+            if username in users:
+                user_data = users[username]
+
+                # Support both old and new user formats
+                if isinstance(user_data, str):
+                    saved_password = user_data
+                else:
+                    saved_password = user_data.get("password")
+
+                if saved_password == password:
+                    session["username"] = username
+                    return redirect(url_for("home"))
+                else:
+                    error = "Invalid username or password."
             else:
                 error = "Invalid username or password."
 
@@ -204,7 +203,10 @@ def register():
             if username in users:
                 error = "That username is already taken."
             else:
-                users[username] = password
+                users[username] = {
+                    "password": password,
+                    "watchlist": []
+                }
                 save_users(users)
                 session["username"] = username
                 return redirect(url_for("home"))
@@ -385,7 +387,6 @@ def get_multiple_companies_data(ticker_list):
             print("Skipping invalid ticker:", ticker)
 
     return company_data_list
-
 
 
 # ---- Data Mapping Function ----
@@ -853,14 +854,37 @@ def home():
     history = [e for e in all_history if e.get("username") == username]
     recent = history[-5:][::-1]
     
-    # NEW: Fetch Top Movers for the dashboard widget
-    movers = get_top_movers()
-    
-    rank_counts = {"High Rank": 0, "Stable": 0, "Risky": 0}
+    watchlist_widget = []
+    users = load_users()
+
+    watchlist_tickers = users.get(username, {}).get("watchlist", [])
+
+    for ticker in watchlist_tickers[:5]:
+        try:
+            data = get_financial_data(ticker)
+            ratios = calculate_ratios(data)
+            score = calculate_score(data, ratios)
+
+            watchlist_widget.append({
+                "ticker": ticker,
+                "price": format_currency(data.get("Current Price")),
+                "score": score,
+                "rank": get_rank_folder(score),
+            })
+
+        except Exception:
+            continue    
+        rank_counts = {"High Rank": 0, "Stable": 0, "Risky": 0}
     for e in history:
         f = e.get("rank_folder")
         if f in rank_counts: rank_counts[f] += 1
-    return render_template("dashboard.html", recent=recent, rank_counts=rank_counts, total=len(history), movers=movers)
+    return render_template(
+    "dashboard.html",
+    recent=recent,
+    rank_counts=rank_counts,
+    total=len(history),
+    watchlist_widget=watchlist_widget
+)
 
 
 # Watchlist route:
@@ -914,8 +938,12 @@ def analyze():
     """Page where users enter a company ticker symbol for analysis."""
     if request.method == "POST":
         ticker_symbol = request.form.get("ticker", "").upper().strip()
+
         if not ticker_symbol:
             return render_template("analyze.html", error="Please enter a ticker symbol.")
+
+        username = session.get("username")
+        add_to_watchlist(username, ticker_symbol)
 
         custom_filename = request.form.get("custom_filename", "").strip()
 
@@ -1125,8 +1153,6 @@ def download_file(filename):
         as_attachment=True,
         download_name=os.path.basename(file_path)
     )
-
-
 
 
 if __name__ == "__main__":
