@@ -871,6 +871,8 @@ def get_value_class(key, value):
 @app.route("/", methods=["GET"])
 @login_required
 def home():
+    #
+    global rank_counts
     username = session.get("username")
     all_history = load_history()
     history = [e for e in all_history if e.get("username") == username]
