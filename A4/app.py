@@ -53,8 +53,8 @@ for folder_name in RANK_FOLDERS:
 HISTORY_FILE = os.path.join(OUTPUT_FOLDER, "analysis_history.json")
 
 
-
 from textblob import TextBlob
+
 
 def get_sentiment_analysis(ticker_symbol):
     try:
@@ -86,6 +86,7 @@ def get_sentiment_analysis(ticker_symbol):
         return sentiment_label, round(avg_polarity, 2), good_news, bad_news
     except Exception:
         return "Not available", 0.0, [], []
+
 
 def load_history():
     """Load analysis history from disk."""
@@ -124,6 +125,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated
 
+
 def add_to_watchlist(username, ticker):
     """Adds a ticker to the user's specific watchlist."""
     users = load_users()
@@ -140,23 +142,6 @@ def add_to_watchlist(username, ticker):
             save_users(users)
             return True
     return False
-
-def get_top_movers():
-    """Fetches high-activity tickers for the dashboard widget."""
-    movers = []
-    # Major indices/tech for the widget
-    sample_tickers = ["AAPL", "TSLA", "NVDA", "MSFT", "AMD"]
-    for t in sample_tickers:
-        try:
-            ticker = yf.Ticker(t)
-            hist = ticker.history(period="2d")
-            if len(hist) >= 2:
-                prev_close = hist['Close'].iloc[-2]
-                curr_close = hist['Close'].iloc[-1]
-                change = ((curr_close - prev_close) / prev_close) * 100
-                movers.append({"ticker": t, "price": round(curr_close, 2), "change": round(change, 2)})
-        except: continue
-    return sorted(movers, key=lambda x: abs(x['change']), reverse=True)[:5]
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -402,7 +387,6 @@ def get_multiple_companies_data(ticker_list):
             print("Skipping invalid ticker:", ticker)
 
     return company_data_list
-
 
 
 # ---- Data Mapping Function ----
@@ -1158,8 +1142,6 @@ def download_file(filename):
         as_attachment=True,
         download_name=os.path.basename(file_path)
     )
-
-
 
 
 if __name__ == "__main__":
