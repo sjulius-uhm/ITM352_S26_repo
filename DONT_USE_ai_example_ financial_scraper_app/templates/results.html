@@ -21,6 +21,16 @@
         <a href="{{ url_for('download_file', filename=csv_file) }}">Download CSV</a>
         <a href="{{ url_for('download_file', filename=excel_file) }}">Download Excel</a>
     </div>
+    <div style="margin-top: 10px;">
+        {% if in_watchlist %}
+        <button disabled style="background: #999; cursor: default;">In Watchlist</button>
+        {% else %}
+        <form method="POST" action="{{ url_for('watchlist_add') }}" style="display: inline;">
+            <input type="hidden" name="ticker" value="{{ ticker }}">
+            <button type="submit">Add to Watchlist</button>
+        </form>
+        {% endif %}
+    </div>
 </div>
 
 {% if chart_file %}

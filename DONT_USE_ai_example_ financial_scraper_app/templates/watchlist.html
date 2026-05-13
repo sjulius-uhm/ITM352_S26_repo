@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Watchlist - FIN-ANALYTIX{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>My Watchlist</h1>
+    <p class="subtitle">Track and filter your saved stocks</p>
+</div>
+
+<div class="card">
+    <div class="filter-buttons">
+        {% for key, info in filters.items() %}
+        <a href="{{ url_for('watchlist', filter=key) }}"
+           class="filter-btn {% if active_filter == key %}filter-active{% endif %}">
+            {{ info.label }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% if stocks %}
+<div class="card">
+    <table>
+        <tr>
+            <th>Ticker</th>
+            <th>Company</th>
+            <th>Price</th>
+            <th>Daily Change</th>
+            <th>Score</th>
+            <th>Category</th>
+            <th></th>
+        </tr>
+        {% for stock in stocks %}
+        <tr>
+            <td><strong>{{ stock.ticker }}</strong></td>
+            <td>{{ stock.company_name }}</td>
+            <td>{{ "${:,.2f}".format(stock.current_price) if stock.current_price else "N/A" }}</td>
+            <td class="{% if stock.pct_change and stock.pct_change > 0 %}positive{% elif stock.pct_change and stock.pct_change < 0 %}negative{% else %}neutral{% endif %}">
+                {% if stock.pct_change is not none %}
+                    {{ "{:+.2f}%".format(stock.pct_change) }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>
+                <span class="score-badge {% if stock.score >= 80 %}score-high{% elif stock.score >= 50 %}score-stable{% else %}score-watch{% endif %}">
+                    {{ stock.score }}
+                </span>
+            </td>
+            <td>{{ stock.category }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('watchlist_remove') }}" style="display:inline;">
+                    <input type="hidden" name="ticker" value="{{ stock.ticker }}">
+                    <button type="submit" style="background:#c0392b; padding:4px 8px; font-size:11px;">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% else %}
+<div class="card">
+    <p class="empty-state">Your watchlist is empty. <a href="{{ url_for('analyze') }}">Analyze a stock</a> and add it to your watchlist.</p>
+</div>
+{% endif %}
+{% endblock %}

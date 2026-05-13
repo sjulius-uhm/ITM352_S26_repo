@@ -702,6 +702,7 @@ def save_outputs(ticker_symbol, data, ratios, category, score, custom_filename=N
     # Record to history
     history = load_history()
     history.append({
+       "username": session.get("username"),
         "ticker": ticker_symbol,
         "company_name": data.get("Company Name", ticker_symbol),
         "category": category,
@@ -760,11 +761,22 @@ def get_value_class(key, value):
 @login_required
 def home():
     """Dashboard / home page showing recent analyses and quick stats."""
-    history = load_history()
+
+    # Get current logged in user
+    username = session.get("username")
+
+    # Only load analyses from this user
+    all_history = load_history()
+    history = [
+        entry for entry in all_history
+        if entry.get("username") == username
+    ]
+
+    # Get most recent analyses
     recent = history[-5:][::-1] if history else []
 
-    # Count by rank
-    rank_counts = {"High_Value": 0, "Stable": 0, "Risky": 0}
+    rank_counts = {"High Rank": 0, "Stable": 0, "Risky": 0}
+
     for entry in history:
         folder = entry.get("rank_folder", "Risky")
         if folder in rank_counts:
@@ -853,13 +865,16 @@ def compare():
         if len(ticker_list) > 5:
             return render_template("compare.html", error="Please enter no more than 5 ticker symbols.")
 
-        try:
-            data_list = []
-            for ticker in ticker_list:
+        data_list = []
+        invalid_tickers = []
+
+        for ticker in ticker_list:
+            try:
                 data = get_financial_data(ticker)
                 ratios = calculate_ratios(data)
                 category = categorize_company(data, ratios)
                 score = calculate_score(data, ratios)
+
                 data_list.append({
                     "data": data,
                     "ratios": ratios,
@@ -867,64 +882,91 @@ def compare():
                     "score": score,
                 })
 
-            comparison = compare_companies(data_list)
-            chart_file = make_comparison_chart(data_list)
+            except Exception:
+                invalid_tickers.append(ticker)
 
-            # Format comparison values for display
-            currency_metrics = [
-                "Current Price", "Market Cap", "Total Revenue", "Gross Profits",
-                "Net Income", "Total Cash", "Total Debt", "Book Value",
-            ]
-            display_comparison = {}
-            for metric, row in comparison.items():
-                display_row = {}
-                for col, val in row.items():
-                    if metric in currency_metrics:
-                        formatted = format_currency(val)
-                    else:
-                        formatted = format_number(val)
-                    display_row[col] = {
-                        "value": formatted,
-                        "class": get_value_class(metric, formatted),
-                    }
-                display_comparison[metric] = display_row
-
-            tickers = [entry["data"]["Ticker"] for entry in data_list]
-            categories = {entry["data"]["Ticker"]: entry["category"] for entry in data_list}
-            scores = {entry["data"]["Ticker"]: entry["score"] for entry in data_list}
-
+        if len(data_list) < 2:
             return render_template(
-                "compare_results.html",
-                tickers=tickers,
-                comparison=display_comparison,
-                categories=categories,
-                scores=scores,
-                chart_file=chart_file,
+                "compare.html",
+                error="Please enter at least 2 valid ticker symbols."
             )
-        except Exception as error:
-            return render_template("compare.html", error=str(error))
+
+        comparison = compare_companies(data_list)
+        chart_file = make_comparison_chart(data_list)
+
+        currency_metrics = [
+            "Current Price", "Market Cap", "Total Revenue", "Gross Profits",
+            "Net Income", "Total Cash", "Total Debt", "Book Value",
+        ]
+
+        display_comparison = {}
+        for metric, row in comparison.items():
+            display_row = {}
+            for col, val in row.items():
+                if metric in currency_metrics:
+                    formatted = format_currency(val)
+                else:
+                    formatted = format_number(val)
+
+                display_row[col] = {
+                    "value": formatted,
+                    "class": get_value_class(metric, formatted),
+                }
+
+            display_comparison[metric] = display_row
+
+        tickers = [entry["data"]["Ticker"] for entry in data_list]
+        categories = {entry["data"]["Ticker"]: entry["category"] for entry in data_list}
+        scores = {entry["data"]["Ticker"]: entry["score"] for entry in data_list}
+
+        warning = None
+        if len(invalid_tickers) > 0:
+            warning = "Skipped invalid ticker(s): " + ", ".join(invalid_tickers)
+
+        return render_template(
+            "compare_results.html",
+            tickers=tickers,
+            comparison=display_comparison,
+            categories=categories,
+            scores=scores,
+            chart_file=chart_file,
+            warning=warning,
+        )
 
     return render_template("compare.html")
-
 
 @app.route("/downloads")
 @login_required
 def downloads():
-    """Downloads Center page showing saved analyses organized by rank folder."""
+    """Downloads Center page showing saved analyses for the logged-in user only."""
+
+    username = session.get("username")
+    history = [
+        entry for entry in load_history()
+        if entry.get("username") == username
+    ]
+
     files_by_rank = {}
+
     for folder_name, info in RANK_FOLDERS.items():
-        folder_path = os.path.join(OUTPUT_FOLDER, folder_name)
         files = []
-        if os.path.exists(folder_path):
-            for fname in sorted(os.listdir(folder_path), reverse=True):
-                fpath = os.path.join(folder_path, fname)
-                if os.path.isfile(fpath):
-                    files.append({
-                        "name": fname,
-                        "path": f"{folder_name}/{fname}",
-                        "size": os.path.getsize(fpath),
-                        "ext": os.path.splitext(fname)[1].lower(),
-                    })
+
+        for entry in history:
+            if entry.get("rank_folder") == folder_name:
+                files.append({
+                    "name": os.path.basename(entry.get("csv_file", "")),
+                    "path": entry.get("csv_file", ""),
+                    "size": "",
+                    "ext": ".csv",
+                })
+
+                files.append({
+                    "name": os.path.basename(entry.get("excel_file", "")),
+                    "path": entry.get("excel_file", ""),
+                    "size": "",
+                    "ext": ".xlsx",
+                })
+
         files_by_rank[folder_name] = {
             "label": info["label"],
             "files": files,

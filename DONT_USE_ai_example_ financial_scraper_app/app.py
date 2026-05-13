@@ -36,6 +36,9 @@ CHART_FOLDER = os.path.join("static", "charts")
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 os.makedirs(CHART_FOLDER, exist_ok=True)
 
+WATCHLISTS_FILE = "watchlists.json"
+MAX_WATCHLIST_SIZE = 20
+
 # Rank folders for organizing saved analyses
 RANK_FOLDERS = {
     "HIGH_RANK": {"label": "HIGH_RANK (Score 80-100)", "min": 80, "max": 100},
@@ -77,6 +80,86 @@ def save_users(users):
     """Save user accounts to disk."""
     with open(USERS_FILE, "w") as f:
         json.dump(users, f, indent=2)
+
+
+def load_watchlists():
+    if os.path.exists(WATCHLISTS_FILE):
+        with open(WATCHLISTS_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+
+def save_watchlists(watchlists):
+    with open(WATCHLISTS_FILE, "w") as f:
+        json.dump(watchlists, f, indent=2)
+
+
+def get_user_watchlist(username):
+    watchlists = load_watchlists()
+    return watchlists.get(username, [])
+
+
+def add_to_watchlist(username, ticker):
+    watchlists = load_watchlists()
+    user_list = watchlists.get(username, [])
+    ticker = ticker.upper().strip()
+    if ticker in user_list:
+        return "already_exists"
+    if len(user_list) >= MAX_WATCHLIST_SIZE:
+        return "full"
+    user_list.append(ticker)
+    watchlists[username] = user_list
+    save_watchlists(watchlists)
+    return "added"
+
+
+def remove_from_watchlist(username, ticker):
+    watchlists = load_watchlists()
+    user_list = watchlists.get(username, [])
+    ticker = ticker.upper().strip()
+    if ticker in user_list:
+        user_list.remove(ticker)
+        watchlists[username] = user_list
+        save_watchlists(watchlists)
+
+
+def get_watchlist_data(tickers):
+    results = []
+    for ticker in tickers:
+        try:
+            ticker = ticker.upper().strip()
+            company = yf.Ticker(ticker)
+            info = company.info
+            if not info or not info.get("currentPrice"):
+                continue
+
+            current = info.get("currentPrice") or info.get("regularMarketPrice")
+            previous = info.get("previousClose")
+            if current and previous and previous != 0:
+                pct_change = ((current - previous) / previous) * 100
+            else:
+                pct_change = None
+
+            data = get_financial_data(ticker)
+            ratios = calculate_ratios(data)
+            category = categorize_company(data, ratios)
+            score = calculate_score(data, ratios)
+
+            results.append({
+                "ticker": ticker,
+                "company_name": info.get("longName", ticker),
+                "current_price": current,
+                "pct_change": pct_change,
+                "profit_margin": info.get("profitMargins"),
+                "debt_to_equity": info.get("debtToEquity"),
+                "trailing_pe": info.get("trailingPE"),
+                "revenue": info.get("totalRevenue"),
+                "score": score,
+                "category": category,
+            })
+        except Exception:
+            continue
+    return results
 
 
 def login_required(f):
@@ -707,11 +790,21 @@ def home():
         if folder in rank_counts:
             rank_counts[folder] += 1
 
+    # Fetch top movers from user's watchlist
+    top_movers = []
+    tickers = get_user_watchlist(session["username"])
+    if tickers:
+        all_data = get_watchlist_data(tickers)
+        movers_with_change = [s for s in all_data if s["pct_change"] is not None]
+        movers_with_change.sort(key=lambda s: abs(s["pct_change"]), reverse=True)
+        top_movers = movers_with_change[:5]
+
     return render_template(
         "dashboard.html",
         recent=recent,
         rank_counts=rank_counts,
         total=len(history),
+        top_movers=top_movers,
     )
 
 
@@ -758,6 +851,8 @@ def analyze():
                     "class": get_value_class(key, formatted),
                 }
 
+            in_watchlist = ticker_symbol in get_user_watchlist(session["username"])
+
             return render_template(
                 "results.html",
                 ticker=ticker_symbol,
@@ -769,6 +864,7 @@ def analyze():
                 chart_file=chart_file,
                 csv_file=csv_file,
                 excel_file=excel_file,
+                in_watchlist=in_watchlist,
             )
         except Exception as error:
             return render_template("analyze.html", error=str(error))
@@ -868,6 +964,61 @@ def downloads():
         }
 
     return render_template("downloads.html", files_by_rank=files_by_rank)
+
+
+@app.route("/watchlist/add", methods=["POST"])
+@login_required
+def watchlist_add():
+    ticker = request.form.get("ticker", "").upper().strip()
+    if not ticker:
+        return redirect(request.referrer or url_for("home"))
+    add_to_watchlist(session["username"], ticker)
+    return redirect(request.referrer or url_for("home"))
+
+
+@app.route("/watchlist/remove", methods=["POST"])
+@login_required
+def watchlist_remove():
+    ticker = request.form.get("ticker", "").upper().strip()
+    if ticker:
+        remove_from_watchlist(session["username"], ticker)
+    return redirect(url_for("watchlist"))
+
+
+FILTER_PRESETS = {
+    "overall": {"key": "score", "reverse": True, "label": "Overall"},
+    "profitability": {"key": "profit_margin", "reverse": True, "label": "Profitability"},
+    "low_debt": {"key": "debt_to_equity", "reverse": False, "label": "Low Debt"},
+    "value": {"key": "trailing_pe", "reverse": False, "label": "Value"},
+    "growth": {"key": "revenue", "reverse": True, "label": "Growth"},
+}
+
+
+@app.route("/watchlist")
+@login_required
+def watchlist():
+    tickers = get_user_watchlist(session["username"])
+    active_filter = request.args.get("filter", "overall")
+    if active_filter not in FILTER_PRESETS:
+        active_filter = "overall"
+
+    if not tickers:
+        return render_template("watchlist.html", stocks=[], filters=FILTER_PRESETS, active_filter=active_filter)
+
+    stocks = get_watchlist_data(tickers)
+
+    preset = FILTER_PRESETS[active_filter]
+    sort_key = preset["key"]
+
+    def sort_val(item):
+        v = item.get(sort_key)
+        if v is None:
+            return float('inf') if not preset["reverse"] else float('-inf')
+        return v
+
+    stocks.sort(key=sort_val, reverse=preset["reverse"])
+
+    return render_template("watchlist.html", stocks=stocks, filters=FILTER_PRESETS, active_filter=active_filter)
 
 
 @app.route("/download/<path:filename>")
