@@ -1,3 +1,6 @@
 {
-  "pxbagara": "Myphone@123"
+  "pxbagara": {
+    "password": "Myphone@123",
+    "watchlist": []
+  }
 }

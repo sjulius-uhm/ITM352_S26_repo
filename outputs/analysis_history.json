@@ -347,5 +347,60 @@
     "csv_file": "High Rank/AAPL_financial_analysis_20260512_235534.csv",
     "excel_file": "High Rank/AAPL_financial_analysis_20260512_235534.xlsx",
     "timestamp": "20260512_235534"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_235934.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_235934.xlsx",
+    "timestamp": "20260512_235934"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_235943.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_235943.xlsx",
+    "timestamp": "20260512_235943"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "MSFT",
+    "company_name": "Microsoft Corporation",
+    "category": "Growth / Strong Profit Company",
+    "score": 90,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/MSFT_financial_analysis_20260513_000037.csv",
+    "excel_file": "High Rank/MSFT_financial_analysis_20260513_000037.xlsx",
+    "timestamp": "20260513_000037"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "MSFT",
+    "company_name": "Microsoft Corporation",
+    "category": "Growth / Strong Profit Company",
+    "score": 90,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/MSFT_financial_analysis_20260513_000044.csv",
+    "excel_file": "High Rank/MSFT_financial_analysis_20260513_000044.xlsx",
+    "timestamp": "20260513_000044"
+  },
+  {
+    "username": "pxbagara",
+    "ticker": "MSFT",
+    "company_name": "Microsoft Corporation",
+    "category": "Growth / Strong Profit Company",
+    "score": 90,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/MSFT_financial_analysis_20260513_000052.csv",
+    "excel_file": "High Rank/MSFT_financial_analysis_20260513_000052.xlsx",
+    "timestamp": "20260513_000052"
   }
 ]
