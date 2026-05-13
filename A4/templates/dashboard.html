@@ -2,11 +2,13 @@
 {% block title %}Dashboard - FIN-ANALYTIX{% endblock %}
 
 {% block content %}
+<!-- Dashboard header -->
 <div class="card">
     <h1>Dashboard</h1>
     <p class="subtitle">Overview of your financial analyses</p>
 </div>
 
+<!-- Summary statistic cards -->
 <div class="stats-grid">
     <div class="stat-card">
         <div class="stat-number">{{ total }}</div>
@@ -21,11 +23,12 @@
         <div class="stat-label">Stable</div>
     </div>
     <div class="stat-card stat-watch">
-        <div class="stat-number">{{ rank_counts.Risky}}</div>
+        <div class="stat-number">{{ rank_counts["Risky"] }}</div>
         <div class="stat-label">Risky</div>
     </div>
 </div>
 
+<!-- Quick single-company analysis form -->
 <div class="card">
     <h2>Quick Analyze</h2>
     <form method="POST" action="{{ url_for('analyze') }}" class="inline-form">
@@ -34,6 +37,7 @@
     </form>
 </div>
 
+<!-- Recent analysis history table -->
 {% if recent %}
 <div class="card">
     <h2>Recent Analyses</h2>
@@ -67,6 +71,7 @@
         {% endfor %}
     </table>
 </div>
+<!-- Empty dashboard state -->
 {% else %}
 <div class="card">
     <p class="empty-state">No analyses yet. Use the form above or go to <a href="{{ url_for('analyze') }}">Data Tables</a> to get started.</p>

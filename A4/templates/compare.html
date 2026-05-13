@@ -10,12 +10,14 @@
         <div class="error">{{ error }}</div>
     {% endif %}
 
+    <!-- Company comparison input form -->
     <form method="POST">
         <label for="tickers">Ticker Symbols (comma-separated)</label>
         <input type="text" id="tickers" name="tickers" placeholder="Example: AAPL, MSFT, GOOGL" required>
         <button type="submit">Compare Companies</button>
     </form>
 
+    <!-- Example comparison groups -->
     <div class="tips">
         <h2>Try comparing</h2>
         <p>Tech: AAPL, MSFT, GOOGL &nbsp; | &nbsp; Fast Food: MCD, YUM, QSR &nbsp; | &nbsp; Auto: TSLA, F, GM</p>

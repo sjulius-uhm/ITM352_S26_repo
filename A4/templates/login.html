@@ -8,14 +8,17 @@
 </head>
 <body>
     <div class="login-page">
+        <!-- Login form container -->
         <div class="login-box">
             <h1>FIN-ANALYTIX</h1>
             <p>Sign in to continue</p>
 
+            <!-- Display login errors -->
             {% if error %}
                 <div class="error">{{ error }}</div>
             {% endif %}
 
+            <!-- User login form -->
             <form method="POST">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" required>

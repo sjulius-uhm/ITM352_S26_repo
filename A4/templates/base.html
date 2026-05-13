@@ -7,14 +7,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <!-- Main navigation bar -->
     <nav class="navbar">
         <div class="nav-brand">FIN-ANALYTIX</div>
+        <!-- Navigation links -->
         <div class="nav-links">
             <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Dashboard</a>
-            <a href="{{ url_for('analyze') }}" class="{% if request.endpoint == 'analyze' %}active{% endif %}">Data Tables</a>
+            <a href="{{ url_for('analyze') }}" class="{% if request.endpoint == 'analyze' %}active{% endif %}">Analyze</a>
             <a href="{{ url_for('compare') }}" class="{% if request.endpoint == 'compare' %}active{% endif %}">Industry Compare</a>
             <a href="{{ url_for('downloads') }}" class="{% if request.endpoint == 'downloads' %}active{% endif %}">Downloads Center</a>
         </div>
+        <!-- Logged-in user section -->
         {% if session.username %}
         <div class="nav-user">
             <span>{{ session.username }}</span>
@@ -23,6 +26,7 @@
         {% endif %}
     </nav>
 
+    <!-- Main page container -->
     <div class="container {% block container_class %}{% endblock %}">
         {% block content %}{% endblock %}
     </div>
