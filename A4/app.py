@@ -53,7 +53,7 @@ for folder_name in RANK_FOLDERS:
 HISTORY_FILE = os.path.join(OUTPUT_FOLDER, "analysis_history.json")
 
 
-from textblob import TextBlob
+# ---- Sentiment Analysis Function ----
 
 
 def get_sentiment_analysis(ticker_symbol):
@@ -152,6 +152,9 @@ def login_required(f):
     return decorated
 
 
+# ---- Watchlist Helper Function ----
+
+
 def add_to_watchlist(username, ticker):
     """Adds a ticker to the user's specific watchlist."""
     users = load_users()
@@ -168,6 +171,9 @@ def add_to_watchlist(username, ticker):
             save_users(users)
             return True
     return False
+
+
+# ---- Authentication Routes ----
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -245,6 +251,9 @@ def logout():
     """Log the user out."""
     session.pop("username", None)
     return redirect(url_for("login"))
+
+
+# ---- Formatting ----
 
 
 def safe_value(value):
@@ -896,7 +905,9 @@ def home():
 
         except Exception:
             continue    
-        rank_counts = {"High Rank": 0, "Stable": 0, "Risky": 0}
+    
+    #Count saved analyses by rank.
+    rank_counts = {"High Rank": 0, "Stable": 0, "Risky": 0}
     for e in history:
         f = e.get("rank_folder")
         if f in rank_counts: rank_counts[f] += 1
@@ -975,8 +986,6 @@ def analyze():
             category = categorize_company(data, ratios)
             score = calculate_score(data, ratios)
             chart_file = make_chart(ticker_symbol, data, ratios)
-            data = get_financial_data(ticker_symbol)
-            # NEW: Add sentiment analysis
             sentiment_label, sentiment_score, good, bad = get_sentiment_analysis(ticker_symbol)
             csv_file, excel_file = save_outputs(
                 ticker_symbol, data, ratios, category, score,
@@ -1015,10 +1024,10 @@ def analyze():
                 chart_file=chart_file,
                 csv_file=csv_file,
                 excel_file=excel_file,
-                sentiment_label=sentiment_label, # Pass to template
-               sentiment_score=sentiment_score, # Pass to template
-               good_news=good,
-               bad_news=bad,
+                sentiment_label=sentiment_label,
+                sentiment_score=sentiment_score,
+                good_news=good,
+                bad_news=bad,
 
             )
         except Exception as error:
