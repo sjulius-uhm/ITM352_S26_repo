@@ -243,6 +243,10 @@ Completed tests included:
 * dashboard tracking
 * downloads functionality
 * CSV/Excel export testing
+* watchlist functionality
+* user-specific watchlists
+* dashboard watchlist widget testing
+* sentiment analysis display testing
 
 Financial values were cross-checked with Yahoo Finance and SEC EDGAR for accuracy.
 

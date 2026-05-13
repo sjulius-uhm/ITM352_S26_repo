@@ -82,7 +82,7 @@ This is the main application file that runs everything. We built it using Flask 
 - **Charts:** We used matplotlib to generate bar charts showing financial data. The y-axis labels automatically format numbers into millions or billions so the charts are easier to read.
 
 ### templates/base.html
-This is the base template that all other pages extend. We created it to have a consistent layout across the whole app. It contains the navigation bar with links to Dashboard, Data Tables, Industry Compare, and Downloads Center. It also shows the logged-in username and a logout link.
+This is the base template that all other pages extend. We created it to keep a consistent layout across the whole app. It contains the navigation bar with links to Dashboard, Analyze, Industry Compare, Watchlist, and Downloads Center. It also shows the logged-in username and a logout link.
 
 ### templates/login.html
 The login page. We built this as a standalone page (not extending base.html) with a simple centered form for username and password. It shows error messages if the login fails and has a link to the registration page.
@@ -91,7 +91,7 @@ The login page. We built this as a standalone page (not extending base.html) wit
 The registration page. Similar to the login page, it has fields for username, password, and confirm password. It validates that passwords match and are at least 4 characters long.
 
 ### templates/dashboard.html
-The home page of the app. We built it to show an overview with stats cards (total analyses, high rank count, stable count, watchlist count), a quick analyze form, and a table of recent analyses with download links.
+The home page of the app. We built it to show an overview with stats cards, a quick analyze form, recent analyses, and a personal watchlist widget. The watchlist widget shows saved stocks with their current price, financial health score, and rank.
 
 ### templates/analyze.html
 The main data entry page. We created a form where the user types in a ticker symbol and optionally a custom filename for exports. It also shows example ticker symbols as a reference.
@@ -102,8 +102,8 @@ The results page that shows up after analyzing a company. We designed it to disp
 ### templates/compare.html
 The comparison input page. We made a form where users can type in 2-5 ticker symbols separated by commas to compare companies.
 
-### templates/compare_results.html
-Shows the comparison results with badges for each company (showing their score and category), a grouped bar chart comparing all companies, and a side-by-side data table with an average column.
+### templates/watchlist.html
+The personal watchlist page. It shows the companies saved to the logged-in user's watchlist, including ticker symbol, health score, profit margin, and P/E ratio. It also includes a Full Analysis button so users can quickly re-run an analysis for a saved company.
 
 ### templates/downloads.html
 The downloads center page. We organized it with collapsible folders for each rank category (HIGH_RANK, STABLE, WATCHLIST). Each folder shows the files inside it with their type (CSV or Excel) and a download button. We used JavaScript to toggle folders open and closed.
@@ -111,11 +111,12 @@ The downloads center page. We organized it with collapsible folders for each ran
 ### templates/index.html
 A simple redirect page. It just sends the user to the dashboard using JavaScript.
 
+
 ### static/style.css
 The stylesheet for the entire app. We wrote basic CSS to style the navigation bar, forms, tables, cards, buttons, score badges, and color highlighting. We kept the design simple and functional.
 
 ### requirements.txt
-Lists all the Python packages needed to run the app: Flask, pandas, matplotlib, yfinance, openpyxl, and numpy.
+Lists all the Python packages needed to run the app: Flask, pandas, matplotlib, yfinance, openpyxl, numpy, and textblob.
 
 ---
 ## Testing and Error Handling
@@ -158,7 +159,7 @@ You should see output saying the server is running.
 ### Step 3: Open in Browser
 Go to this address in your web browser:
 ```
-http://127.0.0.1:5000
+http://127.0.0.1:5001
 ```
 
 ### Step 4: Create an Account
@@ -168,7 +169,7 @@ You will land on the login page. If you don't have an account yet, click "Regist
 After signing in you will see the dashboard. It shows stats about your previous analyses and a quick search bar. You can also use the navigation bar at the top to go to different pages.
 
 ### Step 6: Analyze a Company
-Go to "Data Tables" in the nav bar. Type a ticker symbol (like AAPL for Apple, MSFT for Microsoft, TSLA for Tesla) and click "Analyze Company." The results page will show the company's financial data, calculated ratios, a health score, a bar chart, and download buttons for CSV and Excel files.
+Go to "Analyze" in the nav bar. Type a ticker symbol (like AAPL for Apple, MSFT for Microsoft, TSLA for Tesla) and click "Analyze Company." The results page will show the company's financial data, calculated ratios, a health score, a bar chart, and download buttons for CSV and Excel files.
 
 ### Step 7: Compare Companies
 Go to "Industry Compare" in the nav bar. Type 2-5 ticker symbols separated by commas (like AAPL, MSFT, GOOGL) and click "Compare Companies." You will see a side-by-side comparison table, individual scores, and a grouped bar chart.
