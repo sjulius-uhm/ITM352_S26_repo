@@ -862,98 +862,7 @@ def analyze():
 
     return render_template("analyze.html")
 
-#Watch list
-# --- New Global File Path ---
-WATCHLIST_FILE = "watchlists.json"
 
-def load_watchlists():
-    if os.path.exists(WATCHLIST_FILE):
-        with open(WATCHLIST_FILE, "r") as f: return json.load(f)
-    return {}
-
-def save_watchlists(data):
-    with open(WATCHLIST_FILE, "w") as f: json.dump(data, f, indent=2)
-
-# --- Updated Dashboard Logic ---
-@app.route("/")
-@login_required
-def home():
-    username = session["username"]
-    history = [h for h in load_history() if h.get("username") == username]
-    
-    # Load Watchlist
-    all_watchlists = load_watchlists()
-    user_watchlist = all_watchlists.get(username, [])
-    
-    # "Top 5 Movers" Widget Logic
-    movers = []
-    if user_watchlist:
-        for ticker in user_watchlist[:10]: # Limit API calls
-            try:
-                stock = yf.Ticker(ticker)
-                # Formula: ((Current - Prev Close) / Prev Close) * 100
-                hist = stock.history(period="2d")
-                if len(hist) >= 2:
-                    change = ((hist['Close'].iloc[-1] - hist['Close'].iloc[-2]) / hist['Close'].iloc[-2]) * 100
-                    movers.append({"ticker": ticker, "change": round(change, 2)})
-            except: continue
-        movers = sorted(movers, key=lambda x: abs(x['change']), reverse=True)[:5]
-
-    return render_template("dashboard.html", 
-                           recent=history[-5:], 
-                           total=len(history),
-                           movers=movers,
-                           watchlist_count=len(user_watchlist))
-
-# --- Watchlist Management Routes ---
-@app.route("/watchlist/add/<ticker>")
-@login_required
-def add_to_watchlist(ticker):
-    username = session["username"]
-    data = load_watchlists()
-    if username not in data: data[username] = []
-    
-    if ticker not in data[username]:
-        data[username].append(ticker)
-        save_watchlists(data)
-    return redirect(url_for("watchlist_page"))
-
-@app.route("/watchlist", methods=["GET"])
-@login_required
-def watchlist_page():
-    username = session["username"]
-    sort_filter = request.args.get("filter", "overall")
-    
-    data = load_watchlists()
-    user_tickers = data.get(username, [])
-    
-    watchlist_data = []
-    for ticker in user_tickers:
-        try:
-            # We reuse your existing analysis logic to power the filters
-            raw_data = get_financial_data(ticker)
-            ratios = calculate_ratios(raw_data)
-            score = calculate_score(raw_data, ratios)
-            
-            watchlist_data.append({
-                "ticker": ticker,
-                "name": raw_data["Company Name"],
-                "price": raw_data["Current Price"],
-                "score": score,
-                "profitability": ratios.get("Net Profit Margin", 0) or 0,
-                "debt": ratios.get("Debt to Equity", 999) or 999,
-            })
-        except: continue
-
-    # Sorting Logic
-    if sort_filter == "profitability":
-        watchlist_data.sort(key=lambda x: x['profitability'], reverse=True)
-    elif sort_filter == "low_debt":
-        watchlist_data.sort(key=lambda x: x['debt'])
-    else: # Default: Overall Score
-        watchlist_data.sort(key=lambda x: x['score'], reverse=True)
-
-    return render_template("watchlist.html", items=watchlist_data, current_filter=sort_filter)
 # Compare route:
 # Lets the user enter multiple tickers and compares valid companies side by side.
 # Invalid tickers are skipped so the rest of the comparison can still run.
@@ -1040,7 +949,6 @@ def compare():
         )
 
     return render_template("compare.html")
-
 
 
 # Downloads route:
