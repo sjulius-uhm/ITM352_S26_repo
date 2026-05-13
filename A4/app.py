@@ -482,32 +482,15 @@ def get_rank_folder(score):
             return folder_name
     return "Risky"
 
-def calculate_weighted_average(values, weights):
-    """
-    Calculates the weighted average of a list of values.
-    Formula: $ \frac{\sum (value_i \times weight_i)}{\sum weight_i} $
-    """
-    if not values or not weights or len(values) != len(weights):
-        return None
-
-    # Filter out pairs where either value or weight is None
-    filtered_pairs = [
-        (v, w) for v, w in zip(values, weights) 
-        if v is not None and w is not None
-    ]
-
-    if not filtered_pairs:
-        return None
-
-    total_weighted_value = sum(v * w for v, w in filtered_pairs)
-    total_weight = sum(w for v, w in filtered_pairs)
-
-    if total_weight == 0:
-        return None
-
-    return total_weighted_value / total_weight
 
 def compare_companies(data_list):
+    """
+    Compares financial data between multiple companies.
+
+    Takes a list of company data dictionaries and produces a comparison
+    showing each company's metrics side by side, along with averages
+    and which company ranks best/worst in each metric.
+    """
     if not data_list or len(data_list) < 2:
         return None
 
@@ -520,48 +503,34 @@ def compare_companies(data_list):
         "Debt to Equity", "Trailing PE", "Return on Equity",
     ]
 
-    # Use Market Cap as the weight for industry comparisons
-    weights = [safe_value(entry["data"].get("Market Cap")) for entry in data_list]
-    
+    # Build comparison table
     comparison = {}
-    all_metrics = comparison_metrics + ratio_metrics
-
-    for metric in all_metrics:
+    for metric in comparison_metrics:
         row = {}
         values = []
-        
         for entry in data_list:
+            val = safe_value(entry["data"].get(metric))
             ticker = entry["data"]["Ticker"]
-            # Check ratios dict first, then data dict
-            val = safe_value(entry["ratios"].get(metric)) if metric in ratio_metrics else safe_value(entry["data"].get(metric))
             row[ticker] = val
-            values.append(val)
-        
-        # Simple Average
-        valid_vals = [v for v in values if v is not None]
-        row["Average"] = sum(valid_vals) / len(valid_vals) if valid_vals else None
-        
-        # Weighted Average (By Market Cap)
-        row["Weighted Average"] = calculate_weighted_average(values, weights)
-        
+            if val is not None:
+                values.append(val)
+        row["Average"] = sum(values) / len(values) if values else None
+        comparison[metric] = row
+
+    for metric in ratio_metrics:
+        row = {}
+        values = []
+        for entry in data_list:
+            val = safe_value(entry["ratios"].get(metric))
+            ticker = entry["data"]["Ticker"]
+            row[ticker] = val
+            if val is not None:
+                values.append(val)
+        row["Average"] = sum(values) / len(values) if values else None
         comparison[metric] = row
 
     return comparison
-def calculate_portfolio_
-score(data_list, shares_owned):
-    """
-    Calculates a health score for a whole portfolio based on 
-    the dollar value of positions.
-    """
-    scores = [entry['score'] for entry in data_list]
-    
-    # Weight = Shares * Current Price
-    position_values = [
-        (shares_owned[i] * safe_value(data_list[i]['data']['Current Price'])) 
-        for i in range(len(data_list))
-    ]
-    
-    return calculate_weighted_average(scores, position_values)
+
 
 def make_chart(ticker_symbol, data, ratios):
     """
