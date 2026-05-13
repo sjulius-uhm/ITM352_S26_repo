@@ -17,7 +17,8 @@ The application supports:
 * user authentication
 * saved analysis history and downloads
 
-The goal of the project is to provide a structured and user-friendly tool for exploring company financial performance and comparing businesses using real financial statement data.
+
+The project emphasizes practical MIS concepts by combining financial data retrieval, business analysis workflows, user account systems, data exports, and dashboard-style reporting into one integrated web application. The goal of the project is to provide a structured and user-friendly tool for exploring company financial performance and comparing businesses using real financial statement data.
 
 ---
 
