@@ -605,7 +605,8 @@ def make_chart(ticker_symbol, data, ratios):
     """
     Creates a simple bar chart of selected financial values.
 
-    The chart is saved into the static folder so Flask can display it on the results page.
+    The chart is saved into the static/charts folder so Flask can display it
+    on the results page.
     """
     chart_values = {
         "Revenue": safe_value(data.get("Total Revenue")),
@@ -614,23 +615,19 @@ def make_chart(ticker_symbol, data, ratios):
         "Debt": safe_value(data.get("Total Debt")),
     }
 
-    chart_filename = f"{ticker_symbol}_financial_chart.png"
-    # Ensure the path is correct for saving
-    save_path = os.path.join(CHART_FOLDER, chart_filename)
-    plt.savefig(save_path)
-    plt.close()
-
-    # Remove values that are missing so the chart only shows available data.
-    chart_values = {key: value for key, value in chart_values.items() if value is not None}
+    chart_values = {
+        key: value for key, value in chart_values.items()
+        if value is not None
+    }
 
     if not chart_values:
         return None
 
     colors = []
-    for key, val in chart_values.items():
+    for key, value in chart_values.items():
         if key == "Debt":
             colors.append("#e74c3c")
-        elif val >= 0:
+        elif value >= 0:
             colors.append("#27ae60")
         else:
             colors.append("#e74c3c")
@@ -639,14 +636,18 @@ def make_chart(ticker_symbol, data, ratios):
     plt.bar(chart_values.keys(), chart_values.values(), color=colors)
     plt.title(f"Selected Financial Data for {ticker_symbol}")
 
-    # Format y-axis to show billions/millions instead of raw numbers
     ax = plt.gca()
     max_val = max(abs(v) for v in chart_values.values())
+
     if max_val >= 1_000_000_000:
-        ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f"${x/1_000_000_000:.1f}B"))
+        ax.yaxis.set_major_formatter(
+            plt.FuncFormatter(lambda x, p: f"${x/1_000_000_000:.1f}B")
+        )
         plt.ylabel("Amount (Billions USD)")
     elif max_val >= 1_000_000:
-        ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f"${x/1_000_000:.1f}M"))
+        ax.yaxis.set_major_formatter(
+            plt.FuncFormatter(lambda x, p: f"${x/1_000_000:.1f}M")
+        )
         plt.ylabel("Amount (Millions USD)")
     else:
         plt.ylabel("Amount (USD)")
@@ -654,17 +655,13 @@ def make_chart(ticker_symbol, data, ratios):
     plt.xticks(rotation=20)
     plt.tight_layout()
 
-def make_chart(ticker_symbol, data, ratios):
-    # ... existing chart generation code ...
-    
     chart_filename = f"{ticker_symbol}_financial_chart.png"
-    save_path = os.path.join(CHART_FOLDER, chart_filename)
-    plt.savefig(save_path)
-    plt.close()
-    
-    # FIX: Return only the filename
-    return chart_filename
+    chart_path = os.path.join(CHART_FOLDER, chart_filename)
 
+    plt.savefig(chart_path)
+    plt.close()
+
+    return f"charts/{chart_filename}"
 
 
 def make_comparison_chart(data_list):

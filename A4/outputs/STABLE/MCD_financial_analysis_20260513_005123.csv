@@ -1,0 +1,35 @@
+Section,Metric,Value
+Company Data,Ticker,MCD
+Company Data,Company Name,McDonald's Corporation
+Company Data,Sector,Consumer Cyclical
+Company Data,Industry,Restaurants
+Company Data,Current Price,274.84
+Company Data,Market Cap,195275423744
+Company Data,Total Revenue,26885000000.0
+Company Data,Gross Profits,15434000000.0
+Company Data,Net Income,8563000000.0
+Company Data,Total Cash,1170000000
+Company Data,Total Debt,61306000000.0
+Company Data,Book Value,-2.519
+Company Data,Profit Margin,0.31618
+Company Data,Return on Equity,
+Company Data,Debt to Equity,
+Company Data,Trailing PE,22.676567
+Company Data,Forward PE,19.36419
+Company Data,Recommendation,buy
+Company Data,Total Assets,59515000000.0
+Company Data,Total Liabilities,61306000000.0
+Company Data,Stockholders Equity,-1790000000.0
+Company Data,Current Assets,4163000000.0
+Company Data,Current Liabilities,4361000000.0
+Company Data,Operating Income,12394000000.0
+Company Data,Operating Cash Flow,10551000000.0
+Company Data,Free Cash Flow,7186000000.0
+Calculated Ratios,Net Profit Margin,0.31850474242142457
+Calculated Ratios,Cash to Debt Ratio,0.019084592046455486
+Calculated Ratios,Market Cap to Revenue,7.263359633401525
+Calculated Ratios,Debt to Equity,
+Calculated Ratios,Trailing PE,22.676567
+Calculated Ratios,Return on Equity,
+Category,Company Category,Growth / Strong Profit Company
+Score,Financial Health Score,65
