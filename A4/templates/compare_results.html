@@ -4,15 +4,12 @@
 
 {% block content %}
 <a class="back-link" href="{{ url_for('compare') }}">← New comparison</a>
-<div class="download-buttons">
-    <a class="download-btn" href="{{ url_for('compare') }}">
-        Start New Comparison
-    </a>
 
-    <a class="download-btn" href="{{ url_for('analyze') }}">
-        Start New Analysis
-    </a>
+<div class="download-buttons">
+    <a class="download-btn" href="{{ url_for('compare') }}">Start New Comparison</a>
+    <a class="download-btn" href="{{ url_for('analyze') }}">Start New Analysis</a>
 </div>
+
 <div class="card">
     <h1>Company Comparison</h1>
     {% if warning %}
