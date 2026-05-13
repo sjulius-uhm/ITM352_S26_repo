@@ -824,6 +824,17 @@ def analyze():
                 custom_filename=custom_filename if custom_filename else None
             )
 
+            # Inside the try block of the analyze() POST method:
+# ... after csv_file, excel_file = save_outputs(...) ...
+
+is_watched = ticker_symbol in get_user_watchlist(session["username"])
+
+return render_template(
+    "results.html", 
+    # ... other variables ...
+    is_watched=is_watched 
+)
+
             # Build display-ready data with CSS classes for color highlighting
             display_data = {}
             for key, value in data.items():
@@ -862,6 +873,64 @@ def analyze():
 
     return render_template("analyze.html")
 
+#Watchlist route:
+WATCHLISTS_FILE = "watchlists.json"
+
+def load_watchlists():
+    """Load user watchlists from disk."""
+    if os.path.exists(WATCHLISTS_FILE):
+        with open(WATCHLISTS_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_watchlists(watchlists):
+    """Save user watchlists to disk."""
+    with open(WATCHLISTS_FILE, "w") as f:
+        json.dump(watchlists, f, indent=2)
+
+def get_user_watchlist(username):
+    """Retrieve the watchlist for a specific user."""
+    watchlists = load_watchlists()
+    return watchlists.get(username, [])
+def add_to_watchlist(username, ticker):
+    """Add a ticker to the user's specific watchlist."""
+    watchlists = load_watchlists()
+    user_list = watchlists.get(username, [])
+    ticker = clean_ticker(ticker)
+    
+    if ticker not in user_list:
+        user_list.append(ticker)
+        watchlists[username] = user_list
+        save_watchlists(watchlists)
+        return True
+    return False
+
+def remove_from_watchlist(username, ticker):
+    """Remove a ticker from the user's specific watchlist."""
+    watchlists = load_watchlists()
+    user_list = watchlists.get(username, [])
+    ticker = clean_ticker(ticker)
+    
+    if ticker in user_list:
+        user_list.remove(ticker)
+        watchlists[username] = user_list
+        save_watchlists(watchlists)
+        return True
+    return False
+
+@app.route("/watchlist/add/<ticker>")
+@login_required
+def watchlist_add(ticker):
+    """Route to add a ticker and redirect back to results."""
+    add_to_watchlist(session["username"], ticker)
+    return redirect(url_for('analyze', ticker=ticker))
+
+@app.route("/watchlist/remove/<ticker>")
+@login_required
+def watchlist_remove(ticker):
+    """Route to remove a ticker and redirect back to dashboard."""
+    remove_from_watchlist(session["username"], ticker)
+    return redirect(url_for('home'))
 
 # Compare route:
 # Lets the user enter multiple tickers and compares valid companies side by side.
@@ -1018,5 +1087,19 @@ def download_file(filename):
 
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+@app.route("/", methods=["GET"])
+@login_required
+def home():
+    username = session.get("username")
+    # ... existing history logic ...
+    
+    # Get watchlist for the dashboard
+    watchlist_tickers = get_user_watchlist(username)
+    
+    return render_template(
+        "dashboard.html", 
+        recent=recent, 
+        rank_counts=rank_counts, 
+        total=len(history),
+        watchlist=watchlist_tickers  # New variable for template
+    )
