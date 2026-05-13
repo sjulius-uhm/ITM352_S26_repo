@@ -863,6 +863,48 @@ def home():
     return render_template("dashboard.html", recent=recent, rank_counts=rank_counts, total=len(history), movers=movers)
 
 
+# Watchlist route:
+# Displays the logged-in user's saved watchlist and filtering options.
+@app.route("/watchlist")
+@login_required
+def watchlist():
+    username = session.get("username")
+    users = load_users()
+
+    # Handle older user format
+    if username in users and isinstance(users[username], str):
+        users[username] = {
+            "password": users[username],
+            "watchlist": []
+        }
+        save_users(users)
+
+    watchlist_tickers = users.get(username, {}).get("watchlist", [])
+
+    watchlist_data = []
+
+    for ticker in watchlist_tickers:
+        try:
+            data = get_financial_data(ticker)
+            ratios = calculate_ratios(data)
+            score = calculate_score(data, ratios)
+
+            watchlist_data.append({
+                "ticker": ticker,
+                "score": score,
+                "profit": format_percent(ratios.get("Net Profit Margin")),
+                "pe": format_number(ratios.get("Trailing PE")),
+            })
+
+        except Exception:
+            continue
+
+    return render_template(
+        "watchlist.html",
+        watchlist=watchlist_data
+    )
+
+
 # Analyze route:
 # Lets the user enter one ticker, runs the full analysis, saves outputs,
 # and displays the results page.
