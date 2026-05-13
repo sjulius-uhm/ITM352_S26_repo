@@ -8,6 +8,7 @@ AI was used to help organize the Flask app structure, debug errors, improve func
 """
 
 from flask import Flask, render_template, request, send_file, redirect, url_for, session
+from textblob import TextBlob
 from functools import wraps
 import os
 import json
@@ -51,6 +52,40 @@ for folder_name in RANK_FOLDERS:
 # File to persist analysis history
 HISTORY_FILE = os.path.join(OUTPUT_FOLDER, "analysis_history.json")
 
+
+
+from textblob import TextBlob
+
+def get_sentiment_analysis(ticker_symbol):
+    try:
+        company = yf.Ticker(ticker_symbol)
+        news = company.news
+        
+        if not news:
+            return "No Recent News", 0.0, [], []
+
+        total_polarity = 0
+        good_news = []
+        bad_news = []
+
+        for item in news:
+            title = item['title']
+            analysis = TextBlob(title)
+            polarity = analysis.sentiment.polarity
+            total_polarity += polarity
+            
+            # Categorize based on individual headline polarity
+            if polarity > 0.1:
+                good_news.append(title)
+            elif polarity < -0.1:
+                bad_news.append(title)
+            
+        avg_polarity = total_polarity / len(news)
+        sentiment_label = "Positive" if avg_polarity > 0.05 else "Negative" if avg_polarity < -0.05 else "Neutral"
+            
+        return sentiment_label, round(avg_polarity, 2), good_news, bad_news
+    except Exception:
+        return "Not available", 0.0, [], []
 
 def load_history():
     """Load analysis history from disk."""
@@ -837,6 +872,9 @@ def analyze():
             category = categorize_company(data, ratios)
             score = calculate_score(data, ratios)
             chart_file = make_chart(ticker_symbol, data, ratios)
+            data = get_financial_data(ticker_symbol)
+            # NEW: Add sentiment analysis
+            sentiment_label, sentiment_score, good, bad = get_sentiment_analysis(ticker_symbol)
             csv_file, excel_file = save_outputs(
                 ticker_symbol, data, ratios, category, score,
                 custom_filename=custom_filename if custom_filename else None
@@ -874,6 +912,11 @@ def analyze():
                 chart_file=chart_file,
                 csv_file=csv_file,
                 excel_file=excel_file,
+                sentiment_label=sentiment_label, # Pass to template
+               sentiment_score=sentiment_score, # Pass to template
+               good_news=good,
+               bad_news=bad,
+
             )
         except Exception as error:
             return render_template("analyze.html", error=str(error))
