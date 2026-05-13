@@ -1,0 +1,35 @@
+Section,Metric,Value
+Company Data,Ticker,LULU
+Company Data,Company Name,lululemon athletica inc.
+Company Data,Sector,Consumer Cyclical
+Company Data,Industry,Apparel Retail
+Company Data,Current Price,125.13
+Company Data,Market Cap,14679140352
+Company Data,Total Revenue,11102600000.0
+Company Data,Gross Profits,6284132000.0
+Company Data,Net Income,1579183000.0
+Company Data,Total Cash,1807202048
+Company Data,Total Debt,3494903000.0
+Company Data,Book Value,42.592
+Company Data,Profit Margin,0.14224
+Company Data,Return on Equity,0.34013
+Company Data,Debt to Equity,36.245
+Company Data,Trailing PE,9.436651
+Company Data,Forward PE,9.452234
+Company Data,Recommendation,hold
+Company Data,Total Assets,8456743000.0
+Company Data,Total Liabilities,3494903000.0
+Company Data,Stockholders Equity,4961840000.0
+Company Data,Current Assets,4262701000.0
+Company Data,Current Liabilities,1887548000.0
+Company Data,Operating Income,2210615000.0
+Company Data,Operating Cash Flow,1602477000.0
+Company Data,Free Cash Flow,921675000.0
+Calculated Ratios,Net Profit Margin,0.14223542233350747
+Calculated Ratios,Cash to Debt Ratio,0.5170964825060953
+Calculated Ratios,Market Cap to Revenue,1.3221353873867383
+Calculated Ratios,Debt to Equity,36.245
+Calculated Ratios,Trailing PE,9.436651
+Calculated Ratios,Return on Equity,0.34013
+Category,Company Category,Possible Value Company
+Score,Financial Health Score,90

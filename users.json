@@ -4,5 +4,42 @@
     "watchlist": [
       "AAPL"
     ]
+  },
+  "PaulB": {
+    "password": "Myphone@123",
+    "watchlist": [
+      "AAPL"
+    ]
+  },
+  "PaulBag": {
+    "password": "Myphone@123",
+    "watchlist": [
+      "AAPL"
+    ]
+  },
+  "pbagara": {
+    "password": "Myphone@123",
+    "watchlist": [
+      "AAPL",
+      "LULU",
+      "T",
+      "UAA",
+      "GM",
+      "WMT"
+    ]
+  },
+  "PaulBaga": {
+    "password": "Myphone@123",
+    "watchlist": [
+      "AAPL"
+    ]
+  },
+  "Paul_Bagara": {
+    "password": "Myphone@123",
+    "watchlist": [
+      "AAPL",
+      "WMT",
+      "UAA"
+    ]
   }
 }

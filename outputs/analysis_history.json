@@ -424,5 +424,181 @@
     "csv_file": "High Rank/AAPL_financial_analysis_20260513_014649.csv",
     "excel_file": "High Rank/AAPL_financial_analysis_20260513_014649.xlsx",
     "timestamp": "20260513_014649"
+  },
+  {
+    "username": "PaulB",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_023741.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_023741.xlsx",
+    "timestamp": "20260513_023741"
+  },
+  {
+    "username": "PaulBag",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_024446.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_024446.xlsx",
+    "timestamp": "20260513_024446"
+  },
+  {
+    "username": "pbagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_025220.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_025220.xlsx",
+    "timestamp": "20260513_025220"
+  },
+  {
+    "username": "pbagara",
+    "ticker": "LULU",
+    "company_name": "lululemon athletica inc.",
+    "category": "Possible Value Company",
+    "score": 90,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/LULU_financial_analysis_20260513_025937.csv",
+    "excel_file": "High Rank/LULU_financial_analysis_20260513_025937.xlsx",
+    "timestamp": "20260513_025937"
+  },
+  {
+    "username": "pbagara",
+    "ticker": "LULU",
+    "company_name": "lululemon athletica inc.",
+    "category": "Possible Value Company",
+    "score": 90,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/LULU_financial_analysis_20260513_025938.csv",
+    "excel_file": "High Rank/LULU_financial_analysis_20260513_025938.xlsx",
+    "timestamp": "20260513_025938"
+  },
+  {
+    "username": "pbagara",
+    "ticker": "LULU",
+    "company_name": "lululemon athletica inc.",
+    "category": "Possible Value Company",
+    "score": 90,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/LULU_financial_analysis_20260513_025953.csv",
+    "excel_file": "High Rank/LULU_financial_analysis_20260513_025953.xlsx",
+    "timestamp": "20260513_025953"
+  },
+  {
+    "username": "pbagara",
+    "ticker": "T",
+    "company_name": "AT&T Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/T_financial_analysis_20260513_030010.csv",
+    "excel_file": "High Rank/T_financial_analysis_20260513_030010.xlsx",
+    "timestamp": "20260513_030010"
+  },
+  {
+    "username": "pbagara",
+    "ticker": "UAA",
+    "company_name": "Under Armour, Inc.",
+    "category": "Losing Company",
+    "score": 35,
+    "rank_folder": "Risky",
+    "csv_file": "Risky/UAA_financial_analysis_20260513_030055.csv",
+    "excel_file": "Risky/UAA_financial_analysis_20260513_030055.xlsx",
+    "timestamp": "20260513_030055"
+  },
+  {
+    "username": "pbagara",
+    "ticker": "GM",
+    "company_name": "General Motors Company",
+    "category": "Neutral / Needs More Review",
+    "score": 30,
+    "rank_folder": "Risky",
+    "csv_file": "Risky/GM_financial_analysis_20260513_030359.csv",
+    "excel_file": "Risky/GM_financial_analysis_20260513_030359.xlsx",
+    "timestamp": "20260513_030359"
+  },
+  {
+    "username": "pbagara",
+    "ticker": "WMT",
+    "company_name": "Walmart Inc.",
+    "category": "Neutral / Needs More Review",
+    "score": 65,
+    "rank_folder": "Stable",
+    "csv_file": "Stable/WMT_financial_analysis_20260513_030436.csv",
+    "excel_file": "Stable/WMT_financial_analysis_20260513_030436.xlsx",
+    "timestamp": "20260513_030436"
+  },
+  {
+    "username": "PaulBaga",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_031423.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_031423.xlsx",
+    "timestamp": "20260513_031423"
+  },
+  {
+    "username": "Paul_Bagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_032104.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_032104.xlsx",
+    "timestamp": "20260513_032104"
+  },
+  {
+    "username": "Paul_Bagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_032128.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_032128.xlsx",
+    "timestamp": "20260513_032128"
+  },
+  {
+    "username": "Paul_Bagara",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_032604.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_032604.xlsx",
+    "timestamp": "20260513_032604"
+  },
+  {
+    "username": "Paul_Bagara",
+    "ticker": "WMT",
+    "company_name": "Walmart Inc.",
+    "category": "Neutral / Needs More Review",
+    "score": 65,
+    "rank_folder": "Stable",
+    "csv_file": "Stable/WMT_financial_analysis_20260513_032639.csv",
+    "excel_file": "Stable/WMT_financial_analysis_20260513_032639.xlsx",
+    "timestamp": "20260513_032639"
+  },
+  {
+    "username": "Paul_Bagara",
+    "ticker": "UAA",
+    "company_name": "Under Armour, Inc.",
+    "category": "Losing Company",
+    "score": 35,
+    "rank_folder": "Risky",
+    "csv_file": "Risky/UAA_financial_analysis_20260513_032722.csv",
+    "excel_file": "Risky/UAA_financial_analysis_20260513_032722.xlsx",
+    "timestamp": "20260513_032722"
   }
 ]

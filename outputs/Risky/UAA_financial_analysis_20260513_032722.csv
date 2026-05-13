@@ -1,0 +1,35 @@
+Section,Metric,Value
+Company Data,Ticker,UAA
+Company Data,Company Name,"Under Armour, Inc."
+Company Data,Sector,Consumer Cyclical
+Company Data,Industry,Apparel Manufacturing
+Company Data,Current Price,5.03
+Company Data,Market Cap,2142226816
+Company Data,Total Revenue,5164310000.0
+Company Data,Gross Profits,2474744000.0
+Company Data,Net Income,-201267000.0
+Company Data,Total Cash,309168000
+Company Data,Total Debt,2410593000.0
+Company Data,Book Value,3.37
+Company Data,Profit Margin,-0.0998
+Company Data,Return on Equity,-0.29997
+Company Data,Debt to Equity,137.139
+Company Data,Trailing PE,
+Company Data,Forward PE,13.843402
+Company Data,Recommendation,hold
+Company Data,Total Assets,4300871000.0
+Company Data,Total Liabilities,2410593000.0
+Company Data,Stockholders Equity,1890278000.0
+Company Data,Current Assets,2329097000.0
+Company Data,Current Liabilities,1109143000.0
+Company Data,Operating Income,-127247000.0
+Company Data,Operating Cash Flow,-59319000.0
+Company Data,Free Cash Flow,-228003000.0
+Calculated Ratios,Net Profit Margin,-0.03897267979652654
+Calculated Ratios,Cash to Debt Ratio,0.1282539192638492
+Calculated Ratios,Market Cap to Revenue,0.41481375362826783
+Calculated Ratios,Debt to Equity,137.139
+Calculated Ratios,Trailing PE,
+Calculated Ratios,Return on Equity,-0.29997
+Category,Company Category,Losing Company
+Score,Financial Health Score,35

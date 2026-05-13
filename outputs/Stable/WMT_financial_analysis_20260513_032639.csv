@@ -1,0 +1,35 @@
+Section,Metric,Value
+Company Data,Ticker,WMT
+Company Data,Company Name,Walmart Inc.
+Company Data,Sector,Consumer Defensive
+Company Data,Industry,Discount Stores
+Company Data,Current Price,130.35
+Company Data,Market Cap,1039018688512
+Company Data,Total Revenue,713163000000.0
+Company Data,Gross Profits,177768000000.0
+Company Data,Net Income,21893000000.0
+Company Data,Total Cash,10727000064
+Company Data,Total Debt,178488000000.0
+Company Data,Book Value,12.501
+Company Data,Profit Margin,0.0307
+Company Data,Return on Equity,0.21847
+Company Data,Debt to Equity,64.443
+Company Data,Trailing PE,47.922794
+Company Data,Forward PE,39.634155
+Company Data,Recommendation,strong_buy
+Company Data,Total Assets,284668000000.0
+Company Data,Total Liabilities,178488000000.0
+Company Data,Stockholders Equity,99617000000.0
+Company Data,Current Assets,84874000000.0
+Company Data,Current Liabilities,107469000000.0
+Company Data,Operating Income,29825000000.0
+Company Data,Operating Cash Flow,41565000000.0
+Company Data,Free Cash Flow,14923000000.0
+Calculated Ratios,Net Profit Margin,0.03069845182658102
+Calculated Ratios,Cash to Debt Ratio,0.060099278741427994
+Calculated Ratios,Market Cap to Revenue,1.45691614471306
+Calculated Ratios,Debt to Equity,64.443
+Calculated Ratios,Trailing PE,47.922794
+Calculated Ratios,Return on Equity,0.21847
+Category,Company Category,Neutral / Needs More Review
+Score,Financial Health Score,65
