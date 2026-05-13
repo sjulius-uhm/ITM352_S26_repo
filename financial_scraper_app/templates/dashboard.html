@@ -27,6 +27,25 @@
 </div>
 
 <div class="card">
+    <h2>Your Top 5 Biggest Movers Today</h2>
+    {% if top_movers %}
+    <div class="movers-list">
+        {% for stock in top_movers %}
+        <div class="mover-item">
+            <strong>{{ stock.ticker }}</strong>
+            <span style="color: #666;">{{ stock.company_name }}</span>
+            <span class="{% if stock.pct_change > 0 %}positive{% else %}negative{% endif %}" style="float: right; font-weight: bold;">
+                {{ "{:+.2f}%".format(stock.pct_change) }}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Analyze a stock and add it to your <a href="{{ url_for('watchlist') }}">watchlist</a> to see movers here.</p>
+    {% endif %}
+</div>
+
+<div class="card">
     <h2>Quick Analyze</h2>
     <form method="POST" action="{{ url_for('analyze') }}" class="inline-form">
         <input type="text" name="ticker" placeholder="Enter ticker (e.g., AAPL)" required>

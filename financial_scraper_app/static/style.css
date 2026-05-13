@@ -428,6 +428,47 @@ th {
     color: #336;
 }
 
+/* watchlist filters */
+.filter-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #e8e8e8;
+    color: #333;
+    text-decoration: none;
+    font-size: 12px;
+    border: 1px solid #ccc;
+}
+
+.filter-btn:hover {
+    background: #ddd;
+}
+
+.filter-btn.filter-active {
+    background: #555;
+    color: white;
+    border-color: #555;
+}
+
+/* movers */
+.movers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.mover-item {
+    padding: 6px 8px;
+    background: #f5f5f5;
+    border: 1px solid #eee;
+    font-size: 13px;
+}
+
 /* responsive */
 @media (max-width: 700px) {
     .grid { grid-template-columns: 1fr; }
