@@ -17,6 +17,9 @@
 - Downloads Center with saved analyses
 - Financial chart visualizations
 - Invalid ticker handling and input cleaning
+- Personal watchlist by user
+- Dashboard watchlist widget
+- Market sentiment analysis using TextBlob and recent yfinance news
 
 
 ## Software Architecture
@@ -55,6 +58,13 @@ Main sections:
 - Downloads Center
 - CSV/Excel export system
 
+### 4. Watchlist and Sentiment Layer
+Handles saved user tickers, dashboard watchlist summaries, and sentiment analysis from recent company news.
+
+Main functions:
+- add_to_watchlist()
+- watchlist()
+- get_sentiment_analysis()
 ---
 ## File Descriptions and How They Were Created
 

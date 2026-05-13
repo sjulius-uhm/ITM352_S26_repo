@@ -47,7 +47,12 @@ Financial values were cross-checked against Yahoo Finance and SEC EDGAR whenever
 | T22     | Divide-by-Zero Protection      | Revenue/debt edge cases        | No crash during calculations                 | Handled safely using checks                  | PASS   |
 | T23     | File Downloads                 | Download CSV/Excel             | Files download correctly                     | Files downloaded successfully                | PASS   |
 | T24     | Navigation Links               | Move between pages             | Navigation works correctly                   | All links functional                         | PASS   |
-
+| T25     | Watchlist Navigation           | Click Watchlist tab            | Watchlist page opens                         | Watchlist page opened successfully           | PASS   |
+| T26     | Add to Watchlist               | Analyze `AAPL`                 | Ticker saved to user watchlist               | Ticker appeared in watchlist                 | PASS   |
+| T27     | Watchlist Dashboard Widget     | Saved watchlist tickers        | Dashboard shows saved tickers                | Watchlist widget displayed correctly         | PASS   |
+| T28     | User-Specific Watchlist        | Multiple user accounts         | Each user sees only their own watchlist      | Watchlists were separated by account         | PASS   |
+| T29     | Watchlist Full Analysis Button | Click Full Analysis            | Runs analysis for saved ticker               | Analysis loaded correctly                    | PASS   |
+| T30     | Sentiment Analysis             | Analyze valid ticker           | Sentiment label and headlines displayed      | Sentiment section displayed correctly        | PASS   |
 ---
 
 # Error Handling Tests
@@ -105,6 +110,19 @@ Result:
 
 ---
 
+## Watchlist Testing
+
+The watchlist feature was tested by analyzing companies and checking whether the ticker appeared in the user's personal watchlist.
+
+Results:
+* analyzed tickers were added to the logged-in user's watchlist
+* the Watchlist page displayed saved tickers correctly
+* the dashboard widget showed saved watchlist stocks with price, score, and rank
+* watchlists were separated by user account
+* the Full Analysis button on the Watchlist page successfully re-ran analysis for a saved ticker
+
+---
+
 # Final Testing Conclusion
 
 The FIN-ANALYTIX application successfully passed all major functional tests.
@@ -118,5 +136,7 @@ The final application:
 * supports user authentication
 * organizes user-specific history and downloads
 * remains stable during normal and error-case testing
+* supports personal watchlists and dashboard watchlist summaries
+* displays basic market sentiment from recent company news
 
 The project was tested for both functionality and robustness to ensure a polished final product.

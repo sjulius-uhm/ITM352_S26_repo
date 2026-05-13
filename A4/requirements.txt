@@ -1,9 +1,8 @@
 # Required Python packages for FIN-ANALYTIX
-Python
 Flask
-Pandas
-Matplotlib
+pandas
+matplotlib
 yfinance
 openpyxl
-HTML/CSS
-JSON
+numpy
+textblob

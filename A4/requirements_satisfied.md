@@ -23,6 +23,9 @@ Our project combines multiple features into one integrated financial analysis we
 * CSV/Excel exporting
 * downloads management
 * user-specific dashboards
+* personal user watchlist
+* dashboard watchlist widget
+* market sentiment analysis from recent company news
 
 While tutorials and examples exist for individual parts (such as Flask dashboards, web scraping, or CSV exports), we did not find a single tutorial or existing application that implemented our full feature set together in the same workflow.
 
@@ -59,6 +62,7 @@ Inputs include:
 * multiple comparison tickers
 * usernames/passwords
 * custom export filenames
+* watchlist actions
 
 Outputs include:
 
@@ -69,6 +73,9 @@ Outputs include:
 * comparison tables
 * charts
 * downloadable CSV/Excel files
+* personal watchlist tables
+* dashboard watchlist summaries
+* sentiment labels and positive/negative headline indicators
 
 ---
 
@@ -118,6 +125,7 @@ The project uses:
 * lists for multi-company comparisons
 * Pandas DataFrames for structured exports
 * JSON files for user accounts and history tracking
+* user watchlists stored in `users.json`
 
 Examples:
 
@@ -189,6 +197,8 @@ We researched and implemented:
 * styled Excel exports using `openpyxl`
 * dynamic chart generation with matplotlib
 * user-specific history and downloads management
+* TextBlob sentiment analysis on recent company news headlines
+* personal watchlist tracking connected to user accounts
 
 These technologies required independent research outside of normal class examples.
 
@@ -258,6 +268,9 @@ The application includes:
 * clean page layouts
 * consistent styling
 * robust error handling
+* personal watchlist page
+* dashboard watchlist widget
+* Add to Watchlist workflow through company analysis
 
 The final application is fully functional and supports multiple financial analysis workflows through a user-friendly web interface.
 

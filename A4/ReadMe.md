@@ -60,6 +60,9 @@ The goal of the project is to provide a structured and user-friendly tool for ex
 * Downloads Center
 * User-specific history tracking
 * Invalid ticker handling and input cleaning
+* Personal user watchlist
+* Watchlist dashboard widget
+* Market sentiment analysis from recent company news
 
 ---
 
@@ -73,6 +76,7 @@ The goal of the project is to provide a structured and user-friendly tool for ex
 * openpyxl
 * HTML/CSS
 * JSON
+* TextBlob
 
 ---
 
@@ -111,11 +115,11 @@ Create an account or log in using the login page.
 ### 2. Dashboard
 
 The dashboard displays:
-
 * total analyses
 * rank summaries
 * recent analyses
 * quick analysis form
+* a watchlist widget showing saved stocks, price, score, and rank
 
 ### 3. Analyze a Company
 
@@ -155,6 +159,9 @@ The app will:
 
 Saved CSV and Excel files can be downloaded from the Downloads Center.
 
+### 6. Watchlist
+
+When a user analyzes a company, the ticker is added to their personal watchlist. The Watchlist page allows users to view saved companies, health scores, profit margin, and P/E ratio. The dashboard also shows a smaller watchlist widget for quick review.
 ---
 
 ## Software Architecture Overview
