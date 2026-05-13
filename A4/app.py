@@ -89,7 +89,39 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated
 
+def add_to_watchlist(username, ticker):
+    """Adds a ticker to the user's specific watchlist."""
+    users = load_users()
+    if username in users:
+        # Check if user data is a dict (new format) or string (old password-only format)
+        if isinstance(users[username], str):
+            users[username] = {"password": users[username], "watchlist": []}
+        
+        if "watchlist" not in users[username]:
+            users[username]["watchlist"] = []
 
+        if ticker not in users[username]["watchlist"]:
+            users[username]["watchlist"].append(ticker)
+            save_users(users)
+            return True
+    return False
+
+def get_top_movers():
+    """Fetches high-activity tickers for the dashboard widget."""
+    movers = []
+    # Major indices/tech for the widget
+    sample_tickers = ["AAPL", "TSLA", "NVDA", "MSFT", "AMD"]
+    for t in sample_tickers:
+        try:
+            ticker = yf.Ticker(t)
+            hist = ticker.history(period="2d")
+            if len(hist) >= 2:
+                prev_close = hist['Close'].iloc[-2]
+                curr_close = hist['Close'].iloc[-1]
+                change = ((curr_close - prev_close) / prev_close) * 100
+                movers.append({"ticker": t, "price": round(curr_close, 2), "change": round(change, 2)})
+        except: continue
+    return sorted(movers, key=lambda x: abs(x['change']), reverse=True)[:5]
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Login page."""
@@ -318,6 +350,7 @@ def get_multiple_companies_data(ticker_list):
             print("Skipping invalid ticker:", ticker)
 
     return company_data_list
+
 
 
 # ---- Data Mapping Function ----
@@ -765,38 +798,23 @@ def get_value_class(key, value):
 
 
 # Dashboard route:
-# Shows the logged-in user's recent analyses and summary counts.
+# Shows the logged-in user's recent analyses and summary counts and adds in the dashboard for watchlist
 @app.route("/", methods=["GET"])
 @login_required
 def home():
-    """Dashboard / home page showing recent analyses and quick stats."""
-
-    # Get current logged in user
     username = session.get("username")
-
-    # Only load analyses from this user
     all_history = load_history()
-    history = [
-        entry for entry in all_history
-        if entry.get("username") == username
-    ]
-
-    # Get most recent analyses
-    recent = history[-5:][::-1] if history else []
-
+    history = [e for e in all_history if e.get("username") == username]
+    recent = history[-5:][::-1]
+    
+    # NEW: Fetch Top Movers for the dashboard widget
+    movers = get_top_movers()
+    
     rank_counts = {"High Rank": 0, "Stable": 0, "Risky": 0}
-
-    for entry in history:
-        folder = entry.get("rank_folder", "Risky")
-        if folder in rank_counts:
-            rank_counts[folder] += 1
-
-    return render_template(
-        "dashboard.html",
-        recent=recent,
-        rank_counts=rank_counts,
-        total=len(history),
-    )
+    for e in history:
+        f = e.get("rank_folder")
+        if f in rank_counts: rank_counts[f] += 1
+    return render_template("dashboard.html", recent=recent, rank_counts=rank_counts, total=len(history), movers=movers)
 
 
 # Analyze route:
@@ -823,17 +841,6 @@ def analyze():
                 ticker_symbol, data, ratios, category, score,
                 custom_filename=custom_filename if custom_filename else None
             )
-
-            # Inside the try block of the analyze() POST method:
-# ... after csv_file, excel_file = save_outputs(...) ...
-
-is_watched = ticker_symbol in get_user_watchlist(session["username"])
-
-return render_template(
-    "results.html", 
-    # ... other variables ...
-    is_watched=is_watched 
-)
 
             # Build display-ready data with CSS classes for color highlighting
             display_data = {}
@@ -873,64 +880,6 @@ return render_template(
 
     return render_template("analyze.html")
 
-#Watchlist route:
-WATCHLISTS_FILE = "watchlists.json"
-
-def load_watchlists():
-    """Load user watchlists from disk."""
-    if os.path.exists(WATCHLISTS_FILE):
-        with open(WATCHLISTS_FILE, "r") as f:
-            return json.load(f)
-    return {}
-
-def save_watchlists(watchlists):
-    """Save user watchlists to disk."""
-    with open(WATCHLISTS_FILE, "w") as f:
-        json.dump(watchlists, f, indent=2)
-
-def get_user_watchlist(username):
-    """Retrieve the watchlist for a specific user."""
-    watchlists = load_watchlists()
-    return watchlists.get(username, [])
-def add_to_watchlist(username, ticker):
-    """Add a ticker to the user's specific watchlist."""
-    watchlists = load_watchlists()
-    user_list = watchlists.get(username, [])
-    ticker = clean_ticker(ticker)
-    
-    if ticker not in user_list:
-        user_list.append(ticker)
-        watchlists[username] = user_list
-        save_watchlists(watchlists)
-        return True
-    return False
-
-def remove_from_watchlist(username, ticker):
-    """Remove a ticker from the user's specific watchlist."""
-    watchlists = load_watchlists()
-    user_list = watchlists.get(username, [])
-    ticker = clean_ticker(ticker)
-    
-    if ticker in user_list:
-        user_list.remove(ticker)
-        watchlists[username] = user_list
-        save_watchlists(watchlists)
-        return True
-    return False
-
-@app.route("/watchlist/add/<ticker>")
-@login_required
-def watchlist_add(ticker):
-    """Route to add a ticker and redirect back to results."""
-    add_to_watchlist(session["username"], ticker)
-    return redirect(url_for('analyze', ticker=ticker))
-
-@app.route("/watchlist/remove/<ticker>")
-@login_required
-def watchlist_remove(ticker):
-    """Route to remove a ticker and redirect back to dashboard."""
-    remove_from_watchlist(session["username"], ticker)
-    return redirect(url_for('home'))
 
 # Compare route:
 # Lets the user enter multiple tickers and compares valid companies side by side.
@@ -1062,9 +1011,6 @@ def downloads():
     return render_template("downloads.html", files_by_rank=files_by_rank)
 
 
-
-
-
 # File download route:
 # Sends a selected CSV or Excel file to the user's browser.
 @app.route("/download/<path:filename>")
@@ -1087,19 +1033,5 @@ def download_file(filename):
 
 
 
-@app.route("/", methods=["GET"])
-@login_required
-def home():
-    username = session.get("username")
-    # ... existing history logic ...
-    
-    # Get watchlist for the dashboard
-    watchlist_tickers = get_user_watchlist(username)
-    
-    return render_template(
-        "dashboard.html", 
-        recent=recent, 
-        rank_counts=rank_counts, 
-        total=len(history),
-        watchlist=watchlist_tickers  # New variable for template
-    )
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5001, debug=True)

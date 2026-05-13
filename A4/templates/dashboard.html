@@ -71,6 +71,29 @@
         {% endfor %}
     </table>
 </div>
+
+<!-- Top Movers Widget -->
+<div class="card">
+    <h2>Top Movers</h2>
+    <table>
+        <tr>
+            <th>Ticker</th>
+            <th>Price</th>
+            <th>Change</th>
+        </tr>
+        {% for mover in movers %}
+        <tr>
+            <td><strong>{{ mover.ticker }}</strong></td>
+            <td>${{ mover.price }}</td>
+            <td class="{% if mover.change >= 0 %}change-positive{% else %}change-negative{% endif %}">
+                {{ mover.change }}%
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
 <!-- Empty dashboard state -->
 {% else %}
 <div class="card">
