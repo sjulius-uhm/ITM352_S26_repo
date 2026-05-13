@@ -57,34 +57,60 @@ from textblob import TextBlob
 
 
 def get_sentiment_analysis(ticker_symbol):
+    """
+    Gets recent company news from yfinance and uses TextBlob to estimate
+    basic sentiment from the article headlines.
+    """
     try:
         company = yf.Ticker(ticker_symbol)
         news = company.news
-        
+
         if not news:
             return "No Recent News", 0.0, [], []
 
         total_polarity = 0
         good_news = []
         bad_news = []
+        analyzed_count = 0
 
-        for item in news:
-            title = item['title']
+        for item in news[:10]:
+
+            # yfinance news format can vary, so this checks multiple places
+            title = item.get("title")
+
+            if title is None and "content" in item:
+                title = item["content"].get("title")
+
+            if title is None:
+                continue
+
             analysis = TextBlob(title)
             polarity = analysis.sentiment.polarity
+
             total_polarity += polarity
-            
-            # Categorize based on individual headline polarity
+            analyzed_count += 1
+
             if polarity > 0.1:
                 good_news.append(title)
             elif polarity < -0.1:
                 bad_news.append(title)
-            
-        avg_polarity = total_polarity / len(news)
-        sentiment_label = "Positive" if avg_polarity > 0.05 else "Negative" if avg_polarity < -0.05 else "Neutral"
-            
+
+        if analyzed_count == 0:
+            return "No Headlines Found", 0.0, [], []
+
+        avg_polarity = total_polarity / analyzed_count
+
+        if avg_polarity > 0.05:
+            sentiment_label = "Positive"
+        elif avg_polarity < -0.05:
+            sentiment_label = "Negative"
+        else:
+            sentiment_label = "Neutral"
+
         return sentiment_label, round(avg_polarity, 2), good_news, bad_news
-    except Exception:
+
+    except Exception as error:
+        print("Sentiment analysis error:", error)
         return "Not available", 0.0, [], []
 
 
@@ -666,51 +692,50 @@ def make_chart(ticker_symbol, data, ratios):
 
 def make_comparison_chart(data_list):
     """
-    Creates a grouped bar chart comparing multiple companies.
+    Creates a comparison bar chart using company scores.
+
+    Saves the chart into static/charts so Flask can display it.
     """
-    tickers = [entry["data"]["Ticker"] for entry in data_list]
-    metrics = ["Total Revenue", "Net Income", "Total Cash", "Total Debt"]
+    if not data_list:
+        return None
 
-    values_by_metric = {}
-    for metric in metrics:
-        vals = []
-        for entry in data_list:
-            v = safe_value(entry["data"].get(metric))
-            vals.append(v if v is not None else 0)
-        values_by_metric[metric] = vals
+    tickers = []
+    scores = []
 
-    x = np.arange(len(tickers))
-    width = 0.2
-    fig, ax = plt.subplots(figsize=(10, 6))
+    for entry in data_list:
+        ticker = entry["data"].get("Ticker", "Unknown")
 
-    for i, (metric, vals) in enumerate(values_by_metric.items()):
-        ax.bar(x + i * width, vals, width, label=metric)
+        ratios = entry.get("ratios", {})
+        score = calculate_score(entry["data"], ratios)
 
-    ax.set_xlabel("Company")
-    ax.set_title("Company Comparison")
-    ax.set_xticks(x + width * 1.5)
-    ax.set_xticklabels(tickers)
-    ax.legend()
+        tickers.append(ticker)
+        scores.append(score)
 
-    # Format y-axis to show billions/millions
-    all_vals = [v for vals in values_by_metric.values() for v in vals if v != 0]
-    if all_vals:
-        max_val = max(abs(v) for v in all_vals)
-        if max_val >= 1_000_000_000:
-            ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f"${x/1_000_000_000:.1f}B"))
-            ax.set_ylabel("Amount (Billions USD)")
-        elif max_val >= 1_000_000:
-            ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f"${x/1_000_000:.1f}M"))
-            ax.set_ylabel("Amount (Millions USD)")
+    plt.figure(figsize=(8, 5))
+
+    colors = []
+    for score in scores:
+        if score >= 75:
+            colors.append("#27ae60")
+        elif score >= 50:
+            colors.append("#f1c40f")
         else:
-            ax.set_ylabel("Amount (USD)")
-    else:
-        ax.set_ylabel("Amount (USD)")
+            colors.append("#e74c3c")
+
+    plt.bar(tickers, scores, color=colors)
+
+    plt.title("Financial Health Score Comparison")
+    plt.ylabel("Score")
+    plt.ylim(0, 100)
+
+    for i, score in enumerate(scores):
+        plt.text(i, score + 2, str(score), ha="center")
 
     plt.tight_layout()
 
     chart_filename = "comparison_chart.png"
     chart_path = os.path.join(CHART_FOLDER, chart_filename)
+
     plt.savefig(chart_path)
     plt.close()
 

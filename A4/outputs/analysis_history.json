@@ -291,5 +291,49 @@
     "csv_file": "High Rank/AAPL_financial_analysis_20260513_005142.csv",
     "excel_file": "High Rank/AAPL_financial_analysis_20260513_005142.xlsx",
     "timestamp": "20260513_005142"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_005842.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_005842.xlsx",
+    "timestamp": "20260513_005842"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "TSLA",
+    "company_name": "Tesla, Inc.",
+    "category": "Neutral / Needs More Review",
+    "score": 50,
+    "rank_folder": "Stable",
+    "csv_file": "Stable/TSLA_financial_analysis_20260513_005913.csv",
+    "excel_file": "Stable/TSLA_financial_analysis_20260513_005913.xlsx",
+    "timestamp": "20260513_005913"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "MCD",
+    "company_name": "McDonald's Corporation",
+    "category": "Growth / Strong Profit Company",
+    "score": 65,
+    "rank_folder": "Stable",
+    "csv_file": "Stable/MCD_financial_analysis_20260513_005928.csv",
+    "excel_file": "Stable/MCD_financial_analysis_20260513_005928.xlsx",
+    "timestamp": "20260513_005928"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_010353.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_010353.xlsx",
+    "timestamp": "20260513_010353"
   }
 ]
