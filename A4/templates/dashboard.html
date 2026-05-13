@@ -72,20 +72,31 @@
     </table>
 </div>
 
-<!
+<!-- Watchlist dashboard widget -->
 <div class="card">
-    <h2>Top 5 Biggest Movers Today</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
-        {% for mover in movers %}
-        <div style="padding: 15px; border: 1px solid #eee; border-radius: 8px; text-align: center; background: #fafafa;">
-            <div style="font-weight: bold; font-size: 1.1em;">{{ mover.ticker }}</div>
-            <div style="color: #666; margin: 5px 0;">${{ mover.price }}</div>
-            <div style="font-weight: bold; color: {{ 'green' if mover.change > 0 else 'red' }};">
-                {{ '+' if mover.change > 0 }}{{ mover.change }}%
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    <h2>Your Watchlist</h2>
+
+    {% if watchlist_widget %}
+        <table>
+            <tr>
+                <th>Ticker</th>
+                <th>Price</th>
+                <th>Score</th>
+                <th>Rank</th>
+            </tr>
+
+            {% for stock in watchlist_widget %}
+            <tr>
+                <td>{{ stock.ticker }}</td>
+                <td>{{ stock.price }}</td>
+                <td>{{ stock.score }}</td>
+                <td>{{ stock.rank }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p class="empty-state">No watchlist stocks yet.</p>
+    {% endif %}
 </div>
 
 

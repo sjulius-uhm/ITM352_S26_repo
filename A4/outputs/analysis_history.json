@@ -192,5 +192,27 @@
     "csv_file": "High Rank/AAPL_financial_analysis_20260513_000509.csv",
     "excel_file": "High Rank/AAPL_financial_analysis_20260513_000509.xlsx",
     "timestamp": "20260513_000509"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260513_000725.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260513_000725.xlsx",
+    "timestamp": "20260513_000725"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "MCD",
+    "company_name": "McDonald's Corporation",
+    "category": "Growth / Strong Profit Company",
+    "score": 65,
+    "rank_folder": "Stable",
+    "csv_file": "Stable/MCD_financial_analysis_20260513_001914.csv",
+    "excel_file": "Stable/MCD_financial_analysis_20260513_001914.xlsx",
+    "timestamp": "20260513_001914"
   }
 ]

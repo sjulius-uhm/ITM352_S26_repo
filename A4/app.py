@@ -859,14 +859,37 @@ def home():
     history = [e for e in all_history if e.get("username") == username]
     recent = history[-5:][::-1]
     
-    # NEW: Fetch Top Movers for the dashboard widget
-    movers = get_top_movers()
-    
-    rank_counts = {"High Rank": 0, "Stable": 0, "Risky": 0}
+    watchlist_widget = []
+    users = load_users()
+
+    watchlist_tickers = users.get(username, {}).get("watchlist", [])
+
+    for ticker in watchlist_tickers[:5]:
+        try:
+            data = get_financial_data(ticker)
+            ratios = calculate_ratios(data)
+            score = calculate_score(data, ratios)
+
+            watchlist_widget.append({
+                "ticker": ticker,
+                "price": format_currency(data.get("Current Price")),
+                "score": score,
+                "rank": get_rank_folder(score),
+            })
+
+        except Exception:
+            continue    
+        rank_counts = {"High Rank": 0, "Stable": 0, "Risky": 0}
     for e in history:
         f = e.get("rank_folder")
         if f in rank_counts: rank_counts[f] += 1
-    return render_template("dashboard.html", recent=recent, rank_counts=rank_counts, total=len(history), movers=movers)
+    return render_template(
+    "dashboard.html",
+    recent=recent,
+    rank_counts=rank_counts,
+    total=len(history),
+    watchlist_widget=watchlist_widget
+)
 
 
 # Watchlist route:
