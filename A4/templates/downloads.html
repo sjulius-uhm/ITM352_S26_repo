@@ -2,11 +2,13 @@
 {% block title %}Downloads Center - FIN-ANALYTIX{% endblock %}
 
 {% block content %}
+<!-- Downloads page header -->
 <div class="card">
     <h1>Downloads Center</h1>
     <p class="subtitle">Browse and download saved analyses, organized by financial health rank.</p>
 </div>
 
+<!-- Expandable rank-based download folders -->
 {% for folder_name, folder_info in files_by_rank.items() %}
 <div class="card">
     <div class="folder-header" onclick="toggleFolder('{{ folder_name }}')">
@@ -16,6 +18,7 @@
     </div>
     <div class="folder-contents" id="folder-{{ folder_name }}" style="display: none;">
         {% if folder_info.files %}
+        <!-- File download table -->
         <table>
             <tr>
                 <th>File</th>
@@ -47,6 +50,7 @@
 </div>
 {% endfor %}
 
+<!-- Folder toggle JavaScript -->
 <script>
 function toggleFolder(name) {
     var el = document.getElementById('folder-' + name);

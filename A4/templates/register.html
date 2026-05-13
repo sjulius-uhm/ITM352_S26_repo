@@ -8,14 +8,17 @@
 </head>
 <body>
     <div class="login-page">
+        <!-- Registration form container -->
         <div class="login-box">
             <h1>FIN-ANALYTIX</h1>
             <p>Create a new account</p>
 
+            <!-- Display registration errors -->
             {% if error %}
                 <div class="error">{{ error }}</div>
             {% endif %}
 
+            <!-- User registration form -->
             <form method="POST">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="Choose a username" required>

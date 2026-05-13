@@ -5,6 +5,7 @@
 {% block content %}
 <a class="back-link" href="{{ url_for('compare') }}">← New comparison</a>
 
+<!-- Navigation buttons -->
 <div class="download-buttons">
     <a class="download-btn" href="{{ url_for('compare') }}">Start New Comparison</a>
     <a class="download-btn" href="{{ url_for('analyze') }}">Start New Analysis</a>
@@ -15,6 +16,7 @@
     {% if warning %}
         <div class="error">{{ warning }}</div>
     {% endif %}
+    <!-- Comparison summary badges -->
     <div class="compare-summary">
         {% for ticker in tickers %}
         <div class="compare-badge">
@@ -28,6 +30,7 @@
     </div>
 </div>
 
+<!-- Comparison chart -->
 {% if chart_file %}
 <div class="card">
     <h2>Comparison Chart</h2>
@@ -35,6 +38,7 @@
 </div>
 {% endif %}
 
+<!-- Side-by-side comparison table -->
 <div class="card">
     <h2>Side-by-Side Data</h2>
     <div class="table-scroll">
