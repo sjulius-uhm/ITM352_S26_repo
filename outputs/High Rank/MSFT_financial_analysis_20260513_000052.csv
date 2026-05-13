@@ -1,0 +1,35 @@
+Section,Metric,Value
+Company Data,Ticker,MSFT
+Company Data,Company Name,Microsoft Corporation
+Company Data,Sector,Technology
+Company Data,Industry,Software - Infrastructure
+Company Data,Current Price,407.77
+Company Data,Market Cap,3029092794368
+Company Data,Total Revenue,281724000000.0
+Company Data,Gross Profits,193893000000.0
+Company Data,Net Income,101832000000.0
+Company Data,Total Cash,78227996672
+Company Data,Total Debt,275524000000.0
+Company Data,Book Value,55.777
+Company Data,Profit Margin,0.39341998
+Company Data,Return on Equity,0.34013999
+Company Data,Debt to Equity,30.271
+Company Data,Trailing PE,24.272024
+Company Data,Forward PE,21.068441
+Company Data,Recommendation,strong_buy
+Company Data,Total Assets,619003000000.0
+Company Data,Total Liabilities,275524000000.0
+Company Data,Stockholders Equity,343479000000.0
+Company Data,Current Assets,191131000000.0
+Company Data,Current Liabilities,141218000000.0
+Company Data,Operating Income,128528000000.0
+Company Data,Operating Cash Flow,136162000000.0
+Company Data,Free Cash Flow,71611000000.0
+Calculated Ratios,Net Profit Margin,0.3614601524896707
+Calculated Ratios,Cash to Debt Ratio,0.2839244373339528
+Calculated Ratios,Market Cap to Revenue,10.751987031165253
+Calculated Ratios,Debt to Equity,30.271
+Calculated Ratios,Trailing PE,24.272024
+Calculated Ratios,Return on Equity,0.34013999
+Category,Company Category,Growth / Strong Profit Company
+Score,Financial Health Score,90

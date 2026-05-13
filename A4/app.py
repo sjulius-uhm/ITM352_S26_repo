@@ -614,6 +614,12 @@ def make_chart(ticker_symbol, data, ratios):
         "Debt": safe_value(data.get("Total Debt")),
     }
 
+    chart_filename = f"{ticker_symbol}_financial_chart.png"
+    # Ensure the path is correct for saving
+    save_path = os.path.join(CHART_FOLDER, chart_filename)
+    plt.savefig(save_path)
+    plt.close()
+
     # Remove values that are missing so the chart only shows available data.
     chart_values = {key: value for key, value in chart_values.items() if value is not None}
 
@@ -648,12 +654,17 @@ def make_chart(ticker_symbol, data, ratios):
     plt.xticks(rotation=20)
     plt.tight_layout()
 
+def make_chart(ticker_symbol, data, ratios):
+    # ... existing chart generation code ...
+    
     chart_filename = f"{ticker_symbol}_financial_chart.png"
-    chart_path = os.path.join(CHART_FOLDER, chart_filename)
-    plt.savefig(chart_path)
+    save_path = os.path.join(CHART_FOLDER, chart_filename)
+    plt.savefig(save_path)
     plt.close()
+    
+    # FIX: Return only the filename
+    return chart_filename
 
-    return f"charts/{chart_filename}"
 
 
 def make_comparison_chart(data_list):
