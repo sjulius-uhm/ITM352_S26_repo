@@ -4,8 +4,12 @@
     "watchlist": [
       "AAPL",
       "TSLA",
-      "MCD"
+      "MCD",
+      "AAAAA"
     ]
   },
-  "akahiau": "akahiau"
+  "akahiau": {
+    "password": "akahiau",
+    "watchlist": []
+  }
 }

@@ -890,8 +890,18 @@ def home():
     watchlist_widget = []
     users = load_users()
 
-    watchlist_tickers = users.get(username, {}).get("watchlist", [])
+    user_data = users.get(username, {})
 
+    # Convert old user format to new format if needed
+    if isinstance(user_data, str):
+        users[username] = {
+            "password": user_data,
+            "watchlist": []
+        }
+        save_users(users)
+        user_data = users[username]
+
+    watchlist_tickers = user_data.get("watchlist", [])
     for ticker in watchlist_tickers[:5]:
         try:
             data = get_financial_data(ticker)
