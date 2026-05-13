@@ -2,11 +2,17 @@
 {% block title %}My Watchlist - FIN-ANALYTIX{% endblock %}
 
 {% block content %}
+
+<!-- Watchlist page -->
 <div class="card">
+
+    <!-- Page heading -->
     <h1>Personal Watchlist</h1>
     <p class="subtitle">Monitor your favorite stocks and their health scores.</p>
 
+    <!-- Show watchlist table if stocks exist -->
     {% if watchlist %}
+
     <table>
         <thead>
             <tr>
@@ -17,32 +23,52 @@
                 <th>Actions</th>
             </tr>
         </thead>
+
         <tbody>
+
+            <!-- Loop through saved watchlist stocks -->
             {% for item in watchlist %}
             <tr>
+
                 <td><strong>{{ item.ticker }}</strong></td>
+
+                <!-- Color-coded health score -->
                 <td>
                     <span class="score-badge {% if item.score >= 80 %}score-high{% elif item.score >= 50 %}score-stable{% else %}score-watch{% endif %}">
                         {{ item.score }}
                     </span>
                 </td>
+
                 <td>{{ item.profit.value if item.profit is mapping else item.profit }}</td>
                 <td>{{ item.pe.value if item.pe is mapping else item.pe }}</td>
+
+                <!-- Run a full analysis on the selected company -->
                 <td>
                     <form action="{{ url_for('analyze') }}" method="POST" style="display:inline;">
                         <input type="hidden" name="ticker" value="{{ item.ticker }}">
                         <button type="submit" style="padding: 5px 10px; font-size: 0.8em;">Full Analysis</button>
                     </form>
                 </td>
+
             </tr>
             {% endfor %}
+
         </tbody>
     </table>
+
+    <!-- Empty watchlist message -->
     {% else %}
+
     <div style="text-align: center; padding: 40px;">
         <p>Your watchlist is currently empty.</p>
-        <a href="{{ url_for('analyze') }}" class="download-btn">Analyze a stock to add it</a>
+
+        <a href="{{ url_for('analyze') }}" class="download-btn">
+            Analyze a stock to add it
+        </a>
     </div>
+
     {% endif %}
+
 </div>
+
 {% endblock %}
