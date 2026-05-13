@@ -1,34 +1,38 @@
-"""
-Company Financial Data Web Scraper and Analysis Tool
 
-This Flask application lets users log in, analyze company financial data, compare multiple companies, generate charts, and export results to CSV/Excel.
+#Company Financial Data Web Scraper and Analysis Tool
 
-AI Use Note:
-AI was used to help organize the Flask app structure, debug errors, improve function comments, and support data retrieval/analysis logic. All code was reviewed, tested, and edited by the team.
-"""
+#This Flask application lets users log in, analyze company financial data, compare multiple companies, generate charts, and export results to CSV/Excel.
 
+#Libraries Used
 from flask import Flask, render_template, request, send_file, redirect, url_for, session
+
+#"For basic sentiment analysis of company news headlines. 
+#Got this idea from A.I using prompt 
+# "Make a sentimental analysis function that looks at recent news about a company and estimates if the overall sentiment is positive, negative, or neutral."
 from textblob import TextBlob
 from functools import wraps
 import os
 import json
 from datetime import datetime
 
+# Data processing and visualization libraries
 import pandas as pd
 import matplotlib
 matplotlib.use("Agg")  # Lets matplotlib save charts without opening a window
 import matplotlib.pyplot as plt
 import numpy as np
 
+# library import for Yahoo Finance API without actually relying on API 
 try:
     import yfinance as yf
 except ImportError:
     yf = None
 
-
+#Website set up and configuration
 app = Flask(__name__)
 app.secret_key = "fin-analytix-secret-key-2026"
 
+#File paths and folders for folders for user data, outputs, and charts.
 USERS_FILE = "users.json"
 OUTPUT_FOLDER = "outputs"
 CHART_FOLDER = os.path.join("static", "charts")
@@ -57,10 +61,14 @@ HISTORY_FILE = os.path.join(OUTPUT_FOLDER, "analysis_history.json")
 
 
 def get_sentiment_analysis(ticker_symbol):
-    """
-    Gets recent company news from yfinance and uses TextBlob to estimate
-    basic sentiment from the article headlines.
-    """
+    
+    #Gets recent company news from yfinance and uses TextBlob to estimate
+   # basic sentiment from the article headlines.
+    # Returns: (Label, Avg Polarity Score, Good News List, Bad News List)
+
+    #Logic statements to categorize sentiment based on polarity/Either good or bad score
+    # Had to use A.I to help with this one, as sentiment analysis was hard to quantify. I used the prompt:
+    #"How to quantify sentiment scores into categories like Positive, Negative, and Neutral? in Python"
     try:
         company = yf.Ticker(ticker_symbol)
         news = company.news
@@ -73,9 +81,10 @@ def get_sentiment_analysis(ticker_symbol):
         bad_news = []
         analyzed_count = 0
 
+#Looks at the top 10 news items to avoid skewing the sentiment score and limit to most recent 10 and extract title
         for item in news[:10]:
 
-            # yfinance news format can vary, so this checks multiple places
+            # yfinance news format can vary, so this checks multiple places and s
             title = item.get("title")
 
             if title is None and "content" in item:
@@ -89,7 +98,7 @@ def get_sentiment_analysis(ticker_symbol):
 
             total_polarity += polarity
             analyzed_count += 1
-
+#Polarity is a score from -1 to 1, where -1 is very negative, 0 is neutral, and 1 is very positive.
             if polarity > 0.1:
                 good_news.append(title)
             elif polarity < -0.1:
@@ -113,37 +122,34 @@ def get_sentiment_analysis(ticker_symbol):
         print("Sentiment analysis error:", error)
         return "Not available", 0.0, [], []
 
-
+#---- User and History Management Functions ----
+#Load Data that was saved to disk and save new data to disk. This includes analysis history.
 def load_history():
-    """Load analysis history from disk."""
     if os.path.exists(HISTORY_FILE):
         with open(HISTORY_FILE, "r") as f:
             return json.load(f)
     return []
 
-
+#Saves data to disk in a JSON file. This is uses analysis history.
 def save_history(history):
-    """Save analysis history to disk."""
     with open(HISTORY_FILE, "w") as f:
         json.dump(history, f, indent=2)
 
-
+#For user loading
 def load_users():
-    """Load user accounts from disk."""
     if os.path.exists(USERS_FILE):
         with open(USERS_FILE, "r") as f:
             return json.load(f)
     return {}
 
-
+#For user saving
 def save_users(users):
-    """Save user accounts to disk."""
     with open(USERS_FILE, "w") as f:
         json.dump(users, f, indent=2)
 
 
+#Safety and Login implementation to protect route requiring login
 def login_required(f):
-    """Decorator that redirects to login page if user is not signed in."""
     @wraps(f)
     def decorated(*args, **kwargs):
         if "username" not in session:
@@ -156,7 +162,7 @@ def login_required(f):
 
 
 def add_to_watchlist(username, ticker):
-    """Adds a ticker to the user's specific watchlist."""
+    #Adds a ticker to the user's specific watchlist. Had to use A.I to help with with making watchlist and the logical statement
     users = load_users()
     if username in users:
         # Check if user data is a dict (new format) or string (old password-only format)
@@ -173,15 +179,16 @@ def add_to_watchlist(username, ticker):
     return False
 
 
-# ---- Authentication Routes ----
+# ---- Authentication and Login Routes ----
 
 
+#Hanldes user login and creating session tied to username. Also handles user registration and logout.
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Login page."""
     if "username" in session:
         return redirect(url_for("home"))
-
+#error handling for login form submission and validation. Also checks user credentials against saved users.
     error = None
     if request.method == "POST":
         username = request.form.get("username", "").strip()
@@ -211,7 +218,7 @@ def login():
 
     return render_template("login.html", error=error)
 
-
+#Handles user registration, including validation for username and password, and checks for existing usernames. Creates a new user entry in the users file if registration is successful.
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Registration page."""
@@ -245,7 +252,7 @@ def register():
 
     return render_template("register.html", error=error)
 
-
+#Ending the sesson for user and redirecting to login page.
 @app.route("/logout")
 def logout():
     """Log the user out."""
@@ -255,9 +262,9 @@ def logout():
 
 # ---- Formatting ----
 
-
+#In order to format the currency and numbers to be displayed on webpage results  and to handle missing values and invalid  data without crashing webpage
 def safe_value(value):
-    """Converts missing or invalid values into None so the app does not crash."""
+    #Converts missing or invalid values into None so the app does not crash.
     if value is None:
         return None
     try:
@@ -269,7 +276,7 @@ def safe_value(value):
 
 
 def format_currency(value):
-    """Formats large financial numbers for display on the webpage."""
+    #Formats large financial numbers for display on the webpage.
     value = safe_value(value)
     if value is None:
         return "Not available"
@@ -280,7 +287,7 @@ def format_currency(value):
 
 
 def format_number(value):
-    """Formats ratios and percentages for display."""
+    #Formats ratios and percentages for display.
     value = safe_value(value)
     if value is None:
         return "Not available"
@@ -291,7 +298,7 @@ def format_number(value):
 
 
 def format_percent(value):
-    """Formats a decimal ratio as a percentage string."""
+    #Formats a decimal ratio as a percentage string."
     value = safe_value(value)
     if value is None:
         return "Not available"
@@ -305,20 +312,16 @@ def format_percent(value):
 
 
 def clean_ticker(ticker):
-    """
-    Cleans the ticker input from the user.
-    Example: " aapl " becomes "AAPL"
-    """
+   #Searching for company using ticker as that's what yahoo finance uses for its search engine
     ticker = ticker.strip()
     ticker = ticker.upper()
     return ticker
 
 
 def get_statement_data(ticker):
-    """
-    Gets financial statement data from Yahoo Finance using yfinance.
-    Returns balance sheet, income statement, and cash flow statement.
-    """
+    
+    #Gets financial statement data from Yahoo Finance using yfinance.
+    #Returns balance sheet, income statement, and cash flow statement.
     try:
         company = yf.Ticker(ticker)
 
@@ -334,10 +337,9 @@ def get_statement_data(ticker):
 
 
 def clean_statement(statement):
-    """
-    Cleans one financial statement.
-    Replaces missing values with 0.
-    """
+    # Cleans one financial statement.
+    # Replaces missing values with 0.
+
     if statement is None or statement.empty:
         return pd.DataFrame()
 
@@ -346,10 +348,8 @@ def clean_statement(statement):
 
 
 def get_value(statement, row_name):
-    """
-    Gets one value from a financial statement by row name.
-    Uses the most recent column of data.
-    """
+    # Gets one value from a financial statement by row name.
+    # Uses the most recent column of data.
     try:
         value = statement.loc[row_name].iloc[0]
         return value
@@ -359,10 +359,9 @@ def get_value(statement, row_name):
 
 
 def build_clean_financial_dict(ticker):
-    """
-    Builds a clean financial dictionary for one company.
-    This dictionary can be used for calculations, comparisons, and display.
-    """
+
+    #Builds a clean financial dictionary for one company.
+    #This dictionary can be used for calculations, comparisons, and display.
     ticker = clean_ticker(ticker)
 
     balance_sheet, income_statement, cash_flow = get_statement_data(ticker)
@@ -375,6 +374,7 @@ def build_clean_financial_dict(ticker):
     income_statement = clean_statement(income_statement)
     cash_flow = clean_statement(cash_flow)
 
+#Complies all the financial data that is scapped from the financial statements into one dictionary
     financial_data = {
         "ticker": ticker,
 
@@ -400,10 +400,11 @@ def build_clean_financial_dict(ticker):
 
 
 def get_multiple_companies_data(ticker_list):
-    """
-    Gets cleaned financial data for multiple companies.
-    Used for company comparisons.
-    """
+
+#    Gets cleaned financial data for multiple companies.
+  # Used for company comparisons.
+  # Invalid tickers are skipped but the rest of the valid companies will still be processed and returned.
+    
     company_data_list = []
 
     for ticker in ticker_list:
@@ -428,23 +429,23 @@ def get_multiple_companies_data(ticker_list):
 
 
 def get_financial_data(ticker_symbol):
-    """
-    Creates the main company data dictionary used by the app.
-
-    This function calls build_clean_financial_dict() to retrieve financial
-    statement values, then adds extra company information from yfinance so
-    the templates have one consistent dictionary to use.
-    """
+    # Creates the main company data dictionary used by the app.
+    # This function calls build_clean_financial_dict() to retrieve financial
+    # statement values, then adds extra company information from yfinance so
+    # the templates have one consistent dictionary to use.
+    
 
     ticker_symbol = clean_ticker(ticker_symbol)
     raw = build_clean_financial_dict(ticker_symbol)
 
+#Error handling for invalid ticker symbols
     if raw is None:
         raise ValueError("No company data was found. Check the ticker symbol and try again.")
 
     company = yf.Ticker(ticker_symbol)
     info = company.info
 
+#How data will be presented in the webpage results. This is the main dictionary that will be used for display, calculations, and comparisons. It combines the financial statement data with additional company info from yfinance.
     data = {
         "Ticker": ticker_symbol,
         "Company Name": info.get("longName", ticker_symbol),
@@ -481,10 +482,8 @@ def get_financial_data(ticker_symbol):
 
 
 def calculate_ratios(data):
-    """
-    Calculate financial ratios from the company data dictionary.
-    """
-    # Extract values safely
+    #Calculate financial ratios from the company data dictionary.
+    # Extract values safely in order to do calculations
     net_income = safe_value(data.get("Net Income"))
     revenue = safe_value(data.get("Total Revenue"))
     total_cash = safe_value(data.get("Total Cash"))
@@ -520,9 +519,11 @@ def calculate_ratios(data):
 
 
 def categorize_company(data, ratios):
-    """
-    Categorize a company based on its data and ratios.
-    """
+    
+    #Categorize a company based on its data and ratios.Into Losing, Growth/Strong Profit, Possible Value, or Neutral.
+    #Scoring system based on financial indicators and each assigned a point valuye then added up to be catogorized.
+    #Had to use A.I to help with scoring system and making sure that it adds up to 100 and is balanced across different financial indicators. I used the prompt:"How to create a balanced scoring system that categorizes companies into Losing, Growth/Strong Profit, Possible Value, or Neutral based on financial indicators like Net Income, Profit Margin, and P/E Ratio? The scoring system should add up to 100 points and be weighted appropriately across different indicators."
+
     net_income = safe_value(data.get("Net Income"))
     profit_margin = safe_value(ratios.get("Net Profit Margin"))
     pe_ratio = safe_value(ratios.get("Trailing PE"))
@@ -540,9 +541,8 @@ def categorize_company(data, ratios):
 
 
 def calculate_score(data, ratios):
-    """
-    Calculate a financial health score from 0-100.
-    """
+    #Calculate a financial health score from 0-100.
+    
     score = 50  # Start at Neutral
     
     # 1. Profitability (Up to +15 or -15)
@@ -587,14 +587,16 @@ def get_rank_folder(score):
     return "Risky"
 
 
-def compare_companies(data_list):
-    """
-    Compares financial data between multiple companies.
+#---- Comparison Function ----
 
-    Takes a list of company data dictionaries and produces a comparison
-    showing each company's metrics side by side, along with averages
-    and which company ranks best/worst in each metric.
-    """
+def compare_companies(data_list):
+    
+    #Compares financial data between multiple companies.
+
+   # Takes a list of company data dictionaries and produces a comparison
+    #showing each company's metrics side by side, along with averages
+    #and which company ranks best/worst in each metric.
+    
     if not data_list or len(data_list) < 2:
         return None
 
@@ -608,6 +610,7 @@ def compare_companies(data_list):
     ]
 
     # Build comparison table
+    #Had to use A.I in order to build the comparison table and make sure it calculates averages and handles missing values correctly.
     comparison = {}
     for metric in comparison_metrics:
         row = {}
@@ -636,13 +639,15 @@ def compare_companies(data_list):
     return comparison
 
 
+#---- Chart Generation Functions ----
 def make_chart(ticker_symbol, data, ratios):
-    """
-    Creates a simple bar chart of selected financial values.
+    
+    #Creates a simple bar chart of selected financial values.
 
-    The chart is saved into the static/charts folder so Flask can display it
-    on the results page.
-    """
+    #The chart is saved into the static/charts folder so Flask can display it
+    #on the results page.
+
+#Important values to show on chart Revenue, Net Income, Cash, Debt. This is a simple way to visualize the company's financial health at a glance.
     chart_values = {
         "Revenue": safe_value(data.get("Total Revenue")),
         "Net Income": safe_value(data.get("Net Income")),
@@ -657,7 +662,7 @@ def make_chart(ticker_symbol, data, ratios):
 
     if not chart_values:
         return None
-
+#Color coding based on if number is negative=red or positive=green. Debt is always red since it's a liability.
     colors = []
     for key, value in chart_values.items():
         if key == "Debt":
@@ -673,7 +678,7 @@ def make_chart(ticker_symbol, data, ratios):
 
     ax = plt.gca()
     max_val = max(abs(v) for v in chart_values.values())
-
+#Format y-axis labels based on the scale of the values (e.g., millions, billions) to keep the chart readable.
     if max_val >= 1_000_000_000:
         ax.yaxis.set_major_formatter(
             plt.FuncFormatter(lambda x, p: f"${x/1_000_000_000:.1f}B")
@@ -689,6 +694,7 @@ def make_chart(ticker_symbol, data, ratios):
 
     plt.xticks(rotation=20)
     plt.tight_layout()
+#quick fix for when chart is not pathing correctly and that it doesn't show correctly
 
     chart_filename = f"{ticker_symbol}_financial_chart.png"
     chart_path = os.path.join(CHART_FOLDER, chart_filename)
@@ -700,17 +706,16 @@ def make_chart(ticker_symbol, data, ratios):
 
 
 def make_comparison_chart(data_list):
-    """
-    Creates a comparison bar chart using company scores.
-
-    Saves the chart into static/charts so Flask can display it.
-    """
+    
+    #Creates a comparison bar chart using company scores.
+   # Saves the chart into static/charts so Flask can display it.
+    
     if not data_list:
         return None
 
     tickers = []
     scores = []
-
+#Compares the financial health scores of multiple companies and creates a bar chart to visualize the comparison.
     for entry in data_list:
         ticker = entry["data"].get("Ticker", "Unknown")
 
@@ -721,6 +726,7 @@ def make_comparison_chart(data_list):
         scores.append(score)
 
     plt.figure(figsize=(8, 5))
+# Each bar is color-coded based on the score (green for high, yellow for medium, red for low) to make it easy to see which company is performing better at a glance.
 
     colors = []
     for score in scores:
@@ -731,6 +737,7 @@ def make_comparison_chart(data_list):
         else:
             colors.append("#e74c3c")
 
+#formating the chart with titles and labels to make it clear and easy to understand for the user.
     plt.bar(tickers, scores, color=colors)
 
     plt.title("Financial Health Score Comparison")
@@ -741,7 +748,7 @@ def make_comparison_chart(data_list):
         plt.text(i, score + 2, str(score), ha="center")
 
     plt.tight_layout()
-
+#pathing for chart png
     chart_filename = "comparison_chart.png"
     chart_path = os.path.join(CHART_FOLDER, chart_filename)
 
@@ -750,18 +757,21 @@ def make_comparison_chart(data_list):
 
     return f"charts/{chart_filename}"
 
+#---- Output Saving Functions ----
 
 def save_outputs(ticker_symbol, data, ratios, category, score, custom_filename=None):
-    """
-    Saves the results to both CSV and Excel.
+    
+    #Saves the results to both CSV and Excel.
 
-    This matches the proposal's export feature. The Excel file also includes basic
-    color formatting to make stronger and weaker values easier to notice.
-    Files are saved into rank-based subfolders.
-    """
+   # This matches the proposal's export feature. The Excel file also includes basic
+    #color formatting to make stronger and weaker values easier to notice.
+    #Files are saved into rank-based subfolders.
+
+#This puts it in the ranking folder based on the score and uses a a date format of year month day, then time
     rank_folder = get_rank_folder(score)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
+#If User opts to name file, it will use that name instead of the default naming convention. It also replaces spaces with underscores to ensure the filename is valid and does not cause issues when saving or downloading.
     if custom_filename:
         base_name = custom_filename.replace(" ", "_")
     else:
@@ -784,13 +794,16 @@ def save_outputs(ticker_symbol, data, ratios, category, score, custom_filename=N
     df = pd.DataFrame(rows)
     df.to_csv(csv_path, index=False)
 
-    # Create a styled Excel file with simple highlighting.
+    # Create a styled Excel file with simple highlighting. Formatting for easier identification
+    #Used A.I in order to find out how to manipulate/Add transfer data to excel file 
     with pd.ExcelWriter(excel_path, engine="openpyxl") as writer:
         df.to_excel(writer, index=False, sheet_name="Financial Analysis")
         worksheet = writer.sheets["Financial Analysis"]
 
         from openpyxl.styles import PatternFill, Font
-
+#Adding color
+#Used A.I in order to find patterns formatiting and how to add colors to excel file
+#Also used A.I in rder to
         header_fill = PatternFill(start_color="D9EAF7", end_color="D9EAF7", fill_type="solid")
         positive_fill = PatternFill(start_color="C6EFCE", end_color="C6EFCE", fill_type="solid")
         negative_fill = PatternFill(start_color="FFC7CE", end_color="FFC7CE", fill_type="solid")
@@ -814,7 +827,11 @@ def save_outputs(ticker_symbol, data, ratios, category, score, custom_filename=N
         worksheet.column_dimensions["B"].width = 28
         worksheet.column_dimensions["C"].width = 24
 
-    # Record to history
+# ---- Flask Routes ----
+# These routes control the main pages and actions of the web application.
+# Each route connects user actions from the website to the backend functions above.
+
+    # Record to history of session with company name, ticker, category, score, and file paths. This allows the dashboard to show recent analyses and summary counts by rank.
     history = load_history()
     history.append({
        "username": session.get("username"),
@@ -833,12 +850,11 @@ def save_outputs(ticker_symbol, data, ratios, category, score, custom_filename=N
 
 
 def get_value_class(key, value):
-    """
-    Returns a CSS class name for color highlighting table cells.
+    
+   #Returns a CSS class name for color highlighting table cells.
 
-    Green for positive/good values, red for negative/bad values.
-    This implements the color highlighting from Milestone 3.
-    """
+    #Green for positive/good values, red for negative/bad values.
+   
     if value == "Not available":
         return "neutral"
 
@@ -870,9 +886,6 @@ def get_value_class(key, value):
     return "neutral"
 
 
-# ---- Flask Routes ----
-# These routes control the main pages and actions of the web application.
-# Each route connects user actions from the website to the backend functions above.
 
 
 # Dashboard route:
@@ -880,13 +893,15 @@ def get_value_class(key, value):
 @app.route("/", methods=["GET"])
 @login_required
 def home():
-    #
+    #Quick fox to rank_counts not being defined in local scope of dashboard route. Used A.I to hlep with this issue and how it can be defined
     global rank_counts
+    #This is the main dashboard page that users see when they log in. It shows their recent analyses and summary counts of how many companies they've analyzed in each rank category. It also includes a watchlist widget that shows the tickers in their watchlist along with current price and score for each.
     username = session.get("username")
     all_history = load_history()
     history = [e for e in all_history if e.get("username") == username]
     recent = history[-5:][::-1]
-    
+    #Added in Watchlist to dashboard and each tied to personal users account 
+    #Added company to watchlist widget that shows the current price and score for each ticker in the user's watchlist. This allows users to quickly see how their watchlist companies are doing without having to run a full analysis on each one.
     watchlist_widget = []
     users = load_users()
 
@@ -924,6 +939,8 @@ def home():
 
 # Watchlist route:
 # Displays the logged-in user's saved watchlist and filtering options.
+#This allows users to keep track of companies they are interested in without having to run a full analysis on each one. 
+# They can see the current price and score for each ticker in their watchlist at a glance.
 @app.route("/watchlist")
 @login_required
 def watchlist():
@@ -941,20 +958,20 @@ def watchlist():
     watchlist_tickers = users.get(username, {}).get("watchlist", [])
 
     watchlist_data = []
-
+#This display data for each ticker in user's watchlist
     for ticker in watchlist_tickers:
         try:
             data = get_financial_data(ticker)
             ratios = calculate_ratios(data)
             score = calculate_score(data, ratios)
-
+#Appends title to each data collected
             watchlist_data.append({
                 "ticker": ticker,
                 "score": score,
                 "profit": format_percent(ratios.get("Net Profit Margin")),
                 "pe": format_number(ratios.get("Trailing PE")),
             })
-
+#If no data found or entered ticker is invalid, it will skip that ticker and continue to the next one without crashing the page. This way users can still see valid tickers in their watchlist even if some are invalid or have missing data.
         except Exception:
             continue
 
@@ -970,10 +987,10 @@ def watchlist():
 @app.route("/analyze", methods=["GET", "POST"])
 @login_required
 def analyze():
-    """Page where users enter a company ticker symbol for analysis."""
+    #Page where users enter a company ticker symbol for analysis.
     if request.method == "POST":
         ticker_symbol = request.form.get("ticker", "").upper().strip()
-
+#error handling for empty or invalid ticker symbols. 
         if not ticker_symbol:
             return render_template("analyze.html", error="Please enter a ticker symbol.")
 
@@ -981,7 +998,7 @@ def analyze():
         add_to_watchlist(username, ticker_symbol)
 
         custom_filename = request.form.get("custom_filename", "").strip()
-
+#This gets the finacial data and analysis that we did  such as ratios, category, sentimental analysis, and then saves the outputs
         try:
             data = get_financial_data(ticker_symbol)
             ratios = calculate_ratios(data)
@@ -1006,7 +1023,7 @@ def analyze():
                     "value": formatted,
                     "class": get_value_class(key, formatted),
                 }
-
+#Formating ratios 
             display_ratios = {}
             for key, value in ratios.items():
                 formatted = format_number(value)
@@ -1014,7 +1031,7 @@ def analyze():
                     "value": formatted,
                     "class": get_value_class(key, formatted),
                 }
-
+#Retuns all the data to be displayed on the results page, including the company data, calculated ratios, category, score, chart file path, and sentiment analysis results. The template will use this data to show a comprehensive analysis of the company based on the entered ticker symbol.
             return render_template(
                 "results.html",
                 ticker=ticker_symbol,
@@ -1044,11 +1061,11 @@ def analyze():
 @app.route("/compare", methods=["GET", "POST"])
 @login_required
 def compare():
-    """Industry Compare page for comparing multiple companies side by side."""
+    #Industry Compare page for comparing multiple companies side by side.
     if request.method == "POST":
         tickers_raw = request.form.get("tickers", "")
         ticker_list = [t.strip().upper() for t in tickers_raw.replace(";", ",").split(",") if t.strip()]
-
+#error handling for too few or too many ticker symbols entered. We require at least 2 for a comparison but limit to 5 to keep the results manageable and readable on the page.
         if len(ticker_list) < 2:
             return render_template("compare.html", error="Please enter at least 2 ticker symbols separated by commas.")
 
@@ -1057,7 +1074,8 @@ def compare():
 
         data_list = []
         invalid_tickers = []
-
+#This loops through the entered ticker symbols, tries to get their financial data and calculate ratios, category, and score. I
+# Invalid tickers are skipped so the rest of the comparison can still run.
         for ticker in ticker_list:
             try:
                 data = get_financial_data(ticker)
@@ -1103,8 +1121,8 @@ def compare():
                     "class": get_value_class(metric, formatted),
                 }
 
+#This formats the comparison data for display in the template, including formatting numbers as currency where appropriate and adding CSS classes for color highlighting 
             display_comparison[metric] = display_row
-
         tickers = [entry["data"]["Ticker"] for entry in data_list]
         categories = {entry["data"]["Ticker"]: entry["category"] for entry in data_list}
         scores = {entry["data"]["Ticker"]: entry["score"] for entry in data_list}
@@ -1113,6 +1131,7 @@ def compare():
         if len(invalid_tickers) > 0:
             warning = "Skipped invalid ticker(s): " + ", ".join(invalid_tickers)
 
+#Results that are given after doing analysis for company comparison. 
         return render_template(
             "compare_results.html",
             tickers=tickers,
@@ -1131,19 +1150,19 @@ def compare():
 @app.route("/downloads")
 @login_required
 def downloads():
-    """Downloads Center page showing saved analyses for the logged-in user only."""
-
+    #Downloads Center page showing saved analyses for the logged-in user only.
+#download files are attach to user and sessions
     username = session.get("username")
     history = [
         entry for entry in load_history()
         if entry.get("username") == username
     ]
-
+#Basiclaly a reference to the rank folders and calls on the history of the users files
     files_by_rank = {}
 
     for folder_name, info in RANK_FOLDERS.items():
         files = []
-
+#adds the files to download page for both csv and excel files 
         for entry in history:
             if entry.get("rank_folder") == folder_name:
                 files.append({
