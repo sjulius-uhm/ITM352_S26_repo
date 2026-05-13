@@ -1,3 +1,4 @@
+# Required Python packages for FIN-ANALYTIX
 Flask
 pandas
 matplotlib

@@ -71,5 +71,27 @@
     "csv_file": "High Rank/AAPL_financial_analysis_20260512_202117.csv",
     "excel_file": "High Rank/AAPL_financial_analysis_20260512_202117.xlsx",
     "timestamp": "20260512_202117"
+  },
+  {
+    "username": "akahiau",
+    "ticker": "TSLA",
+    "company_name": "Tesla, Inc.",
+    "category": "Neutral / Needs More Review",
+    "score": 50,
+    "rank_folder": "Stable",
+    "csv_file": "Stable/TSLA_financial_analysis_20260512_214553.csv",
+    "excel_file": "Stable/TSLA_financial_analysis_20260512_214553.xlsx",
+    "timestamp": "20260512_214553"
+  },
+  {
+    "username": "akahiau",
+    "ticker": "TSLA",
+    "company_name": "Tesla, Inc.",
+    "category": "Neutral / Needs More Review",
+    "score": 50,
+    "rank_folder": "Stable",
+    "csv_file": "Stable/TSLA_financial_analysis_20260512_214606.csv",
+    "excel_file": "Stable/TSLA_financial_analysis_20260512_214606.xlsx",
+    "timestamp": "20260512_214606"
   }
 ]

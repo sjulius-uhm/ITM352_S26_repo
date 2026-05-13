@@ -1,12 +1,61 @@
 # Project Notes - Company Financial Data Web Scraper and Analysis Tool
 
 ## Team Members
-- **Samantha** - Data retrieval
-- **Paul** - Data analysis
-- **Justin** - Web interface and integration
+- Samantha - Data retrieval, cleaning, testing, and documentation
+- Paul - Financial analysis calculations, scoring, and comparisons
+- Justin - Flask integration, frontend templates, authentication, and exports
 
 ---
+## Main Features
 
+- User login and registration system
+- Single-company financial analysis
+- Multi-company comparison tool
+- Financial ratio calculations and scoring
+- CSV and Excel export generation
+- Rank-based file organization
+- Downloads Center with saved analyses
+- Financial chart visualizations
+- Invalid ticker handling and input cleaning
+
+
+## Software Architecture
+
+The project is divided into three main sections:
+
+### 1. Data Retrieval Layer
+Handles retrieving and cleaning financial statement data using the yfinance library. These functions standardize company data into a consistent dictionary format that the rest of the application can use.
+
+Main functions:
+- clean_ticker()
+- get_statement_data()
+- clean_statement()
+- get_value()
+- build_clean_financial_dict()
+
+### 2. Financial Analysis Layer
+Handles ratio calculations, company categorization, scoring, comparisons, and chart generation.
+
+Main functions:
+- calculate_ratios()
+- categorize_company()
+- calculate_score()
+- compare_companies()
+- make_chart()
+- make_comparison_chart()
+
+### 3. Web Application Layer
+Handles the Flask routes, user authentication, templates, downloads, and frontend integration.
+
+Main sections:
+- Login/register system
+- Dashboard
+- Analyze page
+- Compare page
+- Downloads Center
+- CSV/Excel export system
+
+---
 ## File Descriptions and How They Were Created
 
 ### app.py
@@ -59,7 +108,28 @@ The stylesheet for the entire app. We wrote basic CSS to style the navigation ba
 Lists all the Python packages needed to run the app: Flask, pandas, matplotlib, yfinance, openpyxl, and numpy.
 
 ---
+## Testing and Error Handling
 
+The application was tested using both valid and invalid company ticker symbols.
+
+Completed tests:
+- Valid single-company analysis
+- Valid multi-company comparison
+- Invalid ticker handling
+- Mixed valid/invalid ticker comparison
+- User login and registration
+- Downloads Center functionality
+- CSV and Excel export generation
+- User-specific dashboard and downloads history
+
+Error handling features:
+- Invalid tickers are skipped during comparisons
+- Empty or malformed ticker input is cleaned automatically
+- Missing financial values default safely to 0 or None
+- Users cannot access protected pages without logging in
+- The application prevents crashes caused by missing data or divide-by-zero calculations
+
+---
 ## How to Open and Use the App
 
 ### Step 1: Install Python Packages
@@ -98,3 +168,16 @@ Go to "Downloads Center" in the nav bar. Click on a rank folder (HIGH_RANK, STAB
 
 ### Step 9: Log Out
 Click "Logout" in the top right corner of the navigation bar when you are done.
+
+---
+## AI Usage
+
+AI tools were used to assist with:
+- Debugging Flask and Jinja template errors
+- Organizing Flask route structure
+- Improving code readability and documentation
+- Suggesting financial ratio formulas
+- Assisting with HTML/CSS cleanup
+- Generating testing ideas and project planning outlines
+
+All AI-generated suggestions were reviewed, tested, modified, and integrated by the team.
