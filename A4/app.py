@@ -1,12 +1,13 @@
 """
 Company Financial Data Web Scraper and Analysis Tool
 
-AI use note:
+This Flask application lets users log in, analyze company financial data, compare multiple companies, generate charts, and export results to CSV/Excel.
 
-Before submitting, review the code, test it, and make edits so you understand it fully.
+AI Use Note:
+AI was used to help organize the Flask app structure, debug errors, improve function comments, and support data retrieval/analysis logic. All code was reviewed, tested, and edited by the team.
 """
 
-from flask import Flask, render_template, request, send_file, redirect, url_for, jsonify, session
+from flask import Flask, render_template, request, send_file, redirect, url_for, session
 from functools import wraps
 import os
 import json
@@ -33,16 +34,19 @@ CHART_FOLDER = os.path.join("static", "charts")
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 os.makedirs(CHART_FOLDER, exist_ok=True)
 
+
 # Rank folders for organizing saved analyses
 RANK_FOLDERS = {
     "High Rank": {"label": "High Rank (Score 80-100)", "min": 80, "max": 100},
-    "Stable": {"label": "Stabe (Score 50-79)", "min": 50, "max": 79},
+    "Stable": {"label": "Stable (Score 50-79)", "min": 50, "max": 79},    
     "Risky": {"label": "Risky (Score 0-49)", "min": 0, "max": 49},
 }
+
 
 # Create rank subfolders inside outputs
 for folder_name in RANK_FOLDERS:
     os.makedirs(os.path.join(OUTPUT_FOLDER, folder_name), exist_ok=True)
+
 
 # File to persist analysis history
 HISTORY_FILE = os.path.join(OUTPUT_FOLDER, "analysis_history.json")
@@ -193,7 +197,8 @@ def format_percent(value):
         return "Not available"
 
 
-# ---- Samantha's Data Retrieval Functions ----
+# ---- Data Retrieval Functions ----
+
 
 def clean_ticker(ticker):
     """
@@ -315,23 +320,24 @@ def get_multiple_companies_data(ticker_list):
     return company_data_list
 
 
-# ---- Bridge: connects Samantha's data to the web UI ----
+# ---- Data Mapping Function ----
+
 
 def get_financial_data(ticker_symbol):
     """
-    Calls Paul's build_clean_financial_dict() and maps the result
-    to the key names that the web templates expect.
+    Creates the main company data dictionary used by the app.
 
-    Also pulls some extra info from yfinance (company name, sector, etc.)
-    that Paul's functions don't grab but the UI needs.
+    This function calls build_clean_financial_dict() to retrieve financial
+    statement values, then adds extra company information from yfinance so
+    the templates have one consistent dictionary to use.
     """
+
     ticker_symbol = clean_ticker(ticker_symbol)
     raw = build_clean_financial_dict(ticker_symbol)
 
     if raw is None:
         raise ValueError("No company data was found. Check the ticker symbol and try again.")
 
-    # Get extra info from yfinance that Paul's dict doesn't include
     company = yf.Ticker(ticker_symbol)
     info = company.info
 
@@ -354,7 +360,6 @@ def get_financial_data(ticker_symbol):
         "Trailing PE": info.get("trailingPE"),
         "Forward PE": info.get("forwardPE"),
         "Recommendation": info.get("recommendationKey"),
-        # Extra fields from Samantha's data available for Paul
         "Total Assets": raw.get("total_assets"),
         "Total Liabilities": raw.get("total_liabilities"),
         "Stockholders Equity": raw.get("stockholders_equity"),
@@ -368,11 +373,12 @@ def get_financial_data(ticker_symbol):
     return data
 
 
-# ---- Samantha's Analysis Functions ----
+# ---- Financial Analysis Functions ----
+
 
 def calculate_ratios(data):
     """
-    SAMANTHA: Calculate financial ratios from the company data dictionary.
+    Calculate financial ratios from the company data dictionary.
     """
     # Extract values safely
     net_income = safe_value(data.get("Net Income"))
@@ -411,7 +417,7 @@ def calculate_ratios(data):
 
 def categorize_company(data, ratios):
     """
-    SAMANTHA: Categorize a company based on its data and ratios.
+    Categorize a company based on its data and ratios.
     """
     net_income = safe_value(data.get("Net Income"))
     profit_margin = safe_value(ratios.get("Net Profit Margin"))
@@ -427,12 +433,11 @@ def categorize_company(data, ratios):
         return "Possible Value Company"
 
     return "Neutral / Needs More Review"
-    # TODO: Samantha - fill in categorization logic
 
 
 def calculate_score(data, ratios):
     """
-    SAMANTHA: Calculate a financial health score from 0-100.
+    Calculate a financial health score from 0-100.
     """
     score = 50  # Start at Neutral
     
@@ -671,7 +676,6 @@ def save_outputs(ticker_symbol, data, ratios, category, score, custom_filename=N
     # Create a styled Excel file with simple highlighting.
     with pd.ExcelWriter(excel_path, engine="openpyxl") as writer:
         df.to_excel(writer, index=False, sheet_name="Financial Analysis")
-        workbook = writer.book
         worksheet = writer.sheets["Financial Analysis"]
 
         from openpyxl.styles import PatternFill, Font
@@ -756,7 +760,12 @@ def get_value_class(key, value):
 
 
 # ---- Flask Routes ----
+# These routes control the main pages and actions of the web application.
+# Each route connects user actions from the website to the backend functions above.
 
+
+# Dashboard route:
+# Shows the logged-in user's recent analyses and summary counts.
 @app.route("/", methods=["GET"])
 @login_required
 def home():
@@ -790,6 +799,9 @@ def home():
     )
 
 
+# Analyze route:
+# Lets the user enter one ticker, runs the full analysis, saves outputs,
+# and displays the results page.
 @app.route("/analyze", methods=["GET", "POST"])
 @login_required
 def analyze():
@@ -851,6 +863,9 @@ def analyze():
     return render_template("analyze.html")
 
 
+# Compare route:
+# Lets the user enter multiple tickers and compares valid companies side by side.
+# Invalid tickers are skipped so the rest of the comparison can still run.
 @app.route("/compare", methods=["GET", "POST"])
 @login_required
 def compare():
@@ -935,6 +950,9 @@ def compare():
 
     return render_template("compare.html")
 
+
+# Downloads route:
+# Shows saved CSV and Excel files for the logged-in user only.
 @app.route("/downloads")
 @login_required
 def downloads():
@@ -975,6 +993,8 @@ def downloads():
     return render_template("downloads.html", files_by_rank=files_by_rank)
 
 
+# File download route:
+# Sends a selected CSV or Excel file to the user's browser.
 @app.route("/download/<path:filename>")
 @login_required
 def download_file(filename):
