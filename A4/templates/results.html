@@ -29,6 +29,38 @@
     </div>
 </div>
 
+<div class="card">
+    <h2>Market Sentiment: {{ sentiment_label }} ({{ sentiment_score }})</h2>
+    
+    <div style="display: flex; gap: 20px;">
+        <div style="flex: 1;">
+            <h3 style="color: green;">Positive Indicators</h3>
+            {% if good_news %}
+                <ul>
+                {% for headline in good_news %}
+                    <li>{{ headline }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No specifically positive headlines found.</p>
+            {% endif %}
+        </div>
+
+        <div style="flex: 1;">
+            <h3 style="color: red;">Negative Indicators</h3>
+            {% if bad_news %}
+                <ul>
+                {% for headline in bad_news %}
+                    <li>{{ headline }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No specifically negative headlines found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 <!-- Financial visualization chart -->
 {% if chart_file %}
 <div class="card">
@@ -36,6 +68,7 @@
     <img class="chart" src="{{ url_for('static', filename=chart_file) }}" alt="Financial chart for {{ ticker }}">
 </div>
 {% endif %}
+
 
 <!-- Company data and ratio tables -->
 <div class="grid">
