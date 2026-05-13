@@ -18,9 +18,17 @@
     </div>
 
     <div class="download-buttons">
-        <a href="{{ url_for('download_file', filename=csv_file) }}">Download CSV</a>
-        <a href="{{ url_for('download_file', filename=excel_file) }}">Download Excel</a>
-    </div>
+    <a href="{{ url_for('download_file', filename=csv_file) }}">Download CSV</a>
+    <a href="{{ url_for('download_file', filename=excel_file) }}">Download Excel</a>
+
+    <a class="download-btn" href="{{ url_for('analyze') }}">
+        Start New Analysis
+    </a>
+
+    <a class="download-btn" href="{{ url_for('compare') }}">
+        Start New Comparison
+    </a>
+</div>
 </div>
 
 {% if chart_file %}
