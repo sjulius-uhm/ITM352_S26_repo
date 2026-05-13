@@ -11,5 +11,13 @@
   "akahiau": {
     "password": "akahiau",
     "watchlist": []
+  },
+  "tofu": {
+    "password": "tofu",
+    "watchlist": [
+      "AAPL",
+      "TSLA",
+      "AAAAA"
+    ]
   }
 }

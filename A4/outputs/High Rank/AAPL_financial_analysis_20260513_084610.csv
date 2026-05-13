@@ -1,0 +1,35 @@
+Section,Metric,Value
+Company Data,Ticker,AAPL
+Company Data,Company Name,Apple Inc.
+Company Data,Sector,Technology
+Company Data,Industry,Consumer Electronics
+Company Data,Current Price,299.54
+Company Data,Market Cap,4399450554368
+Company Data,Total Revenue,416161000000.0
+Company Data,Gross Profits,195201000000.0
+Company Data,Net Income,112010000000.0
+Company Data,Total Cash,68507000832
+Company Data,Total Debt,285508000000.0
+Company Data,Book Value,7.26
+Company Data,Profit Margin,0.27152002
+Company Data,Return on Equity,1.4147099
+Company Data,Debt to Equity,79.548
+Company Data,Trailing PE,36.30788
+Company Data,Forward PE,31.333523
+Company Data,Recommendation,buy
+Company Data,Total Assets,359241000000.0
+Company Data,Total Liabilities,285508000000.0
+Company Data,Stockholders Equity,73733000000.0
+Company Data,Current Assets,147957000000.0
+Company Data,Current Liabilities,165631000000.0
+Company Data,Operating Income,133050000000.0
+Company Data,Operating Cash Flow,111482000000.0
+Company Data,Free Cash Flow,98767000000.0
+Calculated Ratios,Net Profit Margin,0.2691506412181824
+Calculated Ratios,Cash to Debt Ratio,0.23994774518402287
+Calculated Ratios,Market Cap to Revenue,10.571510916131016
+Calculated Ratios,Debt to Equity,79.548
+Calculated Ratios,Trailing PE,36.30788
+Calculated Ratios,Return on Equity,1.4147099
+Category,Company Category,Growth / Strong Profit Company
+Score,Financial Health Score,80

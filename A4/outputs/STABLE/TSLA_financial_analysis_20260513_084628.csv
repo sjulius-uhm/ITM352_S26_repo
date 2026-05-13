@@ -1,0 +1,35 @@
+Section,Metric,Value
+Company Data,Ticker,TSLA
+Company Data,Company Name,"Tesla, Inc."
+Company Data,Sector,Consumer Cyclical
+Company Data,Industry,Auto Manufacturers
+Company Data,Current Price,446.225
+Company Data,Market Cap,1675897864192
+Company Data,Total Revenue,94827000000.0
+Company Data,Gross Profits,17094000000.0
+Company Data,Net Income,3794000000.0
+Company Data,Total Cash,44743000064
+Company Data,Total Debt,54941000000.0
+Company Data,Book Value,21.897
+Company Data,Profit Margin,0.03946
+Company Data,Return on Equity,0.04901
+Company Data,Debt to Equity,18.738
+Company Data,Trailing PE,413.1713
+Company Data,Forward PE,177.49461
+Company Data,Recommendation,buy
+Company Data,Total Assets,137806000000.0
+Company Data,Total Liabilities,54941000000.0
+Company Data,Stockholders Equity,82137000000.0
+Company Data,Current Assets,68642000000.0
+Company Data,Current Liabilities,31714000000.0
+Company Data,Operating Income,4849000000.0
+Company Data,Operating Cash Flow,14747000000.0
+Company Data,Free Cash Flow,6220000000.0
+Calculated Ratios,Net Profit Margin,0.04000970187815706
+Calculated Ratios,Cash to Debt Ratio,0.8143827026082525
+Calculated Ratios,Market Cap to Revenue,17.673214002256742
+Calculated Ratios,Debt to Equity,18.738
+Calculated Ratios,Trailing PE,413.1713
+Calculated Ratios,Return on Equity,0.04901
+Category,Company Category,Neutral / Needs More Review
+Score,Financial Health Score,50
