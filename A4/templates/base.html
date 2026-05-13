@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Base template that other pages extend. Contains the main HTML structure, navigation bar, and links to CSS. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}FIN-ANALYTIX{% endblock %}</title>
@@ -10,7 +11,7 @@
     <!-- Main navigation bar -->
     <nav class="navbar">
         <div class="nav-brand">FIN-ANALYTIX</div>
-        <!-- Navigation links -->
+        <!-- Navigation links: Tabs for all the components in the application -->
         <div class="nav-links">
             <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Dashboard</a>
             <a href="{{ url_for('analyze') }}" class="{% if request.endpoint == 'analyze' %}active{% endif %}">Analyze</a>

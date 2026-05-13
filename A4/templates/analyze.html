@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{# Sets the browser tab title specifically for this page #}
 {% block title %}Analyze - FIN-ANALYTIX{% endblock %}
 
 {% block content %}
@@ -6,23 +7,25 @@
     <h1>Company Financial Data Analysis</h1>
     <p class="subtitle">Enter a company ticker symbol to retrieve financial data, calculate basic ratios, and export the results.</p>
    
-    <!-- Display form errors -->
+    <!-- Error Handling: Displays flash messages or error variables passed from the Flask route -->
     {% if error %}
-        <div class="error">{{ error }}</div>
+        <div class="error" style="color: #d9534f; margin-bottom: 15px;">{{ error }}</div>
     {% endif %}
 
-    <!-- Company analysis form -->
+    <!-- Analysis Form: Sends data to the POST method of the current route -->
     <form method="POST">
         <label for="ticker">Ticker Symbol</label>
+        {# 'required' attribute provides basic client-side validation #}
         <input type="text" id="ticker" name="ticker" placeholder="Example: AAPL, MSFT, TSLA" required>
 
         <label for="custom_filename">Custom Export Filename (optional)</label>
+        {# Allows users to name the resulting Excel/PDF file #}
         <input type="text" id="custom_filename" name="custom_filename" placeholder="e.g., Microsoft_Q2_Analysis">
 
         <button type="submit">Analyze Company</button>
     </form>
 
-    <!-- Example ticker symbols -->
+    <!-- UI Helper: Provides quick ideas for users unfamiliar with stock tickers -->
     <div class="tips">
         <h2>Example tickers</h2>
         <p>AAPL, MSFT, TSLA, NVDA, KO, MCD</p>
