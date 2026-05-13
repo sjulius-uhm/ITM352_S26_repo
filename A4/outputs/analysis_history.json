@@ -93,5 +93,71 @@
     "csv_file": "Stable/TSLA_financial_analysis_20260512_214606.csv",
     "excel_file": "Stable/TSLA_financial_analysis_20260512_214606.xlsx",
     "timestamp": "20260512_214606"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_234444.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_234444.xlsx",
+    "timestamp": "20260512_234444"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_234520.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_234520.xlsx",
+    "timestamp": "20260512_234520"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "MCD",
+    "company_name": "McDonald's Corporation",
+    "category": "Growth / Strong Profit Company",
+    "score": 65,
+    "rank_folder": "Stable",
+    "csv_file": "Stable/MCD_financial_analysis_20260512_234541.csv",
+    "excel_file": "Stable/MCD_financial_analysis_20260512_234541.xlsx",
+    "timestamp": "20260512_234541"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_234814.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_234814.xlsx",
+    "timestamp": "20260512_234814"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "AAPL",
+    "company_name": "Apple Inc.",
+    "category": "Growth / Strong Profit Company",
+    "score": 80,
+    "rank_folder": "High Rank",
+    "csv_file": "High Rank/AAPL_financial_analysis_20260512_235824.csv",
+    "excel_file": "High Rank/AAPL_financial_analysis_20260512_235824.xlsx",
+    "timestamp": "20260512_235824"
+  },
+  {
+    "username": "sjulius",
+    "ticker": "TSLA",
+    "company_name": "Tesla, Inc.",
+    "category": "Neutral / Needs More Review",
+    "score": 50,
+    "rank_folder": "Stable",
+    "csv_file": "Stable/TSLA_financial_analysis_20260512_235846.csv",
+    "excel_file": "Stable/TSLA_financial_analysis_20260512_235846.xlsx",
+    "timestamp": "20260512_235846"
   }
 ]

@@ -157,6 +157,8 @@ def get_top_movers():
                 movers.append({"ticker": t, "price": round(curr_close, 2), "change": round(change, 2)})
         except: continue
     return sorted(movers, key=lambda x: abs(x['change']), reverse=True)[:5]
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Login page."""
@@ -172,9 +174,21 @@ def login():
             error = "Please fill in both fields."
         else:
             users = load_users()
-            if username in users and users[username] == password:
-                session["username"] = username
-                return redirect(url_for("home"))
+
+            if username in users:
+                user_data = users[username]
+
+                # Support both old and new user formats
+                if isinstance(user_data, str):
+                    saved_password = user_data
+                else:
+                    saved_password = user_data.get("password")
+
+                if saved_password == password:
+                    session["username"] = username
+                    return redirect(url_for("home"))
+                else:
+                    error = "Invalid username or password."
             else:
                 error = "Invalid username or password."
 
@@ -204,7 +218,10 @@ def register():
             if username in users:
                 error = "That username is already taken."
             else:
-                users[username] = password
+                users[username] = {
+                    "password": password,
+                    "watchlist": []
+                }
                 save_users(users)
                 session["username"] = username
                 return redirect(url_for("home"))
@@ -903,8 +920,12 @@ def analyze():
     """Page where users enter a company ticker symbol for analysis."""
     if request.method == "POST":
         ticker_symbol = request.form.get("ticker", "").upper().strip()
+
         if not ticker_symbol:
             return render_template("analyze.html", error="Please enter a ticker symbol.")
+
+        username = session.get("username")
+        add_to_watchlist(username, ticker_symbol)
 
         custom_filename = request.form.get("custom_filename", "").strip()
 
