@@ -34,30 +34,6 @@ CHART_FOLDER = os.path.join("static", "charts")
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 os.makedirs(CHART_FOLDER, exist_ok=True)
 
-from textblob import TextBlob
-
-def get_sentiment(ticker_symbol):
-    """Fetches recent news and calculates average sentiment score."""
-    try:
-        ticker = yf.Ticker(ticker_symbol)
-        news = ticker.news
-        if not news:
-            return 0, "Neutral"
-        
-        scores = []
-        for item in news[:5]:  # Analyze the 5 most recent headlines
-            analysis = TextBlob(item['title'])
-            scores.append(analysis.sentiment.polarity)
-        
-        avg_score = sum(scores) / len(scores)
-        
-        if avg_score > 0.1: label = "Bullish"
-        elif avg_score < -0.1: label = "Bearish"
-        else: label = "Neutral"
-        
-        return round(avg_score, 2), label
-    except:
-        return 0, "Unknown"
 
 # Rank folders for organizing saved analyses
 RANK_FOLDERS = {
@@ -898,16 +874,11 @@ def analyze():
                 chart_file=chart_file,
                 csv_file=csv_file,
                 excel_file=excel_file,
-                sentiment_score=sentiment_score, 
-                 sentiment_label=sentiment_label
-                
-                
             )
         except Exception as error:
             return render_template("analyze.html", error=str(error))
 
     return render_template("analyze.html")
-
 
 
 # Compare route:
